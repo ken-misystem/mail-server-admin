@@ -1,0 +1,19 @@
+#settings-menu > li.mail-settings-group {
+  padding: .8rem .75rem .3rem;
+  pointer-events: none;
+  border-top: 1px solid #69767b;
+}
+#settings-menu > li.mail-settings-group h3 {
+  margin: 0;
+  color: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  opacity: .9;
+}
+#mail-pop-policy {
+  padding: .75rem;
+  border: 2px solid #e6bd39;
+  background: #fff3b0;
+  color: #332800;
+  font-weight: 700;
+}

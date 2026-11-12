@@ -1,0 +1,38 @@
+--- a/rcube_sieve_forward.php
++++ b/rcube_sieve_forward.php
+@@ -172,7 +172,13 @@
+                     }
+                 }
+ 
+-                if (count($rule['tests']) != 1 || $rule['tests'][0]['test'] != "true" || $rule['tests'][0]['not'] != null) {
++                // The parser emits action-only rules without a tests member.
++                $tests = $rule['tests'] ?? null;
++                if (!array_key_exists('tests', $rule) && !isset($rule['type'])) {
++                    $tests = [['test' => 'true', 'not' => false]];
++                }
++                if (!is_array($tests) || count($tests) != 1 || !isset($tests[0])
++                    || ($tests[0]['test'] ?? null) != "true" || !empty($tests[0]['not'])) {
+                     // ignore rules that have special conditions
+                     $ignore_rule = true;
+                 }
+@@ -180,16 +186,16 @@
+                 if (!$ignore_rule) {
+                     $this->forward = array_merge($rule['actions'][0], [
+                         'idx'      => $idx,
+-                        'disabled' => $rule['disabled'] || !$active,
+-                        'name'     => $rule['name'],
+-                        'tests'    => $rule['tests'],
++                        'disabled' => !empty($rule['disabled']) || !$active,
++                        'name'     => $rule['name'] ?? '',
++                        'tests'    => $tests,
+                         'action'   => $action,
+                         'target'   => $target,
+                     ]);
+                 }
+             }
+             else if ($active) {
+-                $list[$idx] = $rule['name'];
++                $list[$idx] = $rule['name'] ?? '#' . ($idx + 1);
+             }
+         }
+ 

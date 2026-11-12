@@ -1,0 +1,38 @@
+[Unit]
+Description=Dedicated legacy SMTP SQL authentication
+After=mariadb.service
+Wants=mariadb.service
+Before=postfix.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/dovecot -F -c /etc/mail-legacy-smtp-v1/auth.conf
+ExecStartPost=/usr/bin/python3 -I -B /etc/mail-legacy-smtp-v1/wait_ready.py
+Restart=on-failure
+RestartSec=10
+Group=mail-legacy-auth
+RuntimeDirectory=mail-legacy-smtp-v1
+RuntimeDirectoryMode=0750
+StateDirectory=mail-legacy-smtp-v1
+StateDirectoryMode=0750
+UMask=0077
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+NoNewPrivileges=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+CapabilityBoundingSet=CAP_CHOWN CAP_DAC_OVERRIDE CAP_FOWNER CAP_SETUID CAP_SETGID CAP_SYS_CHROOT CAP_KILL
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+ReadWritePaths=/var/spool/postfix/private/mail-legacy-smtp-v1
+InaccessiblePaths=-/var/vmail -/var/mail -/etc/mail-management
+CPUQuota=50%
+MemoryMax=512M
+MemorySwapMax=0
+TasksMax=64
+LimitCORE=0
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

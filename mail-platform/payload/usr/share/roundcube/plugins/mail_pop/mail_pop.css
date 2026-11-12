@@ -1,0 +1,18 @@
+.mail-pop-section { margin: 1.5rem 0; padding: 1.25rem; border: 1px solid rgba(128,128,128,.4); border-radius: .4rem; }
+.mail-pop-section legend { padding: 0 .4rem; font-weight: bold; }
+.mail-pop-section label { display: inline-block; min-width: 12rem; }
+.mail-pop-section input,.mail-pop-section select { max-width: 100%; }
+.mail-pop-row { padding: 1rem 0; border-bottom: 1px solid rgba(128,128,128,.4); overflow-wrap: anywhere; }
+.mail-pop-row button { margin: .5rem .5rem 0 0; }
+.mail-pop-edit-form { margin: 1rem 0; padding: 1rem; border: 1px solid rgba(128,128,128,.4); border-radius: .4rem; }
+.mail-pop-edit-form p { margin: .75rem 0; }
+.mail-pop-edit-form input:not([type=number]) { width: 22rem; }
+.mail-pop-history { margin: 1.25rem 0; padding: 1rem; border: 1px solid rgba(128,128,128,.4); border-radius: .4rem; }
+.mail-pop-history h3 { margin-top: 0; }
+.mail-pop-history-scroll { overflow-x: auto; }
+.mail-pop-history table { width: 100%; border-collapse: collapse; }
+.mail-pop-history th,.mail-pop-history td { text-align: left; padding: .65rem; border-bottom: 1px solid rgba(128,128,128,.4); vertical-align: top; }
+.mail-pop-history th { white-space: nowrap; }
+.mail-pop-run-failed,.mail-pop-run-warning,.mail-pop-run-running { background: #ffeb99; color: #332600; }
+.mail-pop-run-failed td:nth-child(4),.mail-pop-run-warning td:nth-child(4) { font-weight: bold; }
+@media(max-width:600px) { .mail-pop-section label { display: block; } }

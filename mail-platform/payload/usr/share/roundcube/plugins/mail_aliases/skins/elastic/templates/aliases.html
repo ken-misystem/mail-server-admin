@@ -1,0 +1,31 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+<h1 class="voice"><roundcube:label name="mail_aliases.aliases" /></h1>
+<div id="layout-content" class="selected" role="main">
+  <div class="header"><a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a><span class="header-title"><roundcube:label name="mail_aliases.aliases" /></span></div>
+  <div class="boxcontent content" id="mail-aliases-panel">
+    <p>自分のメールボックスへ届く受信名を追加できます。上限は管理者が設定し、作成時にサーバーで確認します。送信者名や外部転送の権限は追加されません。</p>
+    <p id="mail-aliases-message" role="status" aria-live="polite"></p>
+    <form id="mail-aliases-preferences">
+      <fieldset class="mail-alias-section"><legend>自動エイリアス（初期設定は両方OFF）</legend>
+        <p><label><input id="mail-aliases-ignore-dots" type="checkbox" disabled /> 「.」を無視して受信する（例：k.en → ken）</label></p>
+        <p><label><input id="mail-aliases-allow-plus" type="checkbox" disabled /> 「+タグ」を付けて受信する（例：ken+shop → ken）</label></p>
+        <p>自分のメールアドレスと登録済み受信エイリアスに適用します。自動のドット違い・+タグは上限件数に加算しません。OFFにすると該当する自動宛先では受信しません。登録済みエイリアスや保存済みメールは削除しません。</p>
+        <button class="button mainaction" type="submit" disabled>自動エイリアス設定を保存</button>
+      </fieldset>
+    </form>
+    <fieldset class="mail-alias-section"><legend>登録済みエイリアス</legend>
+      <p id="mail-aliases-usage" role="status" aria-live="polite">登録エイリアス数：取得中…</p>
+      <div id="mail-aliases-list"></div>
+      <p>停止中のエイリアスも上限に含まれます。削除すると受信経路だけが消えます。保存済みメールは削除しません。</p>
+      <button id="mail-aliases-refresh" class="button" type="button">一覧を更新</button>
+      <p>結果が不明な場合は再送せず、一覧を更新して確認してください。</p>
+    </fieldset>
+    <fieldset class="mail-alias-section"><legend>受信エイリアスを追加</legend>
+      <p>登録時はドットを除いた名前を保存します。ドット付き・+タグ付きでの受信は上の設定を有効にした場合だけです。先頭・末尾・連続ドット、+タグそのものの登録はできません。</p>
+      <form id="mail-aliases-create"><label for="mail-aliases-name">受信名（@より前）</label><input id="mail-aliases-name" required maxlength="64" autocomplete="off" pattern="[A-Za-z0-9][A-Za-z0-9._-]{0,63}" /><button class="button mainaction" type="submit">追加</button></form>
+    </fieldset>
+  </div>
+</div>
+<roundcube:include file="includes/footer.html" />

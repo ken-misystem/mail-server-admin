@@ -1,0 +1,8 @@
+[Unit]
+Description=Check pending protection settings
+[Timer]
+OnActiveSec=15s
+OnUnitInactiveSec=15s
+Unit=mail-protection-publish-v1.service
+[Install]
+WantedBy=timers.target

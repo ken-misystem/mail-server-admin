@@ -1,0 +1,51 @@
+{
+  "name": "yaruani/mail-management-dependencies",
+  "description": "Isolated standard authentication framework for independent mail administrators",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": "^8.4",
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "symfony/framework-bundle": "7.4.20",
+    "symfony/lock": "7.4.8",
+    "symfony/rate-limiter": "7.4.8",
+    "symfony/security-bundle": "7.4.20",
+    "symfony/security-csrf": "7.4.8",
+    "web-auth/webauthn-lib": "5.3.8"
+  },
+  "conflict": {
+    "symfony/cache": ">=8.0",
+    "symfony/clock": ">=8.0",
+    "symfony/config": ">=8.0",
+    "symfony/dependency-injection": ">=8.0",
+    "symfony/error-handler": ">=8.0",
+    "symfony/event-dispatcher": ">=8.0",
+    "symfony/filesystem": ">=8.0",
+    "symfony/finder": ">=8.0",
+    "symfony/http-foundation": ">=8.0",
+    "symfony/http-kernel": ">=8.0",
+    "symfony/lock": ">=8.0",
+    "symfony/options-resolver": ">=8.0",
+    "symfony/password-hasher": ">=8.0",
+    "symfony/property-access": ">=8.0",
+    "symfony/property-info": ">=8.0",
+    "symfony/rate-limiter": ">=8.0",
+    "symfony/routing": ">=8.0",
+    "symfony/security-core": ">=8.0",
+    "symfony/security-http": ">=8.0",
+    "symfony/serializer": ">=8.0",
+    "symfony/string": ">=8.0",
+    "symfony/type-info": ">=8.0",
+    "symfony/uid": ">=8.0",
+    "symfony/var-dumper": ">=8.0",
+    "symfony/var-exporter": ">=8.0"
+  },
+  "config": {
+    "allow-plugins": false,
+    "platform": { "php": "8.4.24" },
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Refresh bounded quota observations
+[Timer]
+OnBootSec=20s
+OnUnitInactiveSec=15s
+AccuracySec=1s
+Unit=mail-quota-collect-v1.service
+[Install]
+WantedBy=timers.target

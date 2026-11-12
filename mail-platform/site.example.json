@@ -1,0 +1,9 @@
+{
+  "mail_host": "mx.example.net",
+  "primary_domain": "example.net",
+  "public_ipv4": "192.0.2.10",
+  "notification_recipient": "admin@example.net",
+  "legacy_pop_host": "old-disabled.example.invalid",
+  "legacy_import_email": "legacy-disabled@example.invalid",
+  "migration_domain": "example.net"
+}

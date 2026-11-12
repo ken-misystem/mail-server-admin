@@ -1,0 +1,20 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:label name="local_auth_gate.emergencypagetitle" /></h1>
+<div id="layout-content" class="selected no-navbar local-auth-gate" role="main">
+  <roundcube:object name="logo" src="/images/logo.svg" id="logo" alt="Logo" />
+  <div id="local-auth-gate-form" class="propform">
+    <p><roundcube:label name="local_auth_gate.emergencydescription" /></p>
+    <label for="local-auth-emergency-label"><roundcube:label name="local_auth_gate.emergencylabel" /></label>
+    <input id="local-auth-emergency-label" type="text" maxlength="80" autocomplete="off" />
+    <button id="local-auth-emergency-enroll" type="button" class="button mainaction">
+      <roundcube:label name="local_auth_gate.emergencyenroll" />
+    </button>
+    <p><roundcube:button command="logout" type="link" class="button" label="logout" /></p>
+  </div>
+</div>
+<noscript>
+  <p class="noscriptwarning"><roundcube:label name="noscriptwarning" /></p>
+</noscript>
+
+<roundcube:include file="includes/footer.html" />

@@ -1,0 +1,10 @@
+[Unit]
+Description=Mail platform update administration
+[Socket]
+ListenStream=/run/mail-platform-update/ui.sock
+SocketUser=root
+SocketGroup=mailadmin
+SocketMode=0660
+DirectoryMode=0750
+[Install]
+WantedBy=sockets.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=本人単位SMTP送信量ソケット
+
+[Socket]
+ListenStream=/var/spool/postfix/private/mail-send-limits-v1.sock
+SocketUser=postfix
+SocketGroup=postfix
+SocketMode=0600
+Backlog=64
+RemoveOnStop=yes
+Service=mail-send-limits-v1.service
+
+[Install]
+WantedBy=sockets.target

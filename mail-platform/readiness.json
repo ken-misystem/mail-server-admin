@@ -1,0 +1,22 @@
+{
+  "signed_update_protocol_tested": true,
+  "manual_and_automatic_lifecycle_tested": true,
+  "site_binding_candidate_tested": true,
+  "fresh_host_config_templates_complete": true,
+  "dynamic_UID_GID_portability_validated": true,
+  "empty_Debian13_install_validated": true,
+  "authenticated_update_UI_validated": true,
+  "release_signing_key_provisioned": true,
+  "known_application_source_inventory_complete": true,
+  "host_runtime_dependency_assembly_complete": true,
+  "OS_DB_service_install_adapter_implemented": true,
+  "compiled_fresh_DB_native_tested": true,
+  "base_service_syntax_native_tested": true,
+  "conditional_file_recovery_native_tested": true,
+  "production_update_hook_implemented": true,
+  "production_update_hook_Linux_validated": true,
+  "production_fixes_and_help_included": true,
+  "release_asset_builder_tested": true,
+  "custom_Dovecot_distribution_validated": true,
+  "third_party_distribution_review_completed": true
+}

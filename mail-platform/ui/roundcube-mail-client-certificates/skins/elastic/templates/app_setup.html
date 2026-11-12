@@ -1,0 +1,172 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+<div id="layout-content" class="selected" role="main">
+<div class="header"><span class="header-title">メールアプリ登録方法</span></div>
+<div class="boxcontent content">
+<div id="mail-app-help">
+<header class="help-hero">
+<h1>メールアプリ登録方法</h1>
+<p class="help-lead">メールアプリには、本人の<strong>端末証明書</strong>と<strong>アプリ用パスワード</strong>を設定します。このページを別タブに残し、準備 → 証明書の取込み → 受信・送信設定の順に進めてください。</p>
+
+<p>Webだけで使う場合は、<a href="./?_task=mail">Roundcubeへ戻る</a>。Web利用には端末証明書もアプリ用パスワードも不要です。</p>
+</header>
+<nav id="help-main-tabs" class="help-main-tabs" role="tablist" aria-label="ヘルプの項目" hidden><button type="button" role="tab" id="help-main-tabs-connection" aria-controls="connection" aria-selected="false" tabindex="-1">接続情報</button><button type="button" role="tab" id="help-main-tabs-prepare" aria-controls="prepare" aria-selected="false" tabindex="-1">最初の準備</button><button type="button" role="tab" id="help-main-tabs-clients" aria-controls="clients" aria-selected="false" tabindex="-1">アプリ別手順</button><button type="button" role="tab" id="help-main-tabs-compatibility" aria-controls="compatibility" aria-selected="false" tabindex="-1">対応・注意事項</button><button type="button" role="tab" id="help-main-tabs-trouble" aria-controls="trouble" aria-selected="false" tabindex="-1">困ったとき</button></nav>
+
+<section id="connection" class="help-section help-panel" role="tabpanel" aria-labelledby="help-main-tabs-connection" tabindex="0">
+<h2 id="connection-title">メールアプリに入力する接続情報</h2>
+<p>受信・送信共通のサーバー名：<code>mx.mi-sys.jp</code><button type="button" class="help-copy" data-help-copy="server" hidden>サーバー名をコピー</button></p>
+<p>本人のユーザー名：<span class="help-username" data-help-username>Roundcubeにログインしている本人のメールアドレス</span><button type="button" class="help-copy" data-help-copy="username" hidden>ユーザー名をコピー</button></p>
+<p>受信・送信の両方に、上のユーザー名と<strong>同じ本人のアプリ用パスワード</strong>を入力します。別名・転送先や他人のアカウントを入力しないでください。</p>
+<div id="mail-help-status" class="help-status" role="status" aria-live="polite"></div>
+<div class="help-table-wrap"><table><caption>受信はIMAPまたはPOPのどちらかを選択。送信はSMTPを設定します。</caption><thead><tr><th scope="col">用途</th><th scope="col">ポート</th><th scope="col">接続の保護</th><th scope="col">認証・端末証明書</th></tr></thead><tbody>
+<tr><td><strong>IMAP（推奨）</strong><br>フォルダー・既読を同期</td><td><code>993</code></td><td>SSL/TLS<br>接続開始時から暗号化</td><td>通常のパスワード認証<br>端末証明書を選択</td></tr>
+<tr><td>POP3（必要な場合）<br>端末へダウンロード</td><td><code>995</code></td><td>SSL/TLS<br>接続開始時から暗号化</td><td>通常のパスワード認証<br>端末証明書を選択</td></tr>
+<tr><td><strong>SMTP（送信）</strong></td><td><code>587</code></td><td><strong>STARTTLS</strong><br>必須・暗号化後に認証</td><td>認証を有効にする<br>アプリ用パスワード＋端末証明書</td></tr>
+</tbody></table></div>
+<p class="help-warning"><strong>587で「SSL/TLS」、993・995で「STARTTLS」を選ばないでください。</strong>「暗号化なし」「証明書のエラーを無視」は使いません。465は専用の旧SMTP認証ID用で、この手順の代わりには使えません。</p>
+<p>POPを使う場合は「サーバーにメッセージのコピーを残す」を有効にしてください。取得後に削除する設定では、Roundcubeや別の端末からそのメールを読めなくなります。</p>
+</section>
+
+<section id="prepare" class="help-section help-panel" role="tabpanel" aria-labelledby="help-main-tabs-prepare" tabindex="0">
+<h2 id="prepare-title">最初の準備：3つの秘密を使い分ける</h2>
+<div class="help-table-wrap"><table><thead><tr><th scope="col">用意するもの</th><th scope="col">使う場所</th></tr></thead><tbody>
+<tr><td>Roundcubeのログインパスワード／パスキー</td><td>Webのログイン・本人確認。メールアプリのパスワード欄へ流用しません。</td></tr>
+<tr><td><strong>アプリ用パスワード</strong></td><td>メールアプリの受信・送信のパスワード欄。</td></tr>
+<tr><td><strong>P12ファイル＋P12保護パスワード</strong></td><td>端末証明書を取り込むとき。保護パスワードは受信・送信のパスワード欄へ入力しません。</td></tr>
+</tbody></table></div>
+<div class="help-walkthrough"><ol>
+<li><a href="./?_task=settings&amp;_action=plugin.local_auth" target="_blank" rel="noopener noreferrer">パスキーを登録・管理（別タブ）</a>を開き、本人のパスキーを登録します。証明書の発行時に本人確認を行います。</li>
+<li><a href="./?_task=settings&amp;_action=plugin.app_passwords" target="_blank" rel="noopener noreferrer">アプリ用パスワード（別タブ）</a>で、端末名を付けて発行します。一度だけ表示される値をパスワード管理アプリへ保存します。端末ごとに分けると、紛失時にその端末だけ失効できます。</li>
+<li><a href="./?_task=settings&amp;_action=plugin.mail_client_certificates" target="_blank" rel="noopener noreferrer">端末証明書（別タブ）</a>で本人のアカウントを確認し、端末名と<strong>16〜128文字の空白を含まない半角英数字・記号</strong>のP12保護パスワードを入力して「発行する」を押します。保護パスワードも安全に保管します。</li>
+<li>発行した画面の「P12をダウンロード」を押し、<code>.p12</code>を保存します。<strong>取得は一度だけ・最大5分以内</strong>です。取得完了前に画面移動・再読み込みをしないでください。取得できなくなった証明書は失効し、再発行します。</li>
+<li>設定する端末へP12を安全に渡し、下のアプリ別の手順へ進みます。チャット・メールへの添付や第三者との共有は避け、端末内の取込み後は不要なダウンロードコピーを削除します。端末を追加するときは別の証明書を発行します。</li>
+</ol><figure><img src="plugins/mail_client_certificates/app-help-v1/prepare.svg" width="480" height="378" alt="パスキー登録、アプリ用パスワード発行、端末証明書取得の3段階" loading="lazy"><figcaption>準備の操作イメージ。実際の画面は版・OSで異なります。</figcaption></figure></div>
+<p class="help-note">この証明書は<strong>接続時の本人確認（TLSクライアント証明書）</strong>用です。メール本文の署名・暗号化を行うS/MIMEの設定ではありません。S/MIME欄にだけ登録しても接続設定は完了しません。</p>
+</section>
+
+<section id="clients" class="help-section help-panel" role="tabpanel" aria-labelledby="help-main-tabs-clients" tabindex="0">
+<h2 id="clients-title">アプリを選ぶ</h2>
+<nav id="help-client-tabs" class="help-client-tabs" role="tablist" aria-label="メールアプリ" hidden><button type="button" role="tab" id="help-client-tabs-fair" aria-controls="fair" aria-selected="false" tabindex="-1">FairEmail</button><button type="button" role="tab" id="help-client-tabs-betterbird" aria-controls="betterbird" aria-selected="false" tabindex="-1">Betterbird</button><button type="button" role="tab" id="help-client-tabs-thunderbird" aria-controls="thunderbird" aria-selected="false" tabindex="-1">Thunderbird</button><button type="button" role="tab" id="help-client-tabs-mac" aria-controls="mac" aria-selected="false" tabindex="-1">Macメール</button><button type="button" role="tab" id="help-client-tabs-k9" aria-controls="k9" aria-selected="false" tabindex="-1">K-9 Mail</button><button type="button" role="tab" id="help-client-tabs-iphone" aria-controls="iphone" aria-selected="false" tabindex="-1">iPhone / iPad</button></nav><noscript><div class="help-grid">
+<a class="help-card" href="#fair"><small>Android・推奨</small><strong>FairEmail</strong>受信と送信の設定で証明書を選択</a>
+<a class="help-card" href="#betterbird"><small>Windows / Linux / Mac・推奨</small><strong>Betterbird</strong>証明書マネージャーへP12を登録</a>
+<a class="help-card" href="#thunderbird"><small>Windows / Linux / Mac・推奨</small><strong>Thunderbird</strong>証明書マネージャーへP12を登録</a>
+<a class="help-card" href="#mac"><small>Mac・標準アプリ</small><strong>Apple「メール」</strong>受信・送信のTLS証明書を指定</a>
+<a class="help-card" href="#k9"><small>Android・追加候補</small><strong>K-9 Mail</strong>公式6.400手順で証明書機能を確認</a>
+<a class="help-card" href="#iphone"><small>iPhone / iPad</small><strong>Roundcube / Preside</strong>Presideは機能確認済み・接続手順に制限あり</a>
+</div></noscript>
+<p class="help-source">調査日：2026年11月11日。公式資料・公開実装で証明書機能を確認しています。各アプリとこのサーバーの実機接続試験は未実施です。表示名が異なる場合は、各項目の公式資料も参照してください。</p>
+
+<article id="fair" class="help-section help-client-panel" role="tabpanel" aria-labelledby="help-client-tabs-fair" tabindex="0">
+<h2 id="fair-title">FairEmailの設定</h2>
+<div class="help-walkthrough"><div><ol>
+<li>公式配布元からFairEmailを導入します。Androidの設定で「証明書をインストール」→<strong>VPNとアプリ用</strong>を開き、本人のP12を選びます。画面の名称は端末ごとに異なります。P12保護パスワードを入力し、端末名など識別できる名前で保存します。「CA証明書」やWi-Fi専用証明書として取り込まないでください。</li>
+<li>FairEmailの「設定」→「手動セットアップ」→「アカウント」から追加します。受信はIMAP、サーバー<code>mx.mi-sys.jp</code>、<code>993</code>、SSL/TLS、本人のユーザー名、アプリ用パスワードを設定します。FairEmailはIMAPを使用してください。確認した1.2340のPOP設定にはクライアント証明書の指定がなく、このサーバーの995番用の設定はできません。POPを使う場合はBetterbirdまたはThunderbirdを利用してください。</li>
+<li>同じ受信設定内の<strong>クライアント証明書（Client certificate）</strong>ボタンから、取り込んだ本人証明書を選び、Androidの利用確認を許可します。項目が折りたたまれている場合は詳細設定を開きます。パスワード欄も入力したままにします。</li>
+<li>「手動セットアップ」→「個人情報／Identities（送信元）」で、この受信アカウントに対応する送信設定を追加します。送信元は本人の許可されたアドレスにし、SMTP<code>mx.mi-sys.jp</code>、<code>587</code>、<strong>STARTTLS</strong>、ユーザー名、アプリ用パスワードを入力します。</li>
+<li>送信側の<strong>クライアント証明書</strong>にも、受信側と同じ証明書を選びます。受信側だけの選択では送信設定が完了しません。証明書エラーの無視は有効にしません。保存後、受信フォルダーが表示されることを確認します。</li>
+</ol><p class="help-source">公式：<a href="https://github.com/M66B/FairEmail/blob/master/FAQ.md#faq62" target="_blank" rel="noopener noreferrer">対応する認証方式・クライアント証明書</a> ／ <a href="https://github.com/M66B/FairEmail/blob/master/SETUP.md" target="_blank" rel="noopener noreferrer">手動設定</a> ／ <a href="https://email.faircode.eu/" target="_blank" rel="noopener noreferrer">配布元</a></p></div>
+<figure><img src="plugins/mail_client_certificates/app-help-v1/fair.svg" width="480" height="378" alt="AndroidへP12を登録し、FairEmailのアカウントと送信元の両方で証明書を選ぶ" loading="lazy"><figcaption>受信と送信は別設定です。両方に同じ本人証明書を指定します。</figcaption></figure></div>
+</article>
+<article id="betterbird" class="help-section help-client-panel" role="tabpanel" aria-labelledby="help-client-tabs-betterbird" tabindex="0">
+<h2 id="betterbird-title">Betterbirdの設定</h2>
+<p>BetterbirdはThunderbird ESRと互換のある派生版です。P12の取込み・受信・送信は、<a href="#thunderbird">次のThunderbirdの図解手順</a>で設定します。OSの証明書保管庫へ入れるだけで終わらず、Betterbird自身の証明書マネージャーで本人証明書があることを確認してください。</p>
+<ol><li><a href="https://betterbird.eu/downloads/" target="_blank" rel="noopener noreferrer">Betterbird公式配布元</a>から使用OSの版を導入します。</li><li>Betterbirdの「設定」→「プライバシーとセキュリティ」→証明書の管理を開き、P12を「あなたの証明書」へ取り込みます。</li><li>受信993・SSL/TLS、送信587・STARTTLS、通常のパスワード認証を指定します。パスワードはアプリ用パスワードです。接続時に本人証明書を選びます。</li></ol>
+<p class="help-source">公式：<a href="https://betterbird.eu/faq/" target="_blank" rel="noopener noreferrer">Thunderbird ESRとの互換性・対応OS</a></p>
+</article>
+<article id="thunderbird" class="help-section help-client-panel" role="tabpanel" aria-labelledby="help-client-tabs-thunderbird" tabindex="0">
+<h2 id="thunderbird-title">Thunderbirdの設定（Betterbirdも共通）</h2>
+<div class="help-walkthrough"><div><ol>
+<li><a href="https://www.thunderbird.net/" target="_blank" rel="noopener noreferrer">公式サイト</a>から導入します。「設定」→「プライバシーとセキュリティ」→「証明書」→<strong>「証明書を管理」</strong>を開きます。</li>
+<li><strong>「あなたの証明書」</strong>タブで「インポート」を押し、P12ファイルを選びます。発行時に自分で決めた<strong>P12保護パスワード</strong>を入力します。本人の証明書が一覧に現れたことを確認します。「認証局証明書」タブへ入れる操作ではありません。</li>
+<li>「アカウント設定」からメールアカウントを追加し、本人の表示名・メールアドレス・アプリ用パスワードを入力します。「手動設定」で受信をIMAP、サーバー<code>mx.mi-sys.jp</code>、<code>993</code>、SSL/TLS、認証方式<strong>「通常のパスワード認証」</strong>、本人のユーザー名にします。POPなら995・SSL/TLSです。</li>
+<li>送信SMTPは<code>mx.mi-sys.jp</code>、<code>587</code>、<strong>STARTTLS</strong>、通常のパスワード認証、同じユーザー名にします。「送信（SMTP）サーバー」の設定と、アカウントに割り当てた送信サーバーが一致することも確認します。</li>
+<li>接続時に「ユーザー識別の要求」などの証明書選択画面が出たら、接続先が<code>mx.mi-sys.jp</code>であることを確認し、このアカウントの端末証明書を選択します。受信と送信でそれぞれ求められた場合は同じ本人証明書を選びます。保存されている選択によっては再表示されません。</li>
+<li>パスワードを求められた場合は、<strong>アプリ用パスワード</strong>を入力します。証明書を選んでもパスワード認証は必要です。受信フォルダー表示を確認します。</li>
+</ol><p class="help-warning">認証方式を「TLS証明書／外部証明書」へ変える手順ではありません。接続用証明書を選び、パスワード認証も使います。S/MIMEの署名・暗号化用の証明書選択だけでは完了しません。</p>
+<p class="help-source">公式：<a href="https://support.mozilla.org/en-US/kb/manual-account-configuration" target="_blank" rel="noopener noreferrer">手動アカウント設定</a> ／ <a href="https://github.com/mozilla/releases-comm-central/blob/master/mail/components/preferences/privacy.inc.xhtml" target="_blank" rel="noopener noreferrer">証明書設定の公開実装</a> ／ <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=431819" target="_blank" rel="noopener noreferrer">接続用証明書の選択に関する開発記録</a></p></div>
+<figure><img src="plugins/mail_client_certificates/app-help-v1/desktop.svg" width="480" height="378" alt="証明書マネージャーのあなたの証明書でP12を取り込み、接続時に本人証明書を選ぶ" loading="lazy"><figcaption>Betterbird / Thunderbirdの操作イメージ。Macではアプリメニューから設定を開けます。</figcaption></figure></div>
+</article>
+<article id="mac" class="help-section help-client-panel" role="tabpanel" aria-labelledby="help-client-tabs-mac" tabindex="0">
+<h2 id="mac-title">Apple「メール」の設定</h2>
+<p>Macでは標準の「メール」にTLS証明書の指定機能があります。Betterbird / Thunderbirdを使う場合は上の手順で設定してください。</p>
+<div class="help-walkthrough"><div><ol>
+<li>「キーチェーンアクセス」を開き、本人の「ログイン」キーチェーンを選び、「ファイル」→「読み込む」でP12を取り込みます。P12保護パスワードを入力し、「自分の証明書」で証明書に秘密鍵が付いていることを確認します。</li>
+<li>「メール」→「アカウントを追加」→「その他のメールアカウント」で、本人のアドレスとアプリ用パスワードを入力します。手動入力が必要な場合は受信IMAP・送信SMTPとも<code>mx.mi-sys.jp</code>にします。</li>
+<li>「メール」→「設定」→「アカウント」→対象アカウント→「サーバ設定」を開きます。受信の<strong>「接続設定を自動的に管理」</strong>を外し、ポート993・TLS/SSLを使用・認証はパスワードにします。ユーザー名とアプリ用パスワードを確認します。</li>
+<li>受信の<strong>「詳細なIMAP設定」（POPなら「詳細なPOP設定」）</strong>を開き、<strong>「TLS証明書」</strong>で本人証明書を選びます。</li>
+<li>送信用アカウントから<strong>「SMTPサーバリストを編集」</strong>を開きます。対象SMTPの自動管理を外し、587・TLS/SSLを使用・パスワード認証を設定します。587はSTARTTLSで接続する設定です。送信の<strong>「詳細」→「TLS証明書」</strong>にも同じ本人証明書を選びます。</li>
+<li>保存し、キーチェーンの秘密鍵利用確認が出たら「メール」からの要求であることを確認して許可します。「安全でない認証を許可」や証明書エラーの無視は有効にしません。受信フォルダーが表示されることを確認します。</li>
+</ol><p class="help-source">Apple公式：<a href="https://support.apple.com/ja-jp/guide/keychain-access/kyca35961/mac" target="_blank" rel="noopener noreferrer">キーチェーンへの読み込み</a> ／ <a href="https://support.apple.com/ja-jp/guide/mail/cpmlprefacctadv/mac" target="_blank" rel="noopener noreferrer">受信・サーバ設定</a> ／ <a href="https://support.apple.com/ja-jp/guide/mail/cpmlprefsmtpserver/mac" target="_blank" rel="noopener noreferrer">送信サーバ設定とTLS証明書</a></p></div>
+<figure><img src="plugins/mail_client_certificates/app-help-v1/mac.svg" width="480" height="378" alt="P12をキーチェーンへ読み込み、受信の詳細設定とSMTPの詳細設定でTLS証明書を選ぶ" loading="lazy"><figcaption>受信・送信のTLS証明書を両方指定します。iPhoneの標準メールとは別の手順です。</figcaption></figure></div>
+</article>
+<article id="k9" class="help-section help-client-panel" role="tabpanel" aria-labelledby="help-client-tabs-k9" tabindex="0">
+<h2 id="k9-title">K-9 Mailの設定</h2>
+<p>公式6.400マニュアルで、受信・送信のTLSクライアント証明書選択を確認しています。Thunderbird for Androidについては、この旧版手順と現行画面の一致を確認していないため、同一手順で設定できるとは扱いません。Androidの第一推奨はFairEmailです。</p>
+<div class="help-walkthrough"><div><ol>
+<li>Androidの「VPNとアプリ用」の証明書として本人のP12を取り込みます。P12保護パスワードを使い、識別できる名前を付けます。</li>
+<li>K-9 Mailでアカウントを追加し、手動設定でIMAPを選択します。受信<code>mx.mi-sys.jp</code>、993・SSL/TLS、本人のユーザー名とアプリ用パスワードを入力します。</li>
+<li>受信設定の<strong>Client certificate</strong>で本人の証明書を選びます。認証は通常のパスワード認証（Normal password）を使います。証明書だけで認証する方式は選びません。</li>
+<li>送信設定を<code>mx.mi-sys.jp</code>、587・STARTTLSにし、認証を必須にして同じユーザー名とアプリ用パスワードを設定します。送信側の<strong>Client certificate</strong>も同じ本人証明書にします。</li>
+<li>保存後に受信フォルダーを確認します。現行画面で証明書選択とパスワードを同時設定できない場合は、FairEmailまたはRoundcubeを使用してください。</li>
+</ol><p class="help-source">公式：<a href="https://docs.k9mail.app/en/6.400/accounts/incoming_imap/" target="_blank" rel="noopener noreferrer">IMAP設定</a> ／ <a href="https://docs.k9mail.app/en/6.400/accounts/outgoing/" target="_blank" rel="noopener noreferrer">送信設定</a></p></div>
+<figure><img src="plugins/mail_client_certificates/app-help-v1/k9.svg" width="480" height="378" alt="K-9 Mailの受信と送信の両方でAndroidの証明書を選ぶ" loading="lazy"><figcaption>公式6.400マニュアルに基づく操作イメージ。</figcaption></figure></div>
+</article>
+<article id="iphone" class="help-section help-client-panel" role="tabpanel" aria-labelledby="help-client-tabs-iphone" tabindex="0">
+<h2 id="iphone-title">Roundcubeと、証明書対応候補Preside</h2>
+<p>iPhone / iPadでは<strong>SafariからRoundcubeを使う方法を案内します</strong>。端末証明書の取込みは不要です。iPhone標準「メール」で、このサーバーの受信・送信にTLSクライアント証明書とパスワードを併用する手順は確認できていません。</p>
+<p><strong>Preside</strong>は公式ガイドでPKCS#12取込みとアカウントへのSSLクライアント証明書割当てを確認できた候補です。ただし公式ガイド自身が古いと明記しており、<strong>SMTP 587のSTARTTLS設定・証明書併用の現行手順は未確認</strong>です。このサーバーで送受信できる確認済みアプリとしては案内しません。</p>
+<div class="help-walkthrough"><div><h3>公式資料で確認できた証明書の登録手順</h3><ol>
+<li>本人のP12とP12保護パスワードを用意します。公式ガイドの方法は、PCのiTunesファイル共有でPresideへP12を渡す操作です。現在の端末で同じ導線がない場合は、現行アプリのヘルプを確認し、未確認のプロファイルやCAを追加しないでください。</li>
+<li>Presideの「More」→「Tools」→「Advanced Tools」→「Certificates」から追加（Add）を開きます。「Import Certificate」でP12を選択し、P12保護パスワードを入力して「Save」で取り込みます。</li>
+<li>対象アカウントの詳細設定「Communication」→<strong>「Client certificate」</strong>へ本人の証明書を割り当てます。「Ignore certificate errors」はオフにします。</li>
+</ol><p class="help-warning">この3段階は証明書機能の説明です。送信設定が未確認のため、ここだけで登録完了とは扱いません。587・STARTTLSと本人証明書を併用できる手順が確認できるまではRoundcubeをご利用ください。465・暗号化なしへの変更で回避しないでください。</p>
+<p class="help-source">公式：<a href="https://preside.io/userGuide.html" target="_blank" rel="noopener noreferrer">Presideガイド（Certificates / Import Certificate / Communication）</a> ／ <a href="https://preside.io/" target="_blank" rel="noopener noreferrer">製品情報</a></p></div>
+<figure><img src="plugins/mail_client_certificates/app-help-v1/preside.svg" width="480" height="378" alt="PresideのP12取込みとClient certificate割当て。587の送信設定は未確認" loading="lazy"><figcaption>証明書機能の図解です。接続完了手順ではありません。</figcaption></figure></div>
+</article>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="compatibility" class="help-section help-panel" role="tabpanel" aria-labelledby="help-main-tabs-compatibility" tabindex="0">
+<h2 id="compatibility-title">対応していない・対応を確認できないアプリについて</h2>
+<p class="help-warning"><strong>クライアント証明書方式に対応しないメールアプリでは利用できません。</strong>受信・送信の両方で本人証明書を提示でき、パスワード認証も併用できる必要があります。対応アプリを導入するか、Roundcubeでご利用ください。S/MIME対応、Exchangeの証明書ログイン、サーバー証明書の確認だけでは、この条件を満たしません。</p>
+<div class="help-table-wrap"><table><thead><tr><th scope="col">アプリ</th><th scope="col">確認結果と案内</th></tr></thead><tbody>
+<tr><td>FairEmail</td><td>公式FAQと受信・送信の公開実装で証明書選択＋パスワードを確認。Android推奨。</td></tr>
+<tr><td>Thunderbird / Betterbird</td><td>Thunderbirdの証明書管理・接続時選択と、BetterbirdのESR互換性を確認。PC / Mac推奨。Betterbird固有の実接続は未検証。</td></tr>
+<tr><td>Mac標準「メール」</td><td>Apple公式で受信・送信のTLS証明書指定を確認。上の専用手順を参照。</td></tr>
+<tr><td>K-9 Mail</td><td>公式6.400資料で受信・送信の証明書欄を確認。現行版の画面・本サーバー接続は未検証。</td></tr>
+<tr><td>iPhone / iPad：Preside</td><td>証明書機能は公式確認。現行587・STARTTLSの手順は未確認。現段階はRoundcubeを案内。</td></tr>
+<tr><td>iPhone / iPad標準「メール」</td><td>本方式のTLS証明書指定手順を公式資料から確認できていません。Mac版の手順は流用できません。Roundcubeを使用してください。</td></tr>
+<tr><td>Outlook（新しいWindows版・Mac版・モバイル版）</td><td>本方式の受信・送信両方の証明書指定手順を確認できていません。Exchange / S/MIMEの機能とは区別します。PC / MacはBetterbird・Thunderbird、AndroidはFairEmail、iPhoneはRoundcubeを使用してください。</td></tr>
+<tr><td>Gmailアプリ / その他のメールアプリ</td><td>Googleの他社IMAP登録手順には本方式の証明書選択が記載されていません。対応確認済みとは扱いません。証明書を指定できない場合はFairEmailなど対応アプリかRoundcubeを使用してください。</td></tr>
+</tbody></table></div>
+<p class="help-source">「未確認」は非対応の断定ではありません。確認できないアプリのために接続保護を外す変更は行いません。参考：<a href="https://support.google.com/mail/answer/6078445?co=GENIE.Platform%3AAndroid&amp;hl=ja" target="_blank" rel="noopener noreferrer">Google：他のメールアカウントの登録</a> ／ <a href="https://github.com/apple/device-management/blob/release/mdm/profiles/com.apple.mail.managed.yaml" target="_blank" rel="noopener noreferrer">Apple：メール設定の公開仕様</a> ／ <a href="https://support.microsoft.com/en-us/outlook/error-ssl-certificate-mismatch" target="_blank" rel="noopener noreferrer">Microsoft：モバイルOutlookの証明書案内（サーバー証明書）</a></p>
+</section>
+
+<section id="trouble" class="help-section help-panel" role="tabpanel" aria-labelledby="help-main-tabs-trouble" tabindex="0">
+<h2 id="trouble-title">接続できないとき・端末を失くしたとき</h2>
+<div class="help-table-wrap"><table><thead><tr><th scope="col">症状</th><th scope="col">確認する項目</th></tr></thead><tbody>
+<tr><td>P12の取込みに失敗</td><td>使う値はP12保護パスワードです。P12に秘密鍵が含まれていることを確認します。ファイルがない・取得期限が切れた・保護パスワードを忘れた場合は失効して再発行します。</td></tr>
+<tr><td>接続直後に切断 / certificate required</td><td>有効な本人証明書を受信・送信の両方に選択したか確認します。端末へインストールしただけで、アプリ側で選択していない状態は未完了です。</td></tr>
+<tr><td>パスワードエラー</td><td>本人のユーザー名、証明書の所有アカウント、アプリ用パスワードの発行アカウントを一致させます。Webログイン用やP12保護用のパスワードを入力していないか確認します。</td></tr>
+<tr><td>受信できるが送信できない</td><td>送信側の証明書選択・587・STARTTLS・認証・許可された本人送信元を確認します。Thunderbird系はアカウントに割り当てたSMTPも確認します。</td></tr>
+<tr><td>証明書名不一致 / 不明なサーバー</td><td>サーバー名はmx.mi-sys.jpです。IPアドレスや旧サーバー名を使わず、警告は無視しないで管理者に知らせてください。</td></tr>
+<tr><td>上限到達などの一時拒否（451）</td><td>送信アプリの保留・再送状態を確認します。送信済みか不明なメールを手動で何度も送り直さず、管理者へ発生時刻とエラーを連絡してください。</td></tr>
+<tr><td>端末紛失・譲渡・証明書更新</td><td>Roundcubeの「端末証明書」と「アプリ用パスワード」で該当端末を失効します。新しい端末・更新には新しい証明書とアプリ用パスワードを設定してください。</td></tr>
+</tbody></table></div>
+<p>解決しない場合は、アプリ名・OS・エラー・発生時刻を管理者へ連絡してください。<strong>パスワード、P12、秘密鍵は連絡に添付しません。</strong></p>
+</section>
+<footer class="help-end"><a href="#connection">接続情報へ戻る</a> · <a href="./?_task=mail">Roundcubeでメールを使う</a><p>図は操作を整理した説明図です。各社の実画面のスクリーンショットではありません。</p></footer>
+</div></div></div>
+<roundcube:include file="includes/footer.html" />

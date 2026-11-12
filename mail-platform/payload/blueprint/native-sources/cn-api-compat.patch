@@ -1,0 +1,11 @@
+--- a/src/lib-master/master-service-haproxy.c
++++ b/src/lib-master/master-service-haproxy.c
+@@ -142,7 +142,7 @@
+ 	/* copy values */
+ 	conn.haproxy.cert_common_name = t_strdup(hpconn->conn.haproxy.cert_common_name);
+ 	if (hpconn->conn.haproxy.alpn_size > 0)
+-		conn.haproxy.alpn = t_memdup(hpconn->conn.haproxy.alpn, hpconn->conn.haproxy.alpn_size);
++		conn.haproxy.alpn = p_memdup(pool_datastack_create(), hpconn->conn.haproxy.alpn, hpconn->conn.haproxy.alpn_size);
+ 	else
+ 		conn.haproxy.alpn = NULL;
+ 	conn.haproxy.hostname = t_strdup(hpconn->conn.haproxy.hostname);

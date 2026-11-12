@@ -1,0 +1,6 @@
+[Unit]
+Description=Bounded antivirus resources
+[Slice]
+CPUQuota=200%
+MemoryMax=3G
+MemorySwapMax=0

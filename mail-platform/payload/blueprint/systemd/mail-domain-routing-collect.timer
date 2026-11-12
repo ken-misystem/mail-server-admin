@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh domain delivery snapshots (candidate)
+
+[Timer]
+OnBootSec=10
+OnUnitInactiveSec=15
+AccuracySec=1
+Unit=mail-domain-routing-collect.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,26 @@
+[Unit]
+Description=Device certificate gate health and TLS renewal
+After=mail-client-certificates.target
+[Service]
+Type=oneshot
+User=root
+Group=mailcert-gate
+ExecStart=/usr/bin/python3 -I -S -B /usr/local/lib/mail-client-cert-public-v1/health.py --check
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_UNIX
+MemorySwapMax=0
+MemoryMax=256M
+LimitCORE=0
+TimeoutStartSec=90
+UMask=0077
+StateDirectory=mail-client-cert-public-v1
+StateDirectoryMode=0700
+ReadWritePaths=/var/lib/mail-client-cert-public-v1
+StandardOutput=journal
+StandardError=journal

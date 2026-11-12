@@ -1,0 +1,32 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+<h1 class="voice"><roundcube:label name="mail_pop.popsettings" /></h1>
+<div id="layout-content" class="selected" role="main">
+  <div class="header"><a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a><span class="header-title"><roundcube:label name="mail_pop.popsettings" /></span></div>
+  <div class="boxcontent content" id="mail-pop-panel">
+    <p>接続先・ポート・ログイン名は自分で設定します。管理者は登録件数の上限だけを設定し、上限0は取得不可です。取得元のメールは削除しません。</p>
+    <p id="mail-pop-policy" role="status" aria-live="polite">管理者による利用許可を確認中です。</p>
+    <p id="mail-pop-message" role="status" aria-live="polite"></p>
+    <fieldset class="mail-pop-section"><legend>登録済みPOPアカウント</legend>
+      <p id="mail-pop-usage">読み込み中…</p><div id="mail-pop-list"></div>
+      <button id="mail-pop-refresh" type="button" class="button">一覧を更新</button>
+      <p>停止中も上限に含みます。削除前に停止してください。停止前に開始した取得は完了する場合があります。設定の削除は保存済みメールを削除しません。</p>
+    </fieldset>
+    <fieldset class="mail-pop-section"><legend>POPアカウントを追加</legend>
+      <form id="mail-pop-create" name="mail-pop-create" method="post">
+        <p><label for="mail-pop-host">POPホスト名（ASCII）</label><input id="mail-pop-host" name="host" maxlength="253" autocomplete="off" required disabled /></p>
+        <p><label for="mail-pop-port">TLSポート（通常995）</label><input id="mail-pop-port" name="port" type="number" min="1" max="65535" step="1" value="995" required disabled /></p>
+        <p><label for="mail-pop-label">表示名</label><input id="mail-pop-label" name="label" maxlength="128" required disabled /></p>
+        <p><label for="mail-pop-username">取得元のログイン名</label><input id="mail-pop-username" name="username" maxlength="320" autocomplete="username" required disabled /></p>
+        <p><label for="mail-pop-password">取得元のパスワード</label><input id="mail-pop-password" name="password" type="password" autocomplete="current-password" required disabled /></p>
+        <button type="submit" class="button mainaction" disabled>停止状態で追加</button>
+      </form>
+      <p>登録済み設定の「編集」から接続先・ポート・ログイン名・表示名・パスワードを変更できます。保存すると停止します。同じ取得元ならパスワード空欄で維持します。接続先・ポート・ログイン名を変更するとパスワードの再入力と取得履歴の確認が必要になり、確認が完了するまで取得を有効にできません。旧履歴は削除しません。</p>
+      <p>取得元で現在使用しているパスワードを入力してください。この画面は取得元パスワードを生成・変更するものではありません。</p>
+      <p>TLS検証付きPOP3のみ対応します。OAuth専用のサービスには対応していません。</p>
+    </fieldset>
+    <p>結果が不明な場合は再送せず一覧を更新してください。パスワードは再表示しません。</p>
+  </div>
+</div>
+<roundcube:include file="includes/footer.html" />

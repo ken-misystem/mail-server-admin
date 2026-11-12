@@ -1,0 +1,85 @@
+{
+  "groups": {
+    "_rspamd": 111,
+    "mail-legacy-auth": 981,
+    "mail-route-collector": 982,
+    "mail-route-map": 983,
+    "mailadmin": 113,
+    "mailalerts": 980,
+    "mailcert-gate": 984,
+    "mailcert-owner": 989,
+    "mailpop": 114,
+    "mailsendlimits": 979,
+    "postfix": 105,
+    "root": 0,
+    "vmail": 5000,
+    "www-data": 33
+  },
+  "users": {
+    "_rspamd": {
+      "gid": 111,
+      "group": "_rspamd",
+      "uid": 108
+    },
+    "mail-route-collector": {
+      "gid": 982,
+      "group": "mail-route-collector",
+      "uid": 987
+    },
+    "mail-route-map": {
+      "gid": 983,
+      "group": "mail-route-map",
+      "uid": 991
+    },
+    "mailalerts": {
+      "gid": 980,
+      "group": "mailalerts",
+      "uid": 985
+    },
+    "mailantivirus": {
+      "gid": 978,
+      "group": "mailantivirus",
+      "uid": 983
+    },
+    "mailcert-gate": {
+      "gid": 984,
+      "group": "mailcert-gate",
+      "uid": 992
+    },
+    "mailcert-issuer": {
+      "gid": 985,
+      "group": "mailcert-issuer",
+      "uid": 993
+    },
+    "mailcert-lifecycle": {
+      "gid": 987,
+      "group": "mailcert-lifecycle",
+      "uid": 995
+    },
+    "mailcert-owner": {
+      "gid": 989,
+      "group": "mailcert-owner",
+      "uid": 999
+    },
+    "mailcert-verifier": {
+      "gid": 986,
+      "group": "mailcert-verifier",
+      "uid": 994
+    },
+    "mailpop": {
+      "gid": 114,
+      "group": "mailpop",
+      "uid": 112
+    },
+    "mailsendlimits": {
+      "gid": 979,
+      "group": "mailsendlimits",
+      "uid": 984
+    },
+    "postfix": {
+      "gid": 105,
+      "group": "postfix",
+      "uid": 103
+    }
+  }
+}

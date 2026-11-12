@@ -1,0 +1,19 @@
+[Unit]
+Description=Verify and apply mail platform releases
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+ExecStart=/usr/bin/python3 -I -S -B /usr/local/lib/mail-platform-update/entry.py worker
+LoadCredential=github-token:/etc/mail-platform/private/github-token
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/etc /var /opt /usr/local
+ProtectHome=yes
+TimeoutStartSec=3600
+CPUQuota=100%
+MemoryMax=512M

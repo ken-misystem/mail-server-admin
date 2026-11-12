@@ -1,0 +1,38 @@
+[Unit]
+Description=Bounded mailbox quota usage collector
+After=dovecot.service mariadb.service mail-client-cert-dovecot-backend.service
+[Service]
+Type=exec
+User=root
+Group=mailadmin
+UMask=0077
+ExecStart=/usr/bin/python3 -I -B -c "import sys;sys.path.insert(0,'/usr/local/lib/mail-quota-v1');import split_runtime;split_runtime.daemon()"
+StateDirectory=mail-quota-v1
+StateDirectoryMode=0750
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+NoNewPrivileges=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_UNIX
+CapabilityBoundingSet=CAP_SETUID CAP_SETGID CAP_DAC_OVERRIDE CAP_KILL
+AmbientCapabilities=CAP_SETUID
+ReadWritePaths=/var/lib/mail-quota-v1 /var/vmail
+ReadOnlyPaths=/var/spool/postfix /var/lib/mysql
+CPUQuota=20%
+MemoryMax=192M
+MemorySwapMax=0
+TasksMax=24
+Nice=15
+IOSchedulingClass=idle
+TimeoutStartSec=55
+TimeoutStopSec=35
+KillMode=control-group
+LimitCORE=0
+Restart=on-failure
+RestartSec=12s
+
+[Install]
+WantedBy=multi-user.target

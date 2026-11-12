@@ -1,0 +1,24 @@
+[Unit]
+Description=Read-only mail operations aggregate collector
+After=postfix.service
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-management-operations-v1/publish_runtime.py --collect
+TimeoutStartSec=85
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/mail-management-operations-v1
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+PrivateNetwork=yes
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true

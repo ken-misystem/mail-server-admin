@@ -1,0 +1,9 @@
+[Unit]
+Description=Hourly official antivirus definition check
+[Timer]
+OnActiveSec=1h
+OnUnitInactiveSec=1h
+RandomizedDelaySec=5m
+Unit=mail-protection-definitions-v1.service
+[Install]
+WantedBy=timers.target

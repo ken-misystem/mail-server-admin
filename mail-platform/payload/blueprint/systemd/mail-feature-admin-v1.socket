@@ -1,0 +1,13 @@
+[Unit]
+Description=Mail feature administration socket
+
+[Socket]
+ListenStream=/run/mail-feature-admin-v1/control.sock
+SocketUser=root
+SocketGroup=mailadmin
+SocketMode=0660
+DirectoryMode=0755
+RemoveOnStop=no
+
+[Install]
+WantedBy=sockets.target

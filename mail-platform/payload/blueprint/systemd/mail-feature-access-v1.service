@@ -1,0 +1,35 @@
+[Unit]
+Description=Administrative SMTP access policy
+Requires=mail-feature-access-v1.socket
+After=mail-feature-access-v1.socket
+
+[Service]
+Type=simple
+User=mailsendlimits
+Group=mailsendlimits
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-feature-runtime-v1/launch_access.py
+NoNewPrivileges=yes
+PrivateNetwork=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+LockPersonality=yes
+CapabilityBoundingSet=
+InaccessiblePaths=/var/vmail /var/mail /var/lib/mail-send-limits-v1 /etc/mail-send-limits-v1 /etc/mail-management /etc/dovecot /etc/letsencrypt /root
+CPUQuota=200%
+MemoryMax=256M
+MemorySwapMax=0
+TasksMax=32
+UMask=0077
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+LimitCORE=0

@@ -1,0 +1,232 @@
+[
+  {
+    "path": "/etc/mail-client-certificates-v1/health.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0600",
+    "encoding": "json",
+    "required": [
+      "artifacts.issuer_certificate",
+      "artifacts.root_certificate",
+      "identities.mailcert-gate.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-client-certificates-v1/milter.json",
+    "owner": "root",
+    "group": "postfix",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "identities.postfix.gid",
+      "identities.postfix.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-client-certificates-v1/smtpd.json",
+    "owner": "root",
+    "group": "postfix",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "artifacts.private_main_sha256",
+      "artifacts.private_master_sha256",
+      "artifacts.smtpd_sha256",
+      "identities.postfix.gid",
+      "identities.postfix.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-client-certificates-v1/web.json",
+    "owner": "root",
+    "group": "www-data",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "identities.mailcert-owner.gid",
+      "identities.mailcert-owner.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-domain-routing-v1/reader.json",
+    "owner": "root",
+    "group": "mail-route-collector",
+    "mode": "0440",
+    "encoding": "json",
+    "required": [
+      "secrets.mail_domain_route_reader"
+    ]
+  },
+  {
+    "path": "/etc/mail-domain-routing-v1/runtime.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0644",
+    "encoding": "json",
+    "required": [
+      "identities.mail-route-collector.uid",
+      "identities.postfix.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-feature-admin-v1/db.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0600",
+    "encoding": "json",
+    "required": [
+      "secrets.mail_feature_reader"
+    ]
+  },
+  {
+    "path": "/etc/mail-feature-runtime-v1/deployment.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0600",
+    "encoding": "json",
+    "required": [
+      "artifacts.legacy_settings_sha256"
+    ]
+  },
+  {
+    "path": "/etc/mail-feature-runtime-v1/rspamd-context.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0644",
+    "encoding": "json",
+    "required": [
+      "identities._rspamd.gid",
+      "identities._rspamd.groups",
+      "identities._rspamd.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-management-alerts-v1/public-reader.json",
+    "owner": "root",
+    "group": "mailadmin",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "identities.mailadmin.gid",
+      "identities.mailalerts.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-management-alerts-v1/runtime.json",
+    "owner": "root",
+    "group": "mailadmin",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "identities.mailadmin.gid"
+    ]
+  },
+  {
+    "path": "/etc/mail-management/admin.php",
+    "owner": "root",
+    "group": "mailadmin",
+    "mode": "0640",
+    "encoding": "php",
+    "required": [
+      "secrets.mail_management_app",
+      "secrets.management_application"
+    ]
+  },
+  {
+    "path": "/etc/mail-platform/update-source.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0600",
+    "encoding": "json",
+    "required": []
+  },
+  {
+    "path": "/etc/mail-platform/update-ui.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0600",
+    "encoding": "json",
+    "required": [
+      "identities.mailadmin.uid"
+    ]
+  },
+  {
+    "path": "/etc/mail-pop/worker.json",
+    "owner": "root",
+    "group": "mailpop",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "secrets.mail_pop_worker"
+    ]
+  },
+  {
+    "path": "/etc/mail-send-limits-v1/db.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0600",
+    "encoding": "json",
+    "required": [
+      "secrets.mail_send_limit_reader"
+    ]
+  },
+  {
+    "path": "/etc/mail-send-limits-v1/runtime.json",
+    "owner": "root",
+    "group": "root",
+    "mode": "0644",
+    "encoding": "json",
+    "required": [
+      "identities.mailsendlimits.uid",
+      "identities.postfix.uid"
+    ]
+  },
+  {
+    "path": "/etc/roundcube/account_recovery.inc.php",
+    "owner": "root",
+    "group": "www-data",
+    "mode": "0640",
+    "encoding": "php",
+    "required": [
+      "secrets.roundcube_recovery"
+    ]
+  },
+  {
+    "path": "/etc/roundcube/app-passwords.json",
+    "owner": "root",
+    "group": "www-data",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "secrets.mail_app_password_ui"
+    ]
+  },
+  {
+    "path": "/etc/roundcube/local_ja_tweaks.php",
+    "owner": "root",
+    "group": "www-data",
+    "mode": "0640",
+    "encoding": "php",
+    "required": []
+  },
+  {
+    "path": "/etc/roundcube/mail-aliases.php",
+    "owner": "root",
+    "group": "www-data",
+    "mode": "0640",
+    "encoding": "php",
+    "required": [
+      "secrets.mail_alias_ui"
+    ]
+  },
+  {
+    "path": "/etc/roundcube/mail-pop.json",
+    "owner": "root",
+    "group": "www-data",
+    "mode": "0640",
+    "encoding": "json",
+    "required": [
+      "secrets.mail_pop_ui"
+    ]
+  }
+]

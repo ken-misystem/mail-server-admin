@@ -1,0 +1,19 @@
+[Unit]
+Description=Opt-in owner-only daily Junk counts
+After=mariadb.service dovecot.service postfix.service
+[Service]
+Type=oneshot
+User=root
+UMask=0077
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-general-accounts-v1/junk/daily.py --run-daily
+TimeoutStartSec=1400s
+Restart=no
+NoNewPrivileges=yes
+AmbientCapabilities=CAP_SETUID
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/mail-junk-digest-general-v1 /var/vmail
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+StandardOutput=journal
+StandardError=null

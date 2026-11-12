@@ -1,0 +1,21 @@
+[Unit]
+Description=Mail platform constrained update UI broker
+Requires=mail-platform-update-ui.socket
+After=mail-platform-update-ui.socket
+[Service]
+Type=simple
+User=root
+Group=root
+UMask=0077
+ExecStart=/usr/bin/python3 -I -S -B /usr/local/lib/mail-platform-update/broker_entry.py
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateNetwork=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/mail-platform-update
+RestrictAddressFamilies=AF_UNIX
+CPUQuota=10%
+MemoryMax=64M

@@ -1,0 +1,11 @@
+[Unit]
+Description=Collect residual old XMail every five minutes
+
+[Timer]
+OnActiveSec=5min
+OnUnitInactiveSec=5min
+AccuracySec=5s
+Unit=mail-residual-pop-v1.service
+
+[Install]
+WantedBy=timers.target

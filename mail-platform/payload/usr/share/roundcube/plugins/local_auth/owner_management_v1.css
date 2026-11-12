@@ -1,0 +1,15 @@
+#local-auth-proof-dialog {
+    color: #f1f3f5;
+    background: #303a3e;
+    border: 1px solid #7f939c;
+    border-radius: .4rem;
+    padding: 1.2rem;
+    max-width: min(34rem, 90vw);
+}
+#local-auth-proof-dialog::backdrop { background: rgb(0 0 0 / 65%); }
+#local-auth-proof-dialog label, #local-auth-proof-dialog input {
+    display: block;
+    margin: .8rem 0;
+}
+#local-auth-proof-dialog input { width: 100%; box-sizing: border-box; }
+#local-auth-proof-dialog .button { margin: .3rem; }

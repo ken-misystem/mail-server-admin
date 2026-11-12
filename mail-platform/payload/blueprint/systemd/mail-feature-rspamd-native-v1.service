@@ -1,0 +1,34 @@
+[Unit]
+Description=Read-only Rspamd native queries for administration
+Requires=mail-feature-rspamd-native-v1.socket
+After=rspamd.service
+[Service]
+User=108
+Group=111
+SupplementaryGroups=111
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-feature-runtime-v1/native_query.py
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateNetwork=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictSUIDSGID=yes
+LockPersonality=yes
+InaccessiblePaths=/var/vmail /var/mail /var/spool/postfix /var/lib/mysql /run/mysqld /etc/mail-feature-admin-v1 /etc/dovecot /etc/ssl/private
+CPUQuota=100%
+MemoryMax=512M
+MemorySwapMax=0
+TasksMax=32
+UMask=0077
+TimeoutStopSec=25
+Restart=on-failure
+RestartSec=5
+LimitCORE=0

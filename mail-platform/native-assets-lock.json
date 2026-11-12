@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "clamav": {
+    "version": "1.4.6",
+    "architecture": "amd64",
+    "package_sha256": "d3ee9e401974855a1edc1761b1425417d126de618d5f0c91cd51209f69f6fcc2",
+    "source_sha256": "06dbc7adf96e2f6a27c548a841ce83c95360d1e121b106a6f7cf56f282a3c61b",
+    "source_signature_sha256": "f55ae2aa17482cf870f16578e56c2d77885c22ac748ebee9f6808c4dbba93bea",
+    "keyring_sha256": "8caffabffbc85f12e145c9bb69b704369d7731c98d751ac123edc130c00d81b5",
+    "signer_fingerprint": "5BADCA2665EF59DCF8A23D8B707F0DB480836771",
+    "official_release": "https://github.com/Cisco-Talos/clamav/releases/tag/clamav-1.4.6"
+  },
+  "dovecot": {
+    "version": "1:2.4.1+dfsg1-6+deb13u7+cnfix1",
+    "source_candidate_sha256": "4b6adfdcf715ac7b2d91e45641f59fd5d1ca72c0177de3de3cc5dbe7f429cac0"
+  }
+}

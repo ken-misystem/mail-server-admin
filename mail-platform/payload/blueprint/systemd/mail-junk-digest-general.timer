@@ -1,0 +1,9 @@
+[Unit]
+Description=Daily owner-only Junk reports at 00:05 JST
+[Timer]
+OnCalendar=*-*-* 00:05:00 Asia/Tokyo
+AccuracySec=1m
+Persistent=no
+Unit=mail-junk-digest-general.service
+[Install]
+WantedBy=timers.target

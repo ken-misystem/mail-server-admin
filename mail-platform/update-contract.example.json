@@ -1,0 +1,10 @@
+{
+  "format": 1,
+  "from_version": "0.1.0",
+  "to_version": "0.1.1",
+  "pause": ["mail-management-log-viewer.timer"],
+  "stop": ["mail-management-log-viewer.service", "php8.4-fpm.service"],
+  "start": ["mail-management-log-viewer.service", "php8.4-fpm.service"],
+  "reload": [],
+  "health": ["nginx.service", "php8.4-fpm.service", "dovecot.service", "postfix.service"]
+}

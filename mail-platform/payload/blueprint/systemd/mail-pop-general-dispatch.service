@@ -1,0 +1,18 @@
+[Unit]
+Description=Dispatch allowed POP sources with bounded concurrency
+After=mariadb.service
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-pop-general-v1/dispatch.py --dispatch
+TimeoutStartSec=60s
+Restart=no
+UMask=0077
+NoNewPrivileges=yes
+AmbientCapabilities=CAP_SETUID
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+RestrictAddressFamilies=AF_UNIX
+StandardOutput=journal
+StandardError=null

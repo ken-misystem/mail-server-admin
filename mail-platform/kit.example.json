@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "files": {
+    "tls_certificate": {
+      "path": "tls_certificate.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "tls_key": {
+      "path": "tls_key.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "root": {
+      "path": "root.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "issuer": {
+      "path": "issuer.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "root_crl": {
+      "path": "root_crl.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "custody": {
+      "path": "custody.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "restoration": {
+      "path": "restoration.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "custody_statement": {
+      "path": "custody_statement.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "issuer_key": {
+      "path": "issuer_key.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "issuer_password": {
+      "path": "issuer_password.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "guard": {
+      "path": "guard.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "release_public_key": {
+      "path": "release_public_key.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "github_token": {
+      "path": "github_token.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "clamav_runtime_manifest": {
+      "path": "clamav_runtime_manifest.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "definition_main": {
+      "path": "definition_main.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "definition_daily": {
+      "path": "definition_daily.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "definition_bytecode": {
+      "path": "definition_bytecode.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "dovecot_core": {
+      "path": "dovecot_core.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "dovecot_imapd": {
+      "path": "dovecot_imapd.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "dovecot_pop3d": {
+      "path": "dovecot_pop3d.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "dovecot_lmtpd": {
+      "path": "dovecot_lmtpd.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "dovecot_sieve": {
+      "path": "dovecot_sieve.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "dovecot_managesieved": {
+      "path": "dovecot_managesieved.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "dovecot_mysql": {
+      "path": "dovecot_mysql.input",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "dovecot_packages": [
+    "dovecot_core",
+    "dovecot_imapd",
+    "dovecot_pop3d",
+    "dovecot_lmtpd",
+    "dovecot_sieve",
+    "dovecot_managesieved",
+    "dovecot_mysql"
+  ]
+}

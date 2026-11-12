@@ -1,0 +1,13 @@
+[Unit]
+Description=Domain delivery lookup UNIX socket (candidate)
+
+[Socket]
+ListenStream=/var/spool/postfix/private/mail-domain-routing-v1
+SocketUser=root
+SocketGroup=postfix
+SocketMode=0660
+Backlog=32
+RemoveOnStop=no
+
+[Install]
+WantedBy=sockets.target

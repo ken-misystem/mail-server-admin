@@ -1,0 +1,13 @@
+[Unit]
+Description=Administrative SMTP access policy socket
+
+[Socket]
+ListenStream=/var/spool/postfix/private/mail-feature-access-v1.sock
+SocketUser=postfix
+SocketGroup=postfix
+SocketMode=0660
+DirectoryMode=0755
+RemoveOnStop=no
+
+[Install]
+WantedBy=sockets.target

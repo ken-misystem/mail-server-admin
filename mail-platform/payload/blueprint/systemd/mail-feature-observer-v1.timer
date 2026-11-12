@@ -1,0 +1,11 @@
+[Unit]
+Description=Update mail administration observations
+
+[Timer]
+OnBootSec=30
+OnUnitInactiveSec=15
+AccuracySec=2
+Unit=mail-feature-observer-v1.service
+
+[Install]
+WantedBy=timers.target

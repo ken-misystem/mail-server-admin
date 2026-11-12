@@ -1,0 +1,24 @@
+[Unit]
+Description=External POP retrieval for approved account1
+After=network-online.target mariadb.service postfix.service rspamd.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mailpop
+Group=mailpop
+UMask=0077
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-pop-compat-v1/scheduled.py
+TimeoutStartSec=1100s
+TimeoutStopSec=30s
+KillMode=control-group
+Restart=no
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/mail-pop
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+CapabilityBoundingSet=
+StandardOutput=journal
+StandardError=null

@@ -1,0 +1,41 @@
+[Unit]
+Description=本人単位SMTP送信量判定
+Requires=mail-send-limits-v1.socket
+After=mail-send-limits-v1.socket mariadb.service
+
+[Service]
+Type=exec
+User=mailsendlimits
+Group=mailsendlimits
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-send-limits-v1/launch.py /etc/mail-send-limits-v1/runtime.json
+LoadCredential=db.json:/etc/mail-send-limits-v1/db.json
+StateDirectory=mail-send-limits-v1
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateNetwork=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectControlGroups=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/var/lib/mail-send-limits-v1
+InaccessiblePaths=-/var/vmail -/var/mail -/etc/dovecot -/etc/mail-management
+CPUQuota=200%
+MemoryMax=1G
+MemorySwapMax=0
+TasksMax=96
+LimitCORE=0
+TimeoutStopSec=30
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

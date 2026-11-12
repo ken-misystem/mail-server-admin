@@ -1,0 +1,101 @@
+#mail-app-help{--help-ink:#18354c;--help-accent:#12678b;max-width:1120px;margin:0 auto;padding:24px;color:var(--help-ink);line-height:1.8}
+#mail-app-help *{box-sizing:border-box}
+#mail-app-help h1{font-size:1.9rem;line-height:1.4;margin:0 0 12px}
+#mail-app-help h2{font-size:1.5rem;line-height:1.5;margin:0 0 16px}
+#mail-app-help h3{font-size:1.1rem;margin:22px 0 8px}
+#mail-app-help p{margin:8px 0 16px}
+#mail-app-help a{color:#09628b;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+#mail-app-help a:focus-visible,#mail-app-help button:focus-visible{outline:3px solid #cc6900;outline-offset:4px}
+#mail-app-help .help-hero{border-top:5px solid var(--help-accent);padding:24px;background:#eff5fb;border-radius:12px;margin-bottom:24px}
+#mail-app-help .help-kicker{font-size:.82rem;letter-spacing:.12em;color:#355c75;margin:0 0 8px}
+#mail-app-help .help-lead{font-size:1.05rem;max-width:56rem}
+#mail-app-help .help-section{padding:28px 0;border-top:1px solid #bacdda;scroll-margin-top:20px}
+#mail-app-help .help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+#mail-app-help .help-card{display:block;border:1px solid #bacdda;border-radius:10px;padding:16px;background:#fff;color:#18354c;text-decoration:none}
+#mail-app-help .help-card:hover{border-color:#12678b;background:#eff5fb}
+#mail-app-help .help-card strong{display:block;font-size:1.1rem;color:#09628b}
+#mail-app-help .help-card small{display:block;color:#455d70}
+#mail-app-help .help-note,#mail-app-help .help-warning{padding:14px 18px;border-radius:7px;margin:16px 0}
+#mail-app-help .help-note{background:#eff5fb;border-left:4px solid #12678b}
+#mail-app-help .help-warning{background:#fff4dd;border-left:4px solid #ad5a00;color:#56370e}
+#mail-app-help .help-table-wrap{overflow:auto;max-width:100%;border:1px solid #bacdda;border-radius:8px;margin:16px 0}
+#mail-app-help table{border-collapse:collapse;width:100%;background:#fff;font-size:.96rem}
+#mail-app-help th,#mail-app-help td{border-bottom:1px solid #d4e1e9;padding:12px;text-align:left;vertical-align:top;min-width:95px}
+#mail-app-help th{background:#eff5fb;color:#18354c;font-weight:700}
+#mail-app-help tr:last-child td{border-bottom:0}
+#mail-app-help code{background:#eaf0f5;color:#18354c;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere;white-space:normal}
+#mail-app-help .help-username{font-weight:bold;overflow-wrap:anywhere}
+#mail-app-help ol{padding-left:25px}
+#mail-app-help li{padding-left:3px;margin-bottom:14px}
+#mail-app-help .help-walkthrough{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px;align-items:start}
+#mail-app-help figure{margin:0}
+#mail-app-help figure img{display:block;width:100%;height:auto;max-width:480px;margin:auto}
+#mail-app-help figcaption{font-size:.85rem;color:#455d70;margin-top:8px;text-align:center}
+#mail-app-help .help-source{font-size:.86rem;color:#455d70}
+#mail-app-help .help-steps-label{display:inline-block;background:#12678b;color:#fff;border-radius:20px;padding:2px 12px;font-size:.85rem;margin-bottom:10px}
+#mail-app-help .help-end{border-top:1px solid #bacdda;padding-top:20px;font-size:.88rem}
+#mail-app-help .help-copy{font-size:.83rem;padding:4px 9px;margin-left:8px;border:1px solid #8ca6b8;border-radius:5px;background:#fff;color:#18354c;cursor:pointer}
+#mail-app-help .help-status{min-height:1.8em;color:#355c75}
+#mail-app-help .help-links{display:flex;flex-wrap:wrap;gap:10px 20px;margin:16px 0}
+@media(max-width:760px){#mail-app-help{padding:16px}#mail-app-help .help-hero{padding:18px}#mail-app-help .help-walkthrough{grid-template-columns:1fr}#mail-app-help h1{font-size:1.55rem}#mail-app-help figure img{max-width:420px}#mail-app-help .help-section{padding:24px 0}}
+.dark-mode #mail-app-help{--help-ink:#e2edf5;color:#e2edf5}.dark-mode #mail-app-help .help-hero,.dark-mode #mail-app-help .help-note{background:#233645}.dark-mode #mail-app-help a{color:#82cff4}.dark-mode #mail-app-help .help-card,.dark-mode #mail-app-help table{background:#1d2d39;color:#e2edf5}.dark-mode #mail-app-help th{background:#233645;color:#e2edf5}.dark-mode #mail-app-help .help-card strong{color:#82cff4}.dark-mode #mail-app-help .help-card small,.dark-mode #mail-app-help .help-source,.dark-mode #mail-app-help figcaption,.dark-mode #mail-app-help .help-kicker{color:#b9cedd}
+@media print{#layout-menu,#layout-sidebar,.help-copy{display:none!important}#mail-app-help{max-width:none;color:#000}#mail-app-help .help-walkthrough{grid-template-columns:1fr 300px}#mail-app-help article{break-before:page}#mail-app-help a{color:#000}#mail-app-help figure{break-inside:avoid}}
+
+#mail-app-help .help-main-tabs,
+#mail-app-help .help-client-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+}
+#mail-app-help [role="tab"] {
+    min-height: 44px;
+    padding: 9px 14px;
+    border: 1px solid #8ca6b8;
+    border-radius: 7px;
+    background: #fff;
+    color: #18354c;
+    font: inherit;
+    line-height: 1.4;
+    cursor: pointer;
+}
+#mail-app-help [role="tab"][aria-selected="true"] {
+    border-color: #12678b;
+    background: #12678b;
+    color: #fff;
+    font-weight: 700;
+}
+#mail-app-help .help-panel[hidden],
+#mail-app-help .help-client-panel[hidden],
+#mail-app-help nav[hidden] {
+    display: none !important;
+}
+#mail-app-help.help-tabs-ready .help-panel { border-top: 0; }
+#mail-app-help .help-client-panel { padding-bottom: 8px; }
+#mail-app-help figure { min-width: 0; }
+#mail-app-help table caption { color: inherit; caption-side: top; padding: 8px 12px; }
+.dark-mode #mail-app-help [role="tab"] {
+    background: #233645;
+    color: #e2edf5;
+}
+.dark-mode #mail-app-help [role="tab"][aria-selected="true"] {
+    background: #12678b;
+    border-color: #82cff4;
+    color: #fff;
+}
+@media (max-width: 600px) {
+    #mail-app-help .help-main-tabs,
+    #mail-app-help .help-client-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #mail-app-help [role="tab"] { padding: 9px 6px; }
+    #mail-app-help .help-hero { padding: 14px; }
+    #mail-app-help { padding: 12px; }
+}
+@media print {
+    #mail-app-help .help-main-tabs,
+    #mail-app-help .help-client-tabs { display: none !important; }
+    #mail-app-help .help-panel[hidden],
+    #mail-app-help .help-client-panel[hidden] { display: block !important; }
+}

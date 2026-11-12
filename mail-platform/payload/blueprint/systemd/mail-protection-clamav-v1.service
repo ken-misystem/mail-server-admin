@@ -1,0 +1,45 @@
+[Unit]
+Description=Managed ClamAV 1.4.6
+After=local-fs.target
+[Service]
+Type=exec
+User=mailantivirus
+Group=111
+SupplementaryGroups=
+Slice=mail-protection-v1.slice
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+LockPersonality=yes
+MemorySwapMax=0
+LimitCORE=0
+UMask=0077
+BindReadOnlyPaths=/opt/mail-antivirus-v1/runtime/usr/local:/usr/local
+Environment=LD_LIBRARY_PATH=/usr/local/lib
+ReadWritePaths=/var/lib/mail-antivirus-v1 /run/clamav
+InaccessiblePaths=-/var/vmail -/var/mail -/var/spool/postfix -/var/lib/mysql -/run/mysqld -/etc/mail-feature-admin-v1
+Nice=10
+TasksMax=64
+PrivateNetwork=yes
+RestrictAddressFamilies=AF_UNIX
+RuntimeDirectory=clamav
+RuntimeDirectoryMode=0750
+ExecStart=/usr/bin/python3 -I -S -B /opt/mail-antivirus-v1/identity_guard.py engine
+MemoryMax=3G
+TimeoutStartSec=120
+TimeoutStopSec=30
+Restart=on-failure
+RestartSec=10
+[Install]
+WantedBy=multi-user.target

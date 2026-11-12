@@ -1,0 +1,6 @@
+__pycache__/
+/dist/
+/private/
+*.key
+*.p12
+*.pfx

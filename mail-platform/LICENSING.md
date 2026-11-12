@@ -1,0 +1,16 @@
+# ライセンスと配布資材
+
+独自コードにはMIT Licenseを適用する。著作権表示はCopyright (c) 2026 MI-SYSTEMである。本人が2026-11-12に指定した。許諾条件の全文はLICENSEへ収録した。
+
+## 第三者製コード
+
+- Composer依存とPyMySQLは、各配布物に含まれる著作権・許諾・免責表示を保持する。Composer依存の版とnoticeのhashはdistribution-inventory.jsonを参照する。
+- Roundcube本体とSieve修正部分は元のGPLv3以降とskins/plugins例外に従う。公式1.6.20の全文をlicenses/roundcube/LICENSEへ収録した。各ソースの既存ヘッダーを保持する。
+- Dovecot cnfix1の対応source候補には元source、修正patch、build手順、MIT/LGPLと個別例外、PigeonholeとDebianのcopyrightを含む。専用Debian 13で実buildした必要7packageと、その同じ修正treeから生成した対応source5件を配布候補にまとめ、空OSへの実導入を確認した。bit単位の再現buildは未確認である。
+- ClamAVの外部runtime資材はnative_assets.pyでGPLv2全文・vendored依存のnotice・対応source提供資料を組み合わせる。公式sourceとRust依存195件の対応・ファイルchecksumを確認する。
+- ClamAV定義DBは導入先FreshClamで取得・検証し、私有kitへ採用する。製品コード候補と公開native資材の定義DB収録数は0である。
+- DebianのOS packageは導入先のrepositoryから取得する。packageを再配布する場合は、版ごとのcopyrightと対応sourceを確認する。
+
+LICENSE、本文書、RoundcubeのLICENSEは導入候補のルートに収録し、更新用payloadにもusr/local/lib/mail-platform-update/licenses以下へ収録する。
+
+配布時はDovecotのbinary/source一式、ClamAV runtimeと対応sourceを同じReleaseへ添付する。第三者ライセンス・noticeとsource提供資料の対応はdistribution-inventory.jsonおよびNATIVE_ASSETS.mdを参照する。実機合否はreadiness.json、検証範囲はINSTALLATION.mdを参照する。

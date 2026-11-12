@@ -1,0 +1,39 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:label name="local_auth_gate.pagetitle" /></h1>
+<div id="layout-content" class="selected no-navbar local-auth-gate" role="main">
+  <roundcube:object name="logo" src="/images/logo.svg" id="logo" alt="Logo" />
+  <div id="local-auth-gate-form" class="propform">
+    <p><roundcube:label name="local_auth_gate.prompt" /></p>
+    <p>
+      <button id="local-auth-gate-verify" type="button" class="button mainaction">
+        <roundcube:label name="local_auth_gate.verify" />
+      </button>
+    </p>
+    <fieldset>
+      <legend><roundcube:label name="local_auth_gate.userecovery" /></legend>
+      <label for="local-auth-gate-recovery-code"><roundcube:label name="local_auth_gate.recoverylabel" /></label>
+      <input id="local-auth-gate-recovery-code" type="password" maxlength="128"
+             autocomplete="one-time-code" spellcheck="false" />
+      <button id="local-auth-gate-recovery" type="button" class="button">
+        <roundcube:label name="local_auth_gate.userecovery" />
+      </button>
+    </fieldset>
+    <fieldset>
+      <legend><roundcube:label name="local_auth_gate.useemergency" /></legend>
+      <p><roundcube:label name="local_auth_gate.emergencyhelp" /></p>
+      <label for="local-auth-gate-emergency-token"><roundcube:label name="local_auth_gate.emergencytoken" /></label>
+      <input id="local-auth-gate-emergency-token" type="password" maxlength="128"
+             autocomplete="one-time-code" spellcheck="false" />
+      <button id="local-auth-gate-emergency-claim" type="button" class="button">
+        <roundcube:label name="local_auth_gate.useemergency" />
+      </button>
+    </fieldset>
+    <p><roundcube:button command="logout" type="link" class="button" label="logout" /></p>
+  </div>
+</div>
+<noscript>
+  <p class="noscriptwarning"><roundcube:label name="noscriptwarning" /></p>
+</noscript>
+
+<roundcube:include file="includes/footer.html" />

@@ -1,0 +1,44 @@
+[Unit]
+Description=Mail forwarding and administrative policy publication
+After=mariadb.service rspamd.service
+Requires=mariadb.service rspamd.service
+
+[Service]
+Type=simple
+User=root
+Group=mailsendlimits
+SupplementaryGroups=root vmail mailadmin
+LoadCredential=db.json:/etc/mail-feature-admin-v1/db.json
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-feature-runtime-v1/launch_configuration.py
+RuntimeDirectory=mail-feature-policy-v1
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=yes
+NoNewPrivileges=yes
+PrivateNetwork=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+LockPersonality=yes
+CapabilityBoundingSet=
+InaccessiblePaths=/var/vmail /var/mail /var/spool/postfix /etc/dovecot /etc/letsencrypt /var/lib/mail-send-limits-v1
+ReadWritePaths=/var/lib/mail-feature-runtime-v1 /var/lib/mail-feature-public-v1 /run/mail-feature-policy-v1
+CPUQuota=100%
+MemoryMax=512M
+MemorySwapMax=0
+TasksMax=48
+UMask=0077
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=40
+LimitCORE=0
+
+[Install]
+WantedBy=multi-user.target

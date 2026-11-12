@@ -1,0 +1,25 @@
+[Unit]
+ConditionPathExists=/etc/mail-client-certificates-v1/private-backends-approved.json
+Description=Fixed delivery socket generation watcher
+After=postfix.service dovecot.service
+[Service]
+Type=notify
+User=root
+Group=root
+RuntimeDirectory=mail-client-certificates-v1/coordination
+RuntimeDirectoryMode=0755
+ExecStart=/usr/bin/python3 -I -S -B /usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/coordination.py --watch
+NoNewPrivileges=yes
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH
+AmbientCapabilities=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/run/mail-client-certificates-v1/coordination
+LimitCORE=0
+MemorySwapMax=0
+Restart=on-failure
+RestartSec=5
+UMask=0077

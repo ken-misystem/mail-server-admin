@@ -1,0 +1,12 @@
+[Unit]
+Description=Collect mail log metadata once a minute
+
+[Timer]
+OnBootSec=90s
+OnUnitActiveSec=60s
+AccuracySec=10s
+RandomizedDelaySec=5s
+Unit=mail-management-log-viewer.service
+
+[Install]
+WantedBy=timers.target

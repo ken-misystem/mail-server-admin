@@ -1,0 +1,45 @@
+[Unit]
+Description=Internal mail-server fault notifications
+After=network-online.target mail-management-operations.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mailalerts
+Group=mailalerts
+SupplementaryGroups=mailadmin
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-management-alerts-v1/worker.py --cycle
+LoadCredential=discord_webhook:/etc/mail-management-alerts-v1/discord-webhook.url
+WorkingDirectory=/var/lib/mail-management-alerts-v1
+UMask=0077
+TimeoutStartSec=50
+CPUQuota=10%
+MemoryMax=96M
+MemorySwapMax=0
+TasksMax=24
+LimitCORE=0
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictSUIDSGID=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+ReadWritePaths=/var/lib/mail-management-alerts-v1 /var/lib/mail-management-alerts-public-v1
+InaccessiblePaths=-/etc/mail-management -/etc/mail-client-certificates-v1 -/etc/roundcube -/etc/mysql -/etc/dovecot -/etc/postfix -/var/lib/mysql -/var/lib/roundcube -/var/vmail -/var/spool/postfix -/run/mysqld -/run/dovecot -/run/mail-client-certificates-v1 -/run/systemd/private -/run/dbus/system_bus_socket -/etc/mail-management-alerts-v1/discord-webhook.url
+

@@ -1,0 +1,37 @@
+[Unit]
+Description=Audited mail queue and owner controls
+Requires=mail-feature-admin-v1.socket
+After=mariadb.service postfix.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-feature-admin-v1/launch.py
+LoadCredential=db.json:/etc/mail-feature-admin-v1/db.json
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_NETLINK
+LockPersonality=yes
+CapabilityBoundingSet=CAP_CHOWN CAP_DAC_OVERRIDE CAP_FOWNER CAP_SETGID CAP_SETUID CAP_KILL
+AmbientCapabilities=CAP_SETUID CAP_SETGID
+ReadWritePaths=/var/lib/mail-feature-admin-v1 /var/spool/postfix
+InaccessiblePaths=/var/vmail /etc/letsencrypt /root
+CPUQuota=100%
+MemoryMax=256M
+MemorySwapMax=0
+TasksMax=32
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5

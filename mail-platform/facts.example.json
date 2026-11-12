@@ -1,0 +1,29 @@
+{
+  "identities": {
+    "_rspamd.gid": 21006,
+    "_rspamd.groups": [
+      31007
+    ],
+    "_rspamd.uid": 21008,
+    "mail-route-collector.uid": 21009,
+    "mailadmin.gid": 21010,
+    "mailadmin.uid": 21011,
+    "mailalerts.uid": 21012,
+    "mailcert-gate.uid": 21013,
+    "mailcert-owner.gid": 21014,
+    "mailcert-owner.uid": 21015,
+    "mailsendlimits.uid": 21016,
+    "postfix.gid": 21017,
+    "postfix.uid": 21018,
+    "www-data.uid": 23001,
+    "www-data.gid": 23002
+  },
+  "artifacts": {
+    "issuer_certificate": "/var/lib/mail-platform-pki/issuer_certificate.pem",
+    "legacy_settings_sha256": "c2e1d718650c0327d26bbe52f49a1c7b27cf590cbae4a635c3c4d59f96111757",
+    "private_main_sha256": "aa476fad75fde2bb8f1c9d99affecbe56079b3e576e29627ec0732029ef999e5",
+    "private_master_sha256": "bfb6f5294cd67cb9ce6122321fb20e1e34a80d3af667ebd25b13fbb5b678bf50",
+    "root_certificate": "/var/lib/mail-platform-pki/root_certificate.pem",
+    "smtpd_sha256": "954d44527bf04885a6cbd1d4c9e3eb777ed9a1e4d8632286636951f74fd4e97f"
+  }
+}

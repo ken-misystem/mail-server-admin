@@ -1,0 +1,11 @@
+[Unit]
+Description=Read-only Rspamd native query socket
+[Socket]
+ListenStream=/run/mail-feature-rspamd-native-v1/query.sock
+SocketUser=root
+SocketGroup=root
+SocketMode=0600
+DirectoryMode=0750
+RemoveOnStop=no
+[Install]
+WantedBy=multi-user.target

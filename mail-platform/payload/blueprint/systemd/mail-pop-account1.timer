@@ -1,0 +1,12 @@
+[Unit]
+Description=Periodic POP retrieval for approved account1
+
+[Timer]
+OnActiveSec=300s
+OnUnitInactiveSec=300s
+AccuracySec=1s
+Persistent=no
+Unit=mail-pop-account1.service
+
+[Install]
+WantedBy=timers.target

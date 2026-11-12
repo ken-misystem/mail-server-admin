@@ -1,0 +1,4451 @@
+{
+  "column": [
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_domain_route_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_domain_route_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_domain_route_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "owner_created_at",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "domain_created_at",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "retired",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "owner_created_at",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "domain_created_at",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "retired",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "retired",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "destinations",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "host",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "port",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_identity_version",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "serial",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_epoch",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "issuer_id",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "revocation_generation",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "certificate_sha256",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "not_before",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "remote_username",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_result",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_port",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "secret_reference",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_host",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_success_at",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_result",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_success_at",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "kind",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "payload",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "updated_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "kind",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "payload",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "updated_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "payload",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "port",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "host",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "before_json",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "profile",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "after_json",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "reason",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "before_json",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "profile",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "after_json",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "reason",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_history"
+    },
+    {
+      "column": "account_id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "reference",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "sealed_password",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "account_id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "reference",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "sealed_password",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "destination",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "destination",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "destination",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "owner_created_at",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "domain_created_at",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "retired",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_management_locks"
+    },
+    {
+      "column": "email",
+      "grantee": "'roundcube_password'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'roundcube_password'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "password",
+      "grantee": "'roundcube_password'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "login_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "updated_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "sender_address",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "login_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "password_hash",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "sender_address",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "password_hash",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "pop_poll_seconds",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "pop_account_limit",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "destination",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "destination",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_management_locks"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "remote_username",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_result",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "secret_reference",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_port",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_host",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_success_at",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_username",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "secret_reference",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_port",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_host",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_username",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_result",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_port",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "remote_host",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "last_success_at",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "column": "virtual_alias_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "virtual_alias_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "host",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "port",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "host",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "port",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_providers"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "sender_address",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "last_used_at",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "revoked_at",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "password_hash",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "selector",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "label",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "revoked_at",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "app_passwords"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "destination",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "request_digest",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "actor_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "target_admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "after_capabilities",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "before_capabilities",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "request_digest",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_delegation_runs"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "label",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "serial",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_identity_version",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "not_before",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "certificate_sha256",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "request_digest",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_epoch",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "issuer_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "pending_components",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "revocation_generation",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_operation_runs"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_operation_runs"
+    },
+    {
+      "column": "action",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_operation_runs"
+    },
+    {
+      "column": "target_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_operation_runs"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_operation_runs"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "is_system_admin",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "ignore_dots",
+      "grantee": "'mailreader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "allow_plus",
+      "grantee": "'mailreader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mailreader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "destinations",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "health_reset_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "destinations",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "updated_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "health_reset_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "destinations",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "updated_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "health_reset_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_forwards"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "profile",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "minute_messages",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "minute_recipients",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "updated_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "hour_messages",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "hour_recipients",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "minute_messages",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "minute_recipients",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "hour_messages",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "hour_recipients",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_owner_locks"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "alias_limit",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "kind",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "payload",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_settings"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_junk_daily'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "target_domain_id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "alias_domain",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_current_owners"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "canonical_mailbox",
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "device_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_app_password_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_bulk_runs"
+    },
+    {
+      "column": "row_count",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_bulk_runs"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_bulk_runs"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_bulk_runs"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_bulk_runs"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "quota_bytes",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "password",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "quota_bytes",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "password",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "quota_bytes",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "password",
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "login_id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "sender_address",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_feature_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "capability",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "capability",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_feature_domain_grants"
+    },
+    {
+      "column": "ignore_dots",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "allow_plus",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "ignore_dots",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "allow_plus",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "ignore_dots",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "allow_plus",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_address_preferences"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "follow_mx",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "follow_mx",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "follow_mx",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "sealed_password",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "account_id",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "reference",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_domain_route_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_domain_route_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "follow_mx",
+      "grantee": "'mail_domain_route_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_domain_delivery_policy"
+    },
+    {
+      "column": "target_type",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_audit"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_audit"
+    },
+    {
+      "column": "target_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_audit"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_audit"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_audit"
+    },
+    {
+      "column": "action",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_audit"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "action",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "before_json",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "after_json",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "admin_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "target_id",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_feature_setting_runs"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "label",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "sequence_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "serial",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_identity_version",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "not_before",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "certificate_sha256",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "request_digest",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_epoch",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "issuer_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "pending_components",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "revocation_generation",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "label",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_identity_version",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "request_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "request_digest",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_epoch",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "pending_components",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "serial",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "not_before",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "certificate_sha256",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "issuer_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "pending_components",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "revocation_generation",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_devices"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "source",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "column": "identity_version",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_current_owners"
+    },
+    {
+      "column": "name",
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_management_locks"
+    },
+    {
+      "column": "login_id",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "password_hash",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "sender_address",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "pop_poll_seconds",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "pop_account_limit",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "domain_id",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_legacy_smtp_auth'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_legacy_smtp_maps'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "session_binding_hash",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "handle_hash",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "device_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "owner_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "session_binding_hash",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "handle_hash",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "device_id",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_owner_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_downloads"
+    },
+    {
+      "column": "revision",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "profile",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "minute_messages",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "minute_recipients",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "hour_recipients",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "hour_messages",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_send_limit_profiles"
+    },
+    {
+      "column": "created_at",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "name",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "active",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mailcert_views_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domains"
+    },
+    {
+      "column": "id",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "enabled",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "sender_address",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "user_id",
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_legacy_smtp_credentials"
+    },
+    {
+      "column": "certificate_sha256",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "device_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "serial",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "issuer_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "not_before",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "device_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "serial",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "issuer_id",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "certificate_sha256",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "state",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "expires_at",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "not_before",
+      "grantee": "'mailcert_issuer_v1'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_client_issuer_journal"
+    },
+    {
+      "column": "user_handle",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "password_hash",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "is_system_admin",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "active",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "password_hash",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "email",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "is_system_admin",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "column": "auth_epoch",
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    }
+  ],
+  "schema": [
+    {
+      "grantee": "'mailreader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver"
+    }
+  ],
+  "table": [
+    {
+      "grantee": "'mail_send_limit_reader'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_login_owners"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_credentials"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_credentials"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_admin_credentials"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "virtual_domain_aliases"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_user_settings"
+    },
+    {
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mail_management",
+      "table": "mail_pop_password_boxes"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mailserver",
+      "table": "virtual_aliases"
+    },
+    {
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mail_management",
+      "table": "mail_pop_accounts"
+    },
+    {
+      "grantee": "'mail_alias_ui'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_management_locks"
+    },
+    {
+      "grantee": "'mail_pop_ui'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_run_history"
+    },
+    {
+      "grantee": "'mailcert_gateway_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_login_owners"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "account_recovery"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "account_recovery"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "account_recovery"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mailserver",
+      "table": "account_recovery"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mail_management",
+      "table": "mail_owned_aliases"
+    },
+    {
+      "grantee": "'mailcert_lifecycle_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_login_owners"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mailserver",
+      "table": "password_reset_tokens"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mailserver",
+      "table": "password_reset_tokens"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mailserver",
+      "table": "password_reset_tokens"
+    },
+    {
+      "grantee": "'roundcube_recovery'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mailserver",
+      "table": "password_reset_tokens"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_admin_audit"
+    },
+    {
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_login_owners"
+    },
+    {
+      "grantee": "'mailcert_identity_v1'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_client_bootstrap_login_owners"
+    },
+    {
+      "grantee": "'mail_management_app'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_admin_users"
+    },
+    {
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "SELECT",
+      "schema": "mail_management",
+      "table": "mail_pop_run_history"
+    },
+    {
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "INSERT",
+      "schema": "mail_management",
+      "table": "mail_pop_run_history"
+    },
+    {
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "UPDATE",
+      "schema": "mail_management",
+      "table": "mail_pop_run_history"
+    },
+    {
+      "grantee": "'mail_pop_worker'@'localhost'",
+      "privilege": "DELETE",
+      "schema": "mail_management",
+      "table": "mail_pop_run_history"
+    }
+  ]
+}

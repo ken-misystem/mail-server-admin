@@ -1,0 +1,42 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+<div id="layout-content" class="selected" role="main"><div class="boxcontent content">
+<section class="device-certificates" aria-label="外部メーラー用の端末証明書" aria-busy="false">
+  <h2>端末証明書</h2>
+  <p>外部のメールソフトやEC-CUBEからSMTP送信するには、この端末証明書と同じアカウントのアプリ用パスワードをセットで設定してください。IMAP・POPの外部接続にも端末証明書が必要です。RoundcubeのWeb利用には不要です。</p>
+  <p>証明書は端末ごとに発行します。P12には秘密鍵が含まれます。他人に渡さないでください。</p>
+  <p class="ui-feedback-result" role="note">P12は発行後この画面で、表示された期限内（最大5分）に1回だけ取得できます。画面移動・再読み込み後は取得できません。未送信のまま期限切れとなった証明書は自動で無効化します。ダウンロード後の端末への保存完了はサーバーでは確認できません。</p>
+  <p data-cert-prerequisite role="status" aria-live="polite">パスキー登録状態を確認しています。発行・無効化には、このアカウントの有効なパスキーが必要です。</p>
+  <p><a href="./?_task=settings&amp;_action=plugin.local_auth">パスキーを登録・管理</a> ／ <a href="./?_task=settings&amp;_action=plugin.app_passwords">アプリ用パスワードを管理</a></p>
+  <p data-cert-result role="status" aria-live="polite" aria-atomic="true"></p>
+  <button type="button" data-cert-refresh>一覧を更新</button>
+  <details data-cert-list><summary data-cert-list-summary>＋ 登録済み証明書</summary>
+    <ul data-cert-rows></ul>
+    <button type="button" data-cert-next disabled>次の10件</button>
+  </details>
+  <form id="device-certificate-issue-form" name="device-certificate-issue" method="post" data-cert-form>
+    <fieldset data-cert-fields disabled aria-describedby="device-certificate-password-help">
+      <legend>証明書を発行</legend>
+      <label for="device-certificate-owner">発行するアカウント</label>
+      <input id="device-certificate-owner" name="username" data-cert-owner type="text" autocomplete="username" readonly>
+      <label for="device-certificate-label">端末名（必須）</label>
+      <input id="device-certificate-label" name="device_label" data-cert-label maxlength="100" autocomplete="off" required>
+      <label for="device-certificate-password">P12保護パスワード（必須）</label>
+      <input id="device-certificate-password" name="p12_password" data-cert-password type="password" minlength="16" maxlength="128" pattern="[!-~]{16,128}" autocomplete="new-password" aria-describedby="device-certificate-password-help" required>
+      <p id="device-certificate-password-help">空白を含まない16～128文字の半角英数記号が必要です。P12の取込み時に使用します。ログインパスワード・アプリ用パスワードとは別です。Bitwardenで生成・保存する場合は、端末名を付けた別項目で保管してください。</p>
+      <button type="submit" data-cert-issue>発行する</button>
+    </fieldset>
+  </form>
+  <dialog style="max-width:38rem;width:calc(100% - 3rem);box-sizing:border-box;background:#29353a;color:#e6edf0;border:1px solid #90a4ad;border-radius:8px;padding:1.5rem;overflow-wrap:anywhere" data-cert-delivery-dialog aria-labelledby="p12-delivery-title" aria-describedby="p12-delivery-help">
+    <h2 id="p12-delivery-title">P12をダウンロード</h2>
+    <p id="p12-delivery-help">発行したP12はこの画面で1回だけ取得できます。「取得せず無効にして閉じる」またはEscでは、この発行分を無効化します。通信失敗時は無効化の完了を確認できません。画面移動・再読み込み後は再取得できず、未取得のまま期限切れになると自動で無効化します。</p>
+    <p data-cert-delivery-result role="status" aria-live="polite"></p>
+    <button type="button" data-cert-download disabled>P12をダウンロード</button>
+    <button type="button" data-cert-discard>取得せず無効にして閉じる</button>
+    <button type="button" data-cert-delivery-close hidden>閉じる</button>
+    <p>ダウンロード応答後の端末への保存完了はサーバーでは確認できません。保存できなかった場合は、証明書を無効化して再発行してください。</p>
+  </dialog>
+  <p>配布結果が不明な場合は再取得せず、無効化して別の証明書を発行してください。既存パスキーは変更しません。</p>
+</section></div></div>
+<roundcube:include file="includes/footer.html" />

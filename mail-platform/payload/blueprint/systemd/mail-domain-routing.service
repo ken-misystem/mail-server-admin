@@ -1,0 +1,30 @@
+[Unit]
+Description=Bounded domain route lookup (candidate)
+Requires=mail-domain-routing.socket
+After=mail-domain-routing.socket
+
+[Service]
+User=mail-route-map
+Group=mail-route-map
+ExecStart=/usr/bin/python3 -I -B /usr/local/lib/mail-domain-routing-v1/launch_map.py
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+CapabilityBoundingSet=
+LockPersonality=yes
+UMask=0077
+LimitCORE=0
+MemoryMax=96M
+CPUQuota=10%
+TasksMax=16
+TimeoutStopSec=5
+Restart=on-failure
+RestartSec=5

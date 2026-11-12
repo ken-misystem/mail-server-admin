@@ -1,0 +1,29 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+<div id="layout-content" class="selected" role="main">
+  <div class="header"><span class="header-title">アプリ用パスワード</span></div>
+  <div class="boxcontent content" id="app-password-panel">
+    <div id="app-password-result" role="status" aria-live="polite" tabindex="-1"></div>
+    <p>本人のメールソフト・EC-CUBEなどのアプリ用です。Webメールのログインには使えません。失効後も履歴は残ります。</p>
+    <p>外部アプリからSMTP送信するには、アプリ用パスワードと同じアカウントの端末証明書が両方必要です。IMAP・POPの外部接続にも端末証明書が必要です。</p>
+    <p><a href="./?_task=settings&amp;_action=plugin.mail_client_certificates">端末証明書を発行・管理</a>。証明書の発行にはパスキー登録が必要です。パスキー本人確認後の15分間は発行・失効の再認証を省略します。共有確認がない場合は、従来どおり現在のログインパスワードで確認します。</p>
+    <button type="button" id="app-password-refresh">一覧を更新</button><ul id="app-password-list"></ul>
+    <button type="button" id="app-password-more" hidden>以前の履歴</button>
+    <form id="app-password-issue-form" name="app-password-issue" method="post">
+      <label for="app-password-owner">対象アカウント</label><input id="app-password-owner" name="username" autocomplete="username" readonly>
+      <label for="app-password-label">端末名（必須）</label><input id="app-password-label" name="device_label" maxlength="100" autocomplete="off" required>
+      <label for="app-password-confirm">現在のログインパスワード（共有本人確認がない場合に必須）</label>
+      <input id="app-password-confirm" name="password" type="password" autocomplete="current-password" required>
+      <button type="submit" id="app-password-issue" disabled>発行する</button>
+    </form>
+    <div id="app-password-once-panel" hidden>
+      <label for="app-password-once">発行したアプリ用パスワード（今回のみ表示）</label>
+      <input id="app-password-once" name="issued_app_password" type="password" autocomplete="new-password" readonly>
+      <button type="button" id="app-password-reveal">表示する</button>
+      <button type="button" id="app-password-copy">コピーする</button>
+      <p>この値はサーバーが生成します。Bitwardenのログインパスワードを上書きせず、アプリ用の別項目として保存してください。一覧更新・画面移動で表示は消えます。</p>
+    </div>
+  </div>
+</div>
+<roundcube:include file="includes/footer.html" />

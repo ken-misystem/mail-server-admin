@@ -1,0 +1,11 @@
+--- a/rcube_sieve_engine.php
++++ b/rcube_sieve_engine.php
+@@ -3258,7 +3258,7 @@
+         // find common headers used in script, will be added to the list
+         // of available (predefined) headers (#1489271)
+         foreach ($this->script as $rule) {
+-            foreach ((array) $rule['tests'] as $test) {
++            foreach ((array) ($rule['tests'] ?? []) as $test) {
+                 if ($test['test'] == 'header') {
+                     foreach ((array) $test['arg1'] as $header) {
+                         $lc_header = strtolower($header);

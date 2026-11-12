@@ -1,0 +1,10 @@
+[Unit]
+Description=Check per-source POP polling intervals
+[Timer]
+OnActiveSec=60s
+OnUnitInactiveSec=60s
+AccuracySec=1s
+Persistent=no
+Unit=mail-pop-general-dispatch.service
+[Install]
+WantedBy=timers.target

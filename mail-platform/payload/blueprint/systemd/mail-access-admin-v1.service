@@ -1,0 +1,32 @@
+[Unit]
+Description=Mail administration restricted Fail2Ban broker
+Requires=mail-access-admin-v1.socket
+After=fail2ban.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -B /usr/local/lib/mail-access-admin-v1/service.py
+User=root
+Group=root
+UMask=0077
+StateDirectory=mail-access-admin-v1
+StateDirectoryMode=0700
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictSUIDSGID=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+MemoryMax=128M
+CPUQuota=20%
+TasksMax=16
+TimeoutStopSec=10

@@ -1,0 +1,17 @@
+#mail-aliases-panel { max-width: 64rem; box-sizing: border-box; padding: 1.5rem 2rem; }
+#mail-aliases-panel .mail-alias-section { min-width: 0; border: 1px solid rgba(127, 127, 127, .45); border-radius: .4rem; padding: 1rem 1.25rem 1.25rem; margin: 0 0 1.5rem; }
+#mail-aliases-panel .mail-alias-section legend { float: none; width: auto; padding: 0 .35rem; margin: 0; font-size: 1rem; font-weight: 600; }
+#mail-aliases-panel .mail-alias-section p { margin: 0 0 1rem; }
+#mail-aliases-panel .mail-alias-section p:last-child { margin-bottom: 0; }
+#mail-aliases-panel #mail-aliases-preferences { margin: 0; }
+#mail-aliases-panel #mail-aliases-usage { font-weight: 600; margin-bottom: .5rem; }
+#mail-aliases-panel #mail-aliases-refresh { margin-bottom: 1rem; }
+#mail-aliases-list .mail-alias-row { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; padding: .8rem 0; border-bottom: 1px solid currentColor; }
+#mail-aliases-list .mail-alias-address { flex: 1 1 16rem; overflow-wrap: anywhere; }
+#mail-aliases-create { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin: 0; }
+#mail-aliases-name { max-width: 100%; }
+@media (max-width: 600px) {
+  #mail-aliases-panel { padding: 1rem; }
+  #mail-aliases-panel .mail-alias-section { padding: .75rem; }
+  #mail-aliases-name { flex: 1 1 10rem; min-width: 0; }
+}

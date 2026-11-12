@@ -1,0 +1,7 @@
+[Unit]
+Description=Certificate-only external mail clients
+Wants=mail-client-cert-health.timer
+Requires=mail-client-cert-owner.service mail-client-cert-gate.socket
+After=mail-client-cert-owner.service mail-client-cert-gate.socket
+[Install]
+WantedBy=multi-user.target

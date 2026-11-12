@@ -1,0 +1,29 @@
+[Unit]
+ConditionPathExists=/etc/mail-client-certificates-v1/private-backends-approved.json
+Description=Private certificate Dovecot backend
+Requires=mail-client-cert-network.service
+After=mail-client-cert-network.service
+JoinsNamespaceOf=mail-client-cert-network.service
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/sbin/dovecot -F -c /etc/mail-client-certificates-v1/dovecot-backend.conf
+PrivateNetwork=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+NoNewPrivileges=yes
+CapabilityBoundingSet=CAP_SETUID CAP_SETGID CAP_CHOWN CAP_DAC_OVERRIDE CAP_KILL CAP_SYS_CHROOT
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/var/vmail /run/mail-client-certificates-v1/native
+RuntimeDirectory=mail-client-certificates-v1/native
+RuntimeDirectoryMode=0755
+LimitCORE=0
+Restart=on-failure
+RestartSec=5
+RuntimeDirectoryPreserve=yes

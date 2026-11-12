@@ -1,0 +1,9 @@
+[Unit]
+Description=Device certificate health periodic check
+[Timer]
+OnBootSec=5min
+OnUnitInactiveSec=5min
+AccuracySec=20s
+Unit=mail-client-cert-health.service
+[Install]
+WantedBy=mail-client-certificates.target

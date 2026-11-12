@@ -1,0 +1,21 @@
+[Unit]
+Description=Collect old XMail residuals for migrated mi-sys mailboxes
+After=network-online.target mariadb.service dovecot.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+ExecStart=/usr/bin/python3 -I -S -B /usr/local/lib/mail-residual-pop-v1/main.py
+TimeoutStartSec=3h
+TimeoutStopSec=60
+KillMode=control-group
+CPUQuota=50%
+MemoryMax=512M
+MemorySwapMax=0
+Nice=10
+NoNewPrivileges=no
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+

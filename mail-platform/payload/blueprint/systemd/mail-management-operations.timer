@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh mail operations aggregates
+
+[Timer]
+OnBootSec=60
+OnUnitInactiveSec=60
+AccuracySec=10
+Unit=mail-management-operations.service
+
+[Install]
+WantedBy=timers.target

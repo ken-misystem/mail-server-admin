@@ -1,0 +1,14 @@
+.device-certificates { color: #eef1f3; background: #30383b; padding: 1rem; }
+.device-certificates [data-cert-result] { color: #fff1a8; background: #4b400b; border: 2px solid #f4d35e; padding: .8rem; min-height: 2.8em; }
+.device-certificates [data-cert-rows] { padding: 0; list-style: none; }
+.device-certificates li { border: 1px solid #647278; padding: .6rem; margin: .5rem 0; overflow-wrap: anywhere; }
+.device-certificates label { display: block; margin: .8rem 0; }
+.device-certificates input { color: #f5f7f8; background: #20282c; border: 1px solid #a3b5bd; }
+.device-certificates button { color: #fff; background: #075e85; border: 1px solid #9ed3ed; margin: .3rem; padding: .45rem; }
+.device-certificates button:disabled { opacity: .55; }
+.device-certificates :focus-visible { outline: 3px solid #ffe478; outline-offset: 2px; }
+
+.device-certificates [data-cert-prerequisite] { color:#fff1a8; border-left:4px solid #f4d35e; padding:.7rem; }
+.device-certificates fieldset { min-width:0; }
+.device-certificates input { display:block; width:100%; max-width:36rem; box-sizing:border-box; }
+.device-certificates input[readonly] { opacity:.85; }

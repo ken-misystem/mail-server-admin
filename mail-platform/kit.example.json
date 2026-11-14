@@ -96,6 +96,14 @@
     "dovecot_mysql": {
       "path": "dovecot_mysql.input",
       "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "sieve_session_lock": {
+      "path": "sieve-session-lock.so",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "sieve_session_lock_metadata": {
+      "path": "sieve-session-lock.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
     }
   },
   "dovecot_packages": [

@@ -64,6 +64,39 @@ def hook(stage,action,transaction):
         raise HookFailure(record)
     return record
 
+def _retire_previous(root, prior, hook_fn):
+    if not prior or prior['phase'] != 'complete':
+        return []
+    identifier = prior.get('id')
+    require(type(identifier) is str and identifier.isdecimal(), 'retirement_transaction_id')
+    directory = root / ('transaction-' + identifier)
+    path = directory / 'generation-update.json'
+    if not path.exists():
+        return []
+    from host_transaction import regular
+    raw, attributes = regular(path)
+    require(attributes['uid'] == 0 and attributes['mode'] == 384, 'retirement_record_permissions')
+    generation = json.loads(raw)
+    if not generation.get('retirement_pending'):
+        return []
+    stage = Path(prior['release'])
+    require(stage == root / 'releases' / prior['version'] and (not stage.is_symlink()), 'retirement_release_scope')
+    raw, attributes = regular(stage / 'payload/installer.py')
+    require(attributes['uid'] == 0 and (not attributes['mode'] & 18) and (sha(raw) == prior.get('installer_sha256')), 'retirement_hook_changed')
+    hook_fn(stage, 'retire', directory)
+    return load(path).get('retirement_pending', [])
+
+def retire_previous(root, hook_fn=hook):
+    import fcntl
+    root = Path(root)
+    with (root / 'update.lock').open('a+b') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise ReleaseError('update_busy')
+        pending = _retire_previous(root, load(root / 'transaction.json'), hook_fn)
+    return {'retirement_pending': pending}
+
 def run_update(root,archive,meta,signature,key,manual=False,openssl='openssl',hook_fn=hook):
  import fcntl
  root=Path(root);require(root.is_dir()and not root.is_symlink(),'state_root')
@@ -74,15 +107,19 @@ def run_update(root,archive,meta,signature,key,manual=False,openssl='openssl',ho
   settings=load(root/'policy.json',{'revision':0,'mode':'manual'})
   prior=load(root/'transaction.json')
   require(not prior or prior['phase']in('complete','rolled_back'),'previous_transaction_requires_review')
+  require(not _retire_previous(root,prior,hook_fn),'previous_generation_retirement_pending')
   require(not prior or prior['phase']!='rolled_back' or prior['version']!=meta['version'],'previous_release_failed_requires_review')
   m,files=inspect(archive,meta,signature,key,openssl)
   if not should_apply(settings,current['version'],m['version'],manual):
-   save(root/'available.json',{'version':m['version'],'verified':True,'manual_approval_required':True});return {'phase':'available','version':m['version']}
+   from availability_plan import release_impact
+   effect=release_impact(files)
+   save(root/'available.json',{'version':m['version'],'verified':True,'manual_approval_required':True,'impact':effect});return {'phase':'available','version':m['version'],'impact':effect}
   require(m.get('install_ready')is True,'release_not_installable')
   require('payload/installer.py'in files,'installer_missing')
   releases=root/'releases';releases.mkdir(mode=0o700,exist_ok=True)
   stage=releases/m['version'];extract_verified(files,stage)
-  tx={'id':str(time.time_ns()),'phase':'prepared','old':current,'version':m['version'],'release':str(stage),'events':[]}
+  tx={'id':str(time.time_ns()),'phase':'prepared','old':current,'version':m['version'],'release':str(stage),'events':[],
+      'installer_sha256':sha(files['payload/installer.py'][0])}
   txdir=root/('transaction-'+tx['id']);txdir.mkdir(mode=0o700);save(txdir/'journal.json',tx);save(root/'transaction.json',tx)
   try:
    for action in('plan','stage','activate','health'):

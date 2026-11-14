@@ -1,106 +1,121 @@
-# 証明書の導入・更新
+# 証明書の導入・自動更新・CA切替え
 
-本ページは準備中の0.4.0候補に対応する。導入・更新バイナリは配布停止中であり、対応する署名付き資材の公開後に使用する。
+準備中の0.4.0候補に対応する。配布資材の再公開は承認待ちである。
 
-## 対象と実装状況
+## サーバー用TLS
 
-| 証明書 | 導入する人・用途 | 導入・更新の状況 |
-|---|---|---|
-| サーバー用TLS | 管理者。Web・SMTP・IMAP・POPでサーバーを確認する | 事前に用意した証明書と鍵をkitから配置する。更新元ファイルの変更検出・gateへの反映・期限監視を実装済み。ACME取得・更新設定と全利用サービスへの反映は残件 |
-| 端末用クライアント証明書 | 利用者。587・993・995への本人確認 | Roundcubeで端末ごとに発行し、P12をメールアプリへ取り込む。期限前に新しい証明書を発行・設定し、旧証明書を失効する |
-| root CA・issuer CA | 管理者。端末証明書の信頼元・署名元 | 新サイトの資材を事前準備してkitへ入力する。期限監視を実装済み。CA世代交代の導入先向け自動移行は残件 |
+DNS-01による初回取得・自動更新を実装した。CloudflareとRFC2136を設定で選択する。専用Certbot領域は `/var/lib/mail-platform-acme`、アプリへの公開先は `/etc/letsencrypt/live/<mail_host>` である。
 
-## サーバー用TLSの初回導入
+初回取得にはDNS編集権限と外向き通信を使う。Web・メールの受信ポートを閉じた状態で実行できる。FQDNに一致する証明書を用意する。DNS資格情報はroot所有0600、親ディレクトリーはroot管理とする。
 
-1. site.jsonのmail_hostを確定し、そのFQDNに一致する証明書chainと秘密鍵を用意する。
-2. 初期の外部ポートを閉じた状態で発行する場合は、DNS-01でDNS所有権を確認する方法を使用できる。HTTP-01は80番への到達を必要とする。[Let's Encrypt公式の認証方式](https://letsencrypt.org/docs/challenge-types/)
-3. 現行installerのTLS配置先は新規作成を前提とする。初回資材は別の安全な作業環境で取得し、導入先の私有kitへ転送する。導入先で先に同じFQDNのCertbot lineageを作成すると、環境チェックまたはTLS_live_source_existsで停止する。
-4. kit.jsonのtls_certificateへPEMのfull chain、tls_keyへ対応するPEM秘密鍵を登録し、実ファイルのSHA256を指定する。TLSサービス用の秘密鍵は無人読込みに対応する形式を使用する。root所有・file0600・kit directory0700で保管する。
-5. installerがchain・ホスト名・鍵対応を検査した後、次の配置を作成する。これらはkitから採用した入力である。
+### 初回取得
 
-```text
-/etc/letsencrypt/archive/<mail_host>/fullchain1.pem
-/etc/letsencrypt/archive/<mail_host>/privkey1.pem
-/etc/letsencrypt/live/<mail_host>/fullchain.pem -> ../../archive/<mail_host>/fullchain1.pem
-/etc/letsencrypt/live/<mail_host>/privkey.pem   -> ../../archive/<mail_host>/privkey1.pem
-```
-
-この配置に加え、ACMEを使う運用ではアカウント・DNS認証・更新設定の導入が必要である。現在のinstallerは証明書と鍵の配置までを行う。CertbotのACMEアカウントやrenewal設定の作成・既存lineageの採用は残件である。
-
-初期UIもTLSを使用する。管理用HTTPS接続ではmail_hostと同じホスト名・443を使用し、ブラウザーで証明書chainと名前を確認する。[初期ログイン](INITIAL_SETUP.md)
-
-## サーバー用TLSの更新
-
-### 実装済みの反映と監視
-
-mail-client-cert-health.timerは起動から5分後、その後は前回処理終了から5分ごとに確認する。次の処理を行う。
-
-1. 設定されたliveのリンク先をarchive配下で解決し、root所有・権限・ファイル安定性を確認する。
-2. 新しい証明書の有効期間・mail_host・鍵対応を確認する。
-3. 検査済みの証明書と鍵から新しいTLS bundleを作成し、currentを原子的に切り替える。
-4. 公開後に証明書が変わった場合、mail-client-cert-gate.serviceをtry-restartし、gateが提示する証明書hashを照合する。世代ごとの再起動intentを保存し、同じ世代の不明な再実行を拒否する。
-
-gateの再起動を伴う。587・993・995の継続接続を維持した証明書更新は未確認である。
-
-監視の期限警告はサーバーTLSが残り21日、issuer CAが30日、root CAが180日、CRLが8時間である。期限切れと反映後のhash不一致も検出する。監視・bundle反映の実装はhealth.py、周期はsystemd timerで確認できる。[TLS監視の実装](payload/usr/local/lib/mail-client-cert-public-v1/health.py)、[timer](payload/blueprint/systemd/mail-client-cert-health.timer)
-
-### 導入先の更新経路として残る作業
-
-| 工程 | 現在の状態 |
-|---|---|
-| ACME初回発行・DNS API認証 | 導入先のDNS事業者・認証方法に合わせた設定が必要 |
-| ACME更新timer・認証情報保管 | パッケージの初回導入への組込みは残件 |
-| Certbot管理lineageの採用 | installerが作成する配置との整合・所有関係の移行が残件 |
-| 更新後のnginx・Postfix等への反映 | 各利用サービスの構文検証・reload・提示証明書確認を含む共通deploy hookが残件 |
-| 証明書と鍵の更新中の整合 | liveの切替えとhealth実行の協調を含む一連の新規検証が必要 |
-
-ACMEを導入する運用では、更新成功後のdeploy hookと更新試験を設定する。Certbotのmanual方式を使う自動更新には認証hook等の構成が必要である。[Certbot公式の更新手順](https://eff-certbot.readthedocs.io/en/stable/using.html#renewing-certificates)
-
-nginx・Postfix・Dovecotとgateの反映が完了したことは、それぞれの新しい接続で提示される証明書を確認して判定する。ファイルの更新時刻やtimerの起動だけで全入口の更新完了と判定しない。
-
-### 管理者の読取り確認
-
-次は導入先で現在の期限・監視状態を確認する読取りコマンドである。mx.example.netをmail_hostへ置き換える。
+1. site.jsonとroot専用kitを準備する。TLS未登録の場合はkit.example.jsonのTLS用ゼロhashを保持し、該当入力ファイルを作成しない。
+2. acme.example.jsonをroot専用ファイルへコピーし、ホスト名・連絡先・DNS方式・資格情報のパスを設定する。
+3. ACME事業者の利用条件を確認した管理者がterms_agreedをtrueに設定する。
+4. 次を導入archiveの展開先で実行する。各診断先には新しいディレクトリーを指定する。
 
 ```sh
-openssl x509 -in /etc/letsencrypt/live/mx.example.net/fullchain.pem \
-  -noout -subject -issuer -dates -ext subjectAltName
-systemctl list-timers --all mail-client-cert-health.timer
-systemctl status mail-client-cert-health.service --no-pager
-journalctl -u mail-client-cert-health.service -n 30 --no-pager
+sudo python3 -I -S -B install.py check --site site.json \
+  --evidence /root/mail-check-001
+sudo python3 -I -S -B install.py acme-bootstrap --site site.json \
+  --kit /root/mail-platform-kit --acme-config /root/mail-acme.json \
+  --evidence /root/mail-acme-bootstrap-001 --apply
+sudo python3 -I -S -B install.py install --site site.json \
+  --kit /root/mail-platform-kit --acme-config /root/mail-acme.json \
+  --administrator-email admin@example.net \
+  --evidence /root/mail-install-001 --apply
 ```
 
-## 端末用クライアント証明書
+acme-bootstrapは環境チェックを最初に行い、Certbotと選択したDNS pluginを導入し、取得結果とSHA256をkitへ登録する。既存TLS入力の上書きを拒否する。installは環境チェックを再度実行し、初期UIをloopbackへ配置する。初期ログイン・パスキー・公開操作は初期設定手順に従う。[初期設定](INITIAL_SETUP.md)
 
-### 新しいメールアプリへ導入する
+既に `/etc/letsencrypt/renewal/<mail_host>.conf` を持つ構成は競合として停止する。既存Certbot lineageの自動移管は対象外である。
 
-1. Roundcubeへログインし、「設定」からパスキーを登録する。
-2. 「アプリ用パスワード」で端末ごとの認証情報を発行して保存する。
-3. 「端末証明書」で本人のアカウント・端末名を確認し、P12保護パスワードを設定して発行する。保護パスワードは空白を含まない半角英数記号16〜128文字とする。
-4. 同じ発行画面で、表示された期限内にP12を1回取得する。取得期限は最大5分である。未取得のまま期限が過ぎた証明書は自動無効化の対象となる。
-5. 対応するメールアプリへP12を取り込み、受信と送信の両方へ本人の証明書を指定する。ユーザー名とアプリ用パスワードも設定する。
-6. Roundcubeの「メールアプリ登録方法」のアプリ別図解に沿って接続を確認する。
+### DNS資格情報
 
-P12には端末の秘密鍵が含まれる。P12保護パスワードは取込み時に使用し、メール送受信の認証にはアプリ用パスワードを使用する。端末を追加するときは新しい端末用証明書を発行する。
+Cloudflareは対象zoneへ限定したDNS編集tokenをroot専用INIのdns_cloudflare_api_tokenへ設定する。RFC2136はdns_rfc2136_server、dns_rfc2136_port、dns_rfc2136_name、dns_rfc2136_secret、dns_rfc2136_algorithmを設定する。TSIG更新権限を対象の_acme-challenge TXTへ限定する。
 
-### 期限前の入替えと紛失時の対応
+資格情報の形式・必要権限を公式資料で確認する。資格情報をGitへ登録しない。[Cloudflare plugin](https://certbot-dns-cloudflare.readthedocs.io/en/stable/)、[RFC2136 plugin](https://certbot-dns-rfc2136.readthedocs.io/en/stable/)
 
-現在の端末証明書policyは90日である。画面に表示される個別の有効期限と発行上限を確認し、期限前に新しい証明書を発行する。新しいP12を端末へ取り込み、受信・送信双方の証明書選択と新しい接続を確認してから旧証明書を無効化する。
+### 登録と周期
 
-この入替えは利用者のP12取込み操作を伴う。既存P12の有効期限を自動で延長する処理や、端末の証明書保管庫を自動で書き換える処理は実装していない。
+初回導入の--acme-configで登録できる。後から登録する場合は次を実行する。Certbotと選択したDNS pluginの導入が前提となる。
 
-端末紛失・鍵漏えい時は、対象の端末証明書とアプリ用パスワードを無効化する。本人確認を経て新しい端末用資材を発行する。旧証明書を復活させる復旧は行わない。
+```sh
+sudo python3 -I -S -B /usr/local/lib/mail-platform-update/certificate_cli.py \
+  acme-configure --configuration /root/mail-acme.json \
+  --evidence /root/mail-acme-register-001 --apply
+systemctl list-timers --all mail-platform-acme.timer
+journalctl -u mail-platform-acme.service -n 30 --no-pager
+```
 
-発行・無効化の画面と取得条件はRoundcube pluginの実装で確認できる。[端末証明書画面](payload/usr/share/roundcube/plugins/mail_client_certificates/skins/elastic/templates/certificates.html)
+timerは起動15分後、前回終了から12時間ごとに起動し、最大1時間の分散待ちを加える。更新要否はCertbotが判定する。LoadCredentialで資格情報を渡す。更新workerはcapability全項目0・NoNewPrivileges・swap0で実行する。
 
-## CAと失効情報の管理
+### 反映と障害
 
-root CA秘密鍵はオフラインで保管する。暗号化したissuer秘密鍵とその保護情報、公開CA証明書・CRL、保管・復旧確認の証跡を新サイトのkitへ用意する。issuerの実行資格情報はLoadCredentialで渡す。
+chain・ホスト名・鍵対応・有効期間を検査し、証明書と鍵を同じ不変世代へ配置する。liveとgate用bundleの切替えを記録し、nginx・Postfix・Dovecotをreload、gateを再起動する。25・443・465・587・993・995の新しい接続で提示証明書を確認する。初期設定中はloopback443だけを更新する。
 
-失効情報はissuerがCRLを発行し、gateが更新・検証する。CRLの有効期限が切れた接続は拒否する。CRLの定期更新とCAの世代交代はそれぞれの工程として扱う。
+gate再起動により587・993・995の継続接続には再接続が必要となる。reload後の収束を最大20秒観測する。
 
-root CA・issuer CAの期限前には、新しい署名元・信頼chain・既存端末の扱い・失効情報・切替えと復旧を計画する。CA世代交代を一括実行する導入先向けランチャーは残件である。既存CA・issuer・台帳を毎回生成し直す更新手順は採用しない。
+通常の失敗は参照先が自分の変更と一致する場合だけ復旧する。強制終了で未確定記録が残った場合は次の更新を停止する。管理者が記録を確認して反映完了または復旧を選択する。
 
-## 現在の完了判定
+```sh
+sudo python3 -I -S -B /usr/local/lib/mail-platform-update/certificate_cli.py \
+  tls-recover --evidence /root/mail-tls-recover-001 --apply
+sudo python3 -I -S -B /usr/local/lib/mail-platform-update/certificate_cli.py \
+  tls-recover --rollback --evidence /root/mail-tls-rollback-001 --apply
+```
 
-クライアント証明書の発行・失効、P12の取得と取込み手順、TLS変更検出・gate反映・期限監視の実装を確認した。サーバーTLSのACME取得から全入口への更新反映、CA世代交代までを含む初回導入・自動更新は残件である。正式資材の再公開判断では、この残件も確認する。
+未知差分では保留する。世代・鍵・失敗記録を保持する。root専用状態は/var/lib/mail-platform-certificatesへ保存する。外部取得した証明書にはtls-deploy --certificate <chain> --key <key> --evidence <新規root領域> --applyを使用できる。
+
+## 端末用証明書
+
+利用者はRoundcubeの「端末証明書」から端末ごとにP12を発行する。メールアプリへP12とアプリ用パスワードを設定する。期限前に新しい証明書へ更新し、旧証明書を失効する。アプリ別の手順はRoundcubeの「メールアプリ登録方法」に掲載する。
+
+## CAの世代切替え
+
+root秘密鍵をオフラインで管理する。新世代の入力は次の8ファイルに限定する。root秘密鍵の入力と、同じCRL署名者の別論理世代登録を拒否する。
+
+```text
+root  issuer  root_crl  custody  restoration  custody_statement
+issuer_key  issuer_password
+```
+
+現在世代と最大2件の旧世代を同時に信頼する。各issuerのCRL署名と単調増加カウンターを維持する。公開済みシステムで実行する。有効な未取得P12が残る場合は停止する。
+
+```sh
+sudo python3 -I -S -B /usr/local/lib/mail-platform-update/certificate_cli.py \
+  ca-prepare --directory /root/new-ca --apply
+sudo python3 -I -S -B /usr/local/lib/mail-platform-update/certificate_cli.py \
+  ca-activate --issuer-id <新UUID> --evidence /root/mail-ca-001 --apply
+sudo python3 -I -S -B /usr/local/lib/mail-platform-update/certificate_cli.py \
+  ca-rollback --issuer-id <旧UUID> --evidence /root/mail-ca-back-001 --apply
+sudo python3 -I -S -B /usr/local/lib/mail-platform-update/certificate_cli.py \
+  ca-retire --issuer-id <旧UUID> --evidence /root/mail-ca-retire-001 --apply
+```
+
+ownerとgate/socket・issuerを停止して資格情報と公開chainを切り替え、gate観測後にownerを再開する。切替え中はクライアントの再接続が必要となる。
+
+戻し操作でも他世代の信頼を保持する。旧CA廃止は端末表とissuer台帳の双方で有効期限を確認し、未期限切れ0件の場合に許可する。DB履歴・暗号化issuer資材を保持する。
+
+途中停止はca-recover --evidence <新規root領域> --applyで処理を完了する。ca-recover --rollbackは発行再開要求前に限定する。再開要求後は全CAの資材と信頼を保持して確認する。未知差分は保留する。
+
+## 既存版への組込み
+
+署名対象のcertificates-v1 descriptorで専用移行hookを選択する。導入receipt・全コードhash・actor設定・gateのmount・静的登録を照合してstageする。未知のコード・drop-in・新規パスの衝突は変更前に停止する。
+
+初回のruntime変更ではowner・gate/socket・issuer等を停止し、有効な未取得P12が0件であることを確認する。新しいruntime manifestとactor設定をCAS反映し、実起動とgateの正常性を確認する。新しいACME unitは配置だけを行い、登録操作でtimerを開始する。
+
+gate専用の登録済みruntime viewは全pinとunitを照合し、backend front設定を保持して共通runtimeへ統合する。元viewは保持する。証明書runtimeが同一の後続更新ではgateの停止を要求しない。
+
+format 2では静的移行の後に登録済みアプリの世代を切り替える。故障時はアプリ世代、証明書移行の順に既知差分を復旧する。移行中断記録が残った場合、ACME・TLS・CA操作を停止する。署名済み展開先のinstaller.py rollback --transaction <対象transaction>で既知journalを復旧する。結果不明のサービス操作と未知差分は管理者による確認が必要となる。
+
+## 検証範囲
+
+隔離Debian13で85条件を確認した。実Certbot・Pebble・TSIG DNS、実nginx/Postfix/Dovecot/gate、旧新CAのTLS・失効RPC、強制終了復旧、初期UI更新、既存版移行、format 2結合、実保護unitを含む。初回導入・入力・移行ガードはローカル28条件と旧版接続モデル5条件で補完した。
+
+実Let's Encrypt・Cloudflare外部APIと実VPS経路は未確認である。最新版一式は、新しいDebian13検証像で通常CLIの導入・初期UIログイン・仮想パスキー登録・明示公開・自然更新まで連続実行した。合成kitとキャッシュを再利用し、実メールは送信していない。
+
+実0.3.0の保存journalから復元した別の検証像で、署名検証・Sieve/証明書移行・正常性確認まで連続実行した。同じ候補のhealth後故障では、更新器が0.3.0へ自動復旧し、Maildir・UIDL・UIDVALIDITY・DB・台帳・資格情報が一致した。従来の個別機能試験は保存証拠を再利用した。未移行runtimeを検出したCA操作は変更前に停止する。
+
+二層の復旧では、各層が記録したowner/gateの再起動結果を実値照合して引き継ぐ。復旧済み層の続行時はファイルとunitを確認し、再起動を繰り返さない。元は停止中だったunitが連動停止で同じ停止状態へ戻った場合も記録する。未知のPIDやファイル変更は拒否する。

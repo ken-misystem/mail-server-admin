@@ -177,6 +177,7 @@ protocol lmtp {{
 !include /etc/dovecot/mail-platform-sieve.conf
 mail_plugins {{
  quota = yes
+ mail_sieve_session_lock = yes
 }}
 protocol imap {{
  mail_plugins {{
@@ -257,6 +258,8 @@ php_admin_value[session.cookie_samesite] = Lax
         'plugins': plugins, 'enable_installer': False,
         'log_driver': 'file', 'log_dir': '/var/log/roundcube', 'log_logins': True,
         'mail_pop_enabled': True, 'mail_aliases_enabled': True,
+        'mail_settings_enabled': recipes.get('mail_settings_enabled', False),
+        'mail_settings_sieve_peer_name': host,
     }
     from configuration_templates import encode
     body = encode(roundcube, 'php').decode().replace('return json_decode(', '$config = json_decode(', 1)

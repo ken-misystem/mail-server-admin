@@ -2,7 +2,7 @@
 import argparse,json,os,time
 from pathlib import Path
 from release import require,version
-from updater import load,save,run_update
+from updater import load,save,run_update,retire_previous
 from github import latest,fetch,repo
 ROOT=Path('/var/lib/mail-platform-update')
 
@@ -19,6 +19,7 @@ def reusable_cache(available,release,cache):
 
 def check(apply_manual=False):
  require(os.geteuid()==0,'root_required');os.umask(0o077)
+ retire_previous(ROOT)
  cfg=load('/etc/mail-platform/update-source.json');repository=repo(cfg['repository'])
  creds=os.environ.get('CREDENTIALS_DIRECTORY');token=None
  if creds and (Path(creds)/'github-token').is_file():
@@ -37,7 +38,7 @@ def check(apply_manual=False):
  dest=Path(cached)if reusable else fetch(repository,release,cache/(tag+'-'+str(time.time_ns())),token)
  metadata=json.loads((dest/'release.json').read_bytes());require(metadata['version']==tag[1:],'tag_metadata_mismatch')
  result=run_update(ROOT,dest/'mail-platform.tar.gz',metadata,(dest/'release.sig').read_text().strip(),'/etc/mail-platform/release-public.pem',manual=apply_manual)
- if result['phase']=='available':save(ROOT/'available.json',{'version':tag[1:],'verified':True,'manual_approval_required':True,'assets':release['assets'],'cache':str(dest)})
+ if result['phase']=='available':save(ROOT/'available.json',{'version':tag[1:],'verified':True,'manual_approval_required':True,'assets':release['assets'],'cache':str(dest),'impact':result.get('impact')})
  if result['phase']=='complete'and(ROOT/'manual-request.json').exists():
   # Preserve the accepted request instead of discarding its audit record.
   os.replace(ROOT/'manual-request.json',ROOT/('completed-request-'+str(time.time_ns())+'.json'))

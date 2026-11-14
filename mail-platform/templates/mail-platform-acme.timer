@@ -1,0 +1,10 @@
+[Unit]
+Description=Mail platform ACME renewal schedule
+[Timer]
+OnBootSec=15min
+OnUnitInactiveSec=12h
+RandomizedDelaySec=1h
+Persistent=yes
+Unit=mail-platform-acme.service
+[Install]
+WantedBy=timers.target

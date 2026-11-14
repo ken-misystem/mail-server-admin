@@ -2,16 +2,16 @@
 
 ## 現在の条件
 
-実導入用の空Debian 13 amd64は未用意である。対象ホスト・サイト情報・新規私有kit・署名鍵/信頼公開鍵を確定してから実行する。対象と工程、作成資源、サービスへの影響、復旧方法を確認して承認を記録する。
+専用WSLのDebian 13 amd64で受入れ検証を完了した。新たな導入先では、対象ホスト・サイト情報・新規私有kit・署名鍵/信頼公開鍵を確定してから実行する。対象と工程、作成資源、サービスへの影響、復旧方法を確認して承認を記録する。
 
-OS/DB/serviceの実導入・恒久利用者作成・全サービス更新/復旧は未実施である。現在の候補はinstall_ready=falseを保持する。
+専用WSLの空Debian 13で0.2.4全体のOS/DB/service導入・管理者認証・通常更新・条件付き復旧を確認した。0.3.0はSieve文書GUI・認証画面の補完・公開コード差分の確認を追加し、必要な新規検証と実更新器の追加ファイル配置・復旧・状態保全を確認した。保存済みの合格証拠を再利用し、元の失敗記録も保持する。通常更新の配布条件とformat 2の追加検証条件はRELEASE.mdを参照する。
 
 ## 準備と導入
 
 1. site.example.json・kit.example.jsonから導入先専用のsite.jsonと私有kitを準備する。TLS/CA/issuer、独自Dovecot7package、native guard、AV runtime/公式定義、信頼する署名公開鍵、Release取得用資格情報を確認する。
 2. hostname・Debian版・architecture・空構成・同名DB/OS利用者の不存在・空き容量を保存する。候補archiveのhashを別接続で読戻す。
 3. install.py planでpackage・unit・工程を保存する。INSTALLATION.mdに示すinstall --applyで、新規root専用証拠領域を指定して実導入する。管理者パスワードは端末から非表示入力する。
-4. 導入結果・全コマンドの実終了値/原出力、DB/grant metadata、UID/GID・capability、専用service/socket、59unit監視・自然更新・OOM、所有receiptを照合する。
+4. 導入結果・全コマンドの実終了値/原出力、DB/grant metadata、UID/GID・capability、専用service/socket、導入したunitと監視一覧・自然更新・OOM、所有receiptを照合する。保存済みの通常構成では55unitを確認した。
 5. ログイン・初回パスキー登録・管理画面・更新画面の権限を実ブラウザーで確認する。サイト固有の秘密値は結果へ転記しない。
 
 ## 更新と復旧

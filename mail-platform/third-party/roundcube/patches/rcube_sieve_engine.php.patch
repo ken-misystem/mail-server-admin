@@ -1,0 +1,20 @@
+# MI-SYSTEM Roundcube modification notice
+# Component: Roundcube managesieve
+# Modifier: MI-SYSTEM
+# Modification date: 2026-11-11
+# Notice supplemented: 2026-11-13
+# License: GPL version 3 or later; upstream skins/plugins exception retained
+# Details: NOTICE.md
+# Patch body SHA256: 59382de49b4299405458822c60735ddff052e3800c588fcbd24b8f1858dc42d6
+
+--- a/rcube_sieve_engine.php
++++ b/rcube_sieve_engine.php
+@@ -3258,7 +3258,7 @@
+         // find common headers used in script, will be added to the list
+         // of available (predefined) headers (#1489271)
+         foreach ($this->script as $rule) {
+-            foreach ((array) $rule['tests'] as $test) {
++            foreach ((array) ($rule['tests'] ?? []) as $test) {
+                 if ($test['test'] == 'header') {
+                     foreach ((array) $test['arg1'] as $header) {
+                         $lc_header = strtolower($header);

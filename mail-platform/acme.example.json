@@ -1,0 +1,12 @@
+{
+  "format": 1,
+  "profile": "production",
+  "host": "mx.example.net",
+  "email": "admin@example.net",
+  "provider": "cloudflare",
+  "directory": "https://acme-v02.api.letsencrypt.org/directory",
+  "credentials": "/root/mail-platform-dns.ini",
+  "propagation_seconds": 60,
+  "terms_agreed": false,
+  "server_ca": "/etc/ssl/certs/ca-certificates.crt"
+}

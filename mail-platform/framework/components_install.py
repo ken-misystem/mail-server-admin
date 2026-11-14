@@ -150,9 +150,12 @@ def assemble(payload, site, identities, passwords, native, call_recipe=recipe):
                   Resource('/etc/mail-management-alerts-v1/discord-webhook.url', b'\n', mode=0o600, preserve=True),
                   Resource('/var/lib/mail-platform-update/policy.json', encoded({'mode': 'manual', 'revision': 0}),
                            mode=0o600, preserve=True)]
-    resources += [
+    from policy_binding import DROPIN, CONTENT
+    resources += [Resource(DROPIN, CONTENT),
+        Resource('/etc/systemd/system/mail-client-cert-owner.service.d/70-ca-IPC.conf',
+                 b'[Service]\nSupplementaryGroups=mailcert-gate\n'),
         Resource('/etc/systemd/system/mail-client-cert-health.service.d/50-mail-platform.conf',
-                 b'[Service]\nSupplementaryGroups=mailcert-owner\n'),
+                 b'[Service]\nSupplementaryGroups=mailcert-owner\nReadWritePaths=/run/lock\n'),
         Resource('/etc/systemd/system/mail-client-cert-postfix-backend.service.d/50-mail-platform.conf',
                  b'[Unit]\nRequires=mail-send-limits-v1.socket rspamd.service\nAfter=mail-send-limits-v1.socket rspamd.service\n'
                  b'[Service]\nBindReadOnlyPaths=/var/spool/postfix/private/mail-send-limits-v1.sock:/run/mail-send-limits-v1/policy.sock\n'

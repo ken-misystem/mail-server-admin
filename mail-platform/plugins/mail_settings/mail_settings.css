@@ -1,0 +1,19 @@
+/* SPDX-License-Identifier: MIT */
+#ms-settings { max-width: 60rem; }
+#ms-settings [hidden] { display: none !important; }
+.ms-tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0; }
+#ms-settings button { min-height: 44px; padding: .5rem .8rem; }
+.ms-tabs [aria-selected="true"] { font-weight: bold; border-bottom: 3px solid currentColor; }
+#ms-settings fieldset { min-width: 0; border: 1px solid #888; padding: 1rem; margin-bottom: 1rem; }
+#ms-settings label { display: block; margin: .75rem 0 .35rem; }
+#ms-settings textarea, #ms-settings input[type="text"], #ms-settings select { width: 100%; max-width: 100%; box-sizing: border-box; }
+#ms-settings textarea { resize: vertical; }
+#ms-settings .ms-rule { border-bottom: 1px solid #888; padding-bottom: 1rem; }
+#ms-settings .ms-rule-actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .5rem; }
+#ms-base-source { font-family: monospace; }
+#ms-set-current { overflow-wrap: anywhere; }
+.ms-command { border: 1px solid #888; padding: .6rem; margin: .7rem 0; }
+.ms-command summary { cursor: pointer; padding: .5rem; overflow-wrap: anywhere; }
+.ms-arguments { display: flex; flex-wrap: wrap; gap: .5rem; align-items: start; }
+.ms-argument { flex: 1 1 12rem; min-width: 0; max-width: 100%; border-left: 2px solid #888; padding-left: .5rem; }
+.ms-command-list .ms-command-list { margin-left: .5rem; }

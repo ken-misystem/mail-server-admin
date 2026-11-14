@@ -5,6 +5,8 @@ HERE=Path(__file__).resolve().parent;sys.path.insert(0,str(HERE/'framework'))
 from release import build,sha,member,require,version,canonical
 from site_bindings import rebase
 from source_patches import apply as apply_source_patch
+from distribution_inventory import include_materials
+from roundcube_settings import select as select_roundcube_settings
 
 def release_cache(text):
  before="public function getCacheDir(): string { return $this->stateDirectory . '/cache-' . $this->environment . '-' . self::CACHE_LAYOUT; }"
@@ -31,7 +33,7 @@ def transformed(name,raw):
   return release_cache(text).encode()
  raise ValueError('unknown_transform')
 
-def prepare(repository):
+def prepare(repository, roundcube_settings='plugin'):
  repository=Path(repository).resolve();catalog=json.loads((HERE/'source-catalog.json').read_bytes());lock=json.loads((HERE/'dependency-lock.json').read_bytes());generated={};files={};changed=[];offline=0
  patches_path=HERE/'source-patches.json'
  patches=json.loads(patches_path.read_bytes())if patches_path.exists()else{}
@@ -60,6 +62,15 @@ def prepare(repository):
   if ref.get('transform'):raw=transformed(ref['transform'],raw)
   files['payload/'+n]=raw
   if ref.get('baseline_sha256')and sha(raw)!=ref['baseline_sha256']:changed.append(n)
+ # Add the enrolled gate adapter to the same verified runtime manifest.
+ cert_prefix='payload/usr/local/lib/mail-client-certificates-v1/'
+ adapters=('client-certificates/runtime-completion-v1/backend_fronts.py',
+           'client-certificates/runtime-completion-v1/ca_generations.py')
+ manifest_name=cert_prefix+'runtime-manifest.json'
+ manifest=json.loads(files[manifest_name])
+ for adapter in adapters:manifest['pins'][adapter]=sha(files[cert_prefix+adapter])
+ files[manifest_name]=canonical(manifest)
+ select_roundcube_settings(files, roundcube_settings)
  # Rebase source-integrity references after a registered source was edited.
  baseline={}
  for n,raw in files.items():
@@ -69,23 +80,34 @@ def prepare(repository):
  # The application manifest is generated from current source bytes after integrations.
  prefix='payload/opt/mail-management/candidates/protection-relay-v1/';m={n[len(prefix):]:{'bytes':len(b),'sha256':sha(b)}for n,b in files.items()if n.startswith(prefix)and not n.endswith('/BUNDLE_MANIFEST.json')}
  files[prefix+'BUNDLE_MANIFEST.json']=json.dumps(m,sort_keys=True,indent=2).encode()+b'\n'
- for n in ['install.py','readiness.json','site.example.json','facts.example.json','kit.example.json','configuration-plan.json','README.md','INSTALLATION.md','RELEASE.md','ACCEPTANCE.md','native_assets.py','native-assets-lock.json','NATIVE_ASSETS.md','VALIDATION.md']:files[n]=(HERE/n).read_bytes()
- for name in ('LICENSE', 'LICENSING.md', 'licenses/roundcube/LICENSE'):
+ for n in ['install.py','readiness.json','site.example.json','facts.example.json','kit.example.json','acme.example.json','configuration-plan.json','README.md','INSTALLATION.md','CERTIFICATES.md','RELEASE.md','ACCEPTANCE.md','native_assets.py','native-assets-lock.json','NATIVE_ASSETS.md','VALIDATION.md','AVAILABILITY.md','INITIAL_SETUP.md']:files[n]=(HERE/n).read_bytes()
+ documents=['LICENSE','LICENSING.md','THIRD_PARTY.md','DISTRIBUTION.md','distribution-policy.json','licenses/roundcube/LICENSE']
+ documents.extend(path.relative_to(HERE).as_posix() for path in sorted((HERE/'third-party').rglob('*')) if path.is_file())
+ for name in documents:
   raw = (HERE/name).read_bytes()
   files[name] = raw
   files['payload/usr/local/lib/mail-platform-update/licenses/'+name] = raw
  if patches:files['source-patches.json']=patches_path.read_bytes()
  hook=HERE/'update_entry.py'
  if hook.exists():files['payload/installer.py']=hook.read_bytes()
+ include_materials(files,json.loads(files['distribution-policy.json']))
  return files,{'changed_sources':changed,'offline_vendor_files':offline,'source_providers':{k:sum(v['provider']==k for v in catalog.values())for k in ['repository','generated','package']}}
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--repository-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--version',required=True);p.add_argument('--update-contract',type=Path);a=p.parse_args();version(a.version);files,info=prepare(a.repository_root)
+ p=argparse.ArgumentParser();p.add_argument('--repository-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--version',required=True);p.add_argument('--update-contract',type=Path)
+ p.add_argument('--roundcube-settings', choices=('legacy', 'plugin'), default='plugin')
+ p.add_argument('--sieve-migration-kit',type=Path)
+ p.add_argument('--sieve-migration-from',type=Path)
+ a=p.parse_args();version(a.version);files,info=prepare(a.repository_root,a.roundcube_settings)
+ require(bool(a.sieve_migration_kit)==bool(a.sieve_migration_from),'sieve_migration_asset_arguments')
+ if a.sieve_migration_kit:
+  from sieve_migration import add_assets
+  add_assets(files,a.sieve_migration_kit,a.sieve_migration_from)
  files['product-version.json']=canonical({'version':a.version})
  if a.update_contract:
   update=json.loads(a.update_contract.read_bytes())
-  require(set(update)=={'format','from_version','to_version','pause','stop','start','reload','health'}and update['format']==1,'update_contract_shape')
-  require(update['to_version']==a.version and version(update['from_version'])<version(a.version),'update_contract_version')
+  from release_assets import update_contract
+  update=update_contract(update,a.version)
   files['payload/blueprint/update-contract.json']=canonical(update)
  require(not a.output.exists(),'output_exists');a.output.mkdir(parents=True)
  # Candidate archive. It intentionally is not a GitHub auto-installable release asset.

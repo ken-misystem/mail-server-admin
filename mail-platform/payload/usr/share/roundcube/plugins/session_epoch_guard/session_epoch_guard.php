@@ -119,12 +119,11 @@ class session_epoch_guard extends rcube_plugin
 
     public function login_message($args)
     {
-        if (!isset($_GET['_session_revoked'])) {
+        if (!isset($_GET['_session_revoked']) || !isset($args['inputs']) || !is_array($args['inputs'])) {
             return $args;
         }
 
-        $args['content'] =
-            html::div(
+        $notice = html::div(
                 [
                     'style' =>
                         'margin-bottom:1rem;'
@@ -132,8 +131,8 @@ class session_epoch_guard extends rcube_plugin
                         . 'border:1px solid currentColor;',
                 ],
                 'パスワードが変更されたため、再ログインしてください。'
-            )
-            . $args['content'];
+            );
+        $args['inputs'] = ['mail_auth_session_revoked' => ['content' => $notice]] + $args['inputs'];
 
         return $args;
     }

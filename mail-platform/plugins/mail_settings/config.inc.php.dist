@@ -1,0 +1,5 @@
+<?php
+// SPDX-License-Identifier: MIT
+// Enable together with disabling the stock managesieve UI after migration checks.
+$config['mail_settings_enabled'] = false;
+$config['mail_settings_sieve_peer_name'] = '';

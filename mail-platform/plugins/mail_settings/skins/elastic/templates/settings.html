@@ -1,0 +1,62 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+<h1 class="voice">転送・フィルター・休暇応答</h1>
+<div id="layout-content" class="selected" role="main">
+  <div class="header"><a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a><span class="header-title">転送・フィルター・休暇応答</span></div>
+  <div class="boxcontent content" id="ms-settings">
+    <p id="ms-message" role="status" aria-live="polite">読み込み中…</p>
+    <p>既存の個人ルールを先に実行し、その後に以下の設定を適用します。既存ルールのstopは以降の処理を終了します。管理者が設定する転送は別に適用されます。</p>
+    <div class="ms-tabs" role="tablist" aria-label="メール設定">
+      <button type="button" role="tab" id="ms-tab-forward" aria-controls="ms-forward" aria-selected="true">転送</button>
+      <button type="button" role="tab" id="ms-tab-rules" aria-controls="ms-rules" aria-selected="false" tabindex="-1">フィルター</button>
+      <button type="button" role="tab" id="ms-tab-vacation" aria-controls="ms-vacation" aria-selected="false" tabindex="-1">休暇応答</button>
+      <button type="button" role="tab" id="ms-tab-base" aria-controls="ms-base" aria-selected="false" tabindex="-1">既存ルール・世代</button>
+      <button type="button" role="tab" id="ms-tab-document" aria-controls="ms-document" aria-selected="false" tabindex="-1">詳細ルール</button>
+    </div>
+    <form id="ms-form">
+      <fieldset id="ms-forward" role="tabpanel" aria-labelledby="ms-tab-forward">
+        <legend>転送</legend>
+        <label><input type="checkbox" id="ms-forward-enabled" /> 転送を有効にする</label>
+        <label for="ms-forward-targets">転送先（1行1件、最大10件）</label><textarea id="ms-forward-targets" rows="4" maxlength="2550"></textarea>
+        <label><input type="checkbox" id="ms-forward-keep" checked="checked" /> ローカルのコピーを保持する</label>
+      </fieldset>
+      <fieldset id="ms-rules" role="tabpanel" aria-labelledby="ms-tab-rules" hidden="hidden">
+        <legend>フィルター</legend><p>上から順に適用します。1件ごとに件名・差出人・宛先の条件を指定できます。</p>
+        <div id="ms-rule-list"></div><button id="ms-rule-add" type="button">ルールを追加</button>
+      </fieldset>
+      <fieldset id="ms-vacation" role="tabpanel" aria-labelledby="ms-tab-vacation" hidden="hidden">
+        <legend>休暇応答</legend><label><input type="checkbox" id="ms-vacation-enabled" /> 休暇応答を有効にする</label>
+        <label for="ms-vacation-days">同じ相手への返信間隔（日）</label><input id="ms-vacation-days" type="number" min="1" max="30" value="7" />
+        <label for="ms-vacation-subject">返信の件名</label><input id="ms-vacation-subject" type="text" maxlength="200" />
+        <label for="ms-vacation-body">返信の本文</label><textarea id="ms-vacation-body" rows="8" maxlength="8192"></textarea>
+      </fieldset>
+      <fieldset id="ms-base" role="tabpanel" aria-labelledby="ms-tab-base" hidden="hidden">
+        <legend>既存の個人ルール</legend><p>元のSieveを保存しています。変更するときは構文を確認してください。保存は今後の受信から適用されます。</p>
+        <label><input id="ms-base-edit" type="checkbox" /> 既存Sieveを編集する</label>
+        <label for="ms-base-source">Sieveソース</label><textarea id="ms-base-source" rows="12" readonly="readonly" spellcheck="false"></textarea>
+        <label for="ms-version">保存済み世代</label><select id="ms-version"></select><button id="ms-restore" type="button">選択した世代へ戻す</button>
+      </fieldset>
+      <fieldset id="ms-document" role="tabpanel" aria-labelledby="ms-tab-document" hidden="hidden">
+        <legend>詳細ルール</legend>
+        <p>既存Sieveの複合条件・処理・拡張引数を順序どおりに編集できます。条件名とオプションはSieveの名称で表示します。追加後に値を指定し、使用する拡張機能をrequireで宣言してください。保存前にサーバーが構文と対応拡張を検証します。</p>
+        <label for="ms-document-target">編集する範囲</label><select id="ms-document-target"><option value="source">有効Sieve全体</option><option value="base">既存の個人ルール（呼出し元の設定を維持）</option></select>
+        <label for="ms-document-import">Sieveファイルを読み込む（UTF-8、64KiBまで）</label><input id="ms-document-import" type="file" accept=".sieve,.siv,text/plain,application/sieve" />
+        <button id="ms-document-export" type="button">保存済みSieveをダウンロード</button>
+        <details><summary>ルールセットの管理</summary>
+          <label for="ms-set-list">保存済みルール</label><select id="ms-set-list"></select><button id="ms-set-open" type="button">選択ルールを開く</button>
+          <p id="ms-set-current" role="status"></p>
+          <label for="ms-set-name">新しいルール名（ms-で始まる名前は保存世代用）</label><input id="ms-set-name" type="text" maxlength="128" />
+          <button id="ms-set-copy" type="button">編集内容を新しい名前で保存</button><button id="ms-set-activate" type="button">選択ルールを有効化</button>
+          <button id="ms-set-rename" type="button">選択ルールの名前を変更</button><button id="ms-set-delete" type="button">未使用の選択ルールを削除</button>
+        </details>
+        <div id="ms-document-editor"></div>
+      </fieldset>
+      <button id="ms-save" type="submit" disabled="disabled">設定を保存</button><button id="ms-refresh" type="button">最新の設定を読み込む</button>
+    </form>
+    <div id="ms-confirm" role="region" aria-label="変更の確認" hidden="hidden">
+      <p id="ms-confirm-text"></p><button id="ms-confirm-accept" type="button">確認して実行</button><button id="ms-confirm-cancel" type="button">キャンセル</button>
+    </div>
+  </div>
+</div>
+<roundcube:include file="includes/footer.html" />

@@ -12,14 +12,15 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE/'framework'))
 from release import build, canonical, inspect, require, sha, sign, version
 from build import prepare as prepare_sources
-from distribution_inventory import inventory
 
 ASSETS = ('mail-platform.tar.gz', 'release.json', 'release.sig')
 REQUIRED_READINESS = frozenset((
     'empty_Debian13_install_validated', 'dynamic_UID_GID_portability_validated',
     'authenticated_update_UI_validated', 'production_update_hook_Linux_validated',
     'release_signing_key_provisioned', 'custom_Dovecot_distribution_validated',
-    'third_party_distribution_review_completed'))
+    'third_party_distribution_review_completed', 'secure_initial_setup_validated',
+    'ACME_DNS01_lifecycle_Linux_validated','TLS_pair_activation_recovery_Linux_validated',
+    'CA_overlap_rotation_recovery_Linux_validated','certificate_runtime_upgrade_migration_validated'))
 
 
 def write_new(path, raw):
@@ -30,18 +31,36 @@ def write_new(path, raw):
         os.fsync(stream.fileno())
 
 
-def readiness(path):
+def readiness(path, contract_format=1):
     raw = Path(path).read_bytes()
     values = json.loads(raw)
     require(type(values) is dict and values, 'readiness_shape')
-    pending = sorted({name for name, value in values.items() if value is not True}
-                     | (REQUIRED_READINESS - values.keys()))
-    return {'sha256': sha(raw), 'pending': pending, 'install_ready': not pending}
+    require(type(contract_format) is int and contract_format in (1, 2), 'readiness_contract_format')
+    generation_flag = 'delivery_preserving_updates_validated'
+    required = REQUIRED_READINESS | ({generation_flag} if contract_format == 2 else set())
+    pending = {name for name, value in values.items() if value is not True}
+    if contract_format == 1:
+        pending.discard(generation_flag)
+    pending = sorted(pending | (required - values.keys()))
+    return {'sha256': sha(raw), 'pending': pending, 'install_ready': not pending,
+            'update_contract_format': contract_format,
+            'generation_updates_validated': values.get(generation_flag) is True}
 
 
 def update_contract(value, release_version):
+    require(type(value) is dict and type(value.get('format')) is int, 'update_contract_shape')
+    if value.get('format') == 2:
+        fields = {'format', 'from_version', 'to_version', 'components', 'configuration_sha256'}
+        require(set(value) == fields, 'availability_contract_shape')
+        require(value['to_version'] == release_version and version(value['from_version']) < version(release_version), 'availability_contract_version')
+        import re
+        require(type(value['components']) is list and value['components'] and
+                all(type(name) is str and re.fullmatch('[a-z][a-z0-9-]{0,30}', name) for name in value['components']) and
+                len(value['components']) == len(set(value['components'])), 'availability_contract_components')
+        require(type(value['configuration_sha256']) is str and re.fullmatch('[a-f0-9]{64}', value['configuration_sha256']), 'availability_contract_digest')
+        return value
     fields = {'format', 'from_version', 'to_version', 'pause', 'stop', 'start', 'reload', 'health'}
-    require(type(value) is dict and set(value) == fields and value['format'] == 1, 'update_contract_shape')
+    require(type(value) is dict and set(value) == fields and type(value['format']) is int and value['format'] == 1, 'update_contract_shape')
     require(value['to_version'] == release_version and version(value['from_version']) < version(release_version), 'update_contract_version')
     for action in ('pause', 'stop', 'start', 'reload', 'health'):
         names = value[action]
@@ -52,14 +71,20 @@ def update_contract(value, release_version):
     return value
 
 
-def prepare(repository, release_version, contract_path, output, install_ready=False):
+def prepare(repository, release_version, contract_path, output, install_ready=False, roundcube_settings='plugin',
+            sieve_migration_kit=None, sieve_migration_from=None):
     version(release_version)
-    gate = readiness(HERE/'readiness.json')
-    require(not install_ready or gate['install_ready'], 'release_validation_pending')
     contract = update_contract(json.loads(Path(contract_path).read_bytes()), release_version)
+    gate = readiness(HERE/'readiness.json', contract['format'])
+    require(not install_ready or gate['install_ready'], 'release_validation_pending')
     output = Path(output)
     require(not output.exists(), 'release_output_exists')
-    sources, provenance = prepare_sources(repository)
+    sources, provenance = prepare_sources(repository, roundcube_settings)
+    require(bool(sieve_migration_kit) == bool(sieve_migration_from), 'sieve_migration_asset_arguments')
+    if sieve_migration_kit:
+        require(contract['format'] == 1, 'sieve_migration_requires_initial_maintenance')
+        from sieve_migration import add_assets
+        add_assets(sources, sieve_migration_kit, sieve_migration_from)
     sources['payload/blueprint/update-contract.json'] = canonical(contract)
     payload = {name: raw for name, raw in sources.items() if name.startswith('payload/')}
     require('payload/installer.py' in payload, 'release_hook_missing')
@@ -75,9 +100,18 @@ def prepare(repository, release_version, contract_path, output, install_ready=Fa
             entries.append({'name': name, 'source': name, 'sha256': sha(raw), 'mode': 0o644})
         metadata = build(root, entries, release_version, output/ASSETS[0], ready=install_ready)
     write_new(output/ASSETS[1], canonical(metadata))
-    distribution = inventory(payload)
-    write_new(output/'distribution-inventory.json', canonical(distribution))
+    distribution_raw = sources['distribution-inventory.json']
+    require(distribution_raw == payload['payload/usr/local/lib/mail-platform-update/licenses/distribution-inventory.json'],
+            'distribution_inventory_binding')
+    write_new(output/'distribution-inventory.json', distribution_raw)
+    write_new(output/'distribution-plan.json', canonical({
+        'format':1, 'default_distribution':'product-code-with-notices',
+        'update_assets':list(ASSETS),
+        'license_inventory':'distribution-inventory.json',
+        'components':json.loads(sources['distribution-policy.json'])['components'],
+        'third_party_binary_uploads':'separate-reviewed-component-release'}))
     record = {'format': 1, 'status': 'prepared_unsigned', 'version': release_version,
+              'update_contract_format': contract['format'],
               'install_ready': install_ready, 'readiness': gate, 'metadata': metadata,
               'payload_files': len(payload), 'provenance': provenance,
               'distribution_inventory_sha256': sha((output/'distribution-inventory.json').read_bytes()),
@@ -101,6 +135,11 @@ def prepared(directory):
         manifests = [member for member in stream.getmembers() if member.name == 'bundle.json']
         require(len(manifests) == 1 and manifests[0].isfile(), 'prepared_manifest')
         manifest_raw = stream.extractfile(manifests[0]).read()
+        contract = json.loads(stream.extractfile('payload/blueprint/update-contract.json').read())
+        actual_format = contract.get('format')
+        require(type(actual_format) is int and actual_format in (1, 2), 'prepared_contract_format')
+        require(record.get('update_contract_format', actual_format) == actual_format, 'prepared_contract_format_drift')
+        record['update_contract_format'] = actual_format
     require(sha(manifest_raw) == metadata['manifest_sha256'], 'prepared_manifest_drift')
     manifest = json.loads(manifest_raw)
     require(manifest['version'] == record['version'] == metadata['version'], 'prepared_version_drift')
@@ -110,7 +149,7 @@ def prepared(directory):
 
 def signing_readiness(record, candidate):
     if not candidate:
-        current = readiness(HERE/'readiness.json')
+        current = readiness(HERE/'readiness.json', record.get('update_contract_format', 1))
         require(record['install_ready'] and current['install_ready'], 'release_validation_pending')
         require(record['readiness']['sha256'] == current['sha256'], 'readiness_changed_after_prepare')
     else:
@@ -157,6 +196,9 @@ def main():
     prepare_command.add_argument('--update-contract', type=Path, required=True)
     prepare_command.add_argument('--output', type=Path, required=True)
     prepare_command.add_argument('--install-ready', action='store_true')
+    prepare_command.add_argument('--roundcube-settings', choices=('legacy', 'plugin'), default='plugin')
+    prepare_command.add_argument('--sieve-migration-kit', type=Path)
+    prepare_command.add_argument('--sieve-migration-from', type=Path)
     signing = commands.add_parser('sign')
     signing.add_argument('--directory', type=Path, required=True)
     signing.add_argument('--key', type=Path, required=True)
@@ -172,7 +214,8 @@ def main():
         result = readiness(HERE/'readiness.json')
     elif arguments.action == 'prepare':
         result = prepare(arguments.repository_root, arguments.version, arguments.update_contract,
-                         arguments.output, arguments.install_ready)
+                         arguments.output, arguments.install_ready, arguments.roundcube_settings,
+                         arguments.sieve_migration_kit, arguments.sieve_migration_from)
     elif arguments.action == 'sign':
         record, _ = prepared(arguments.directory)
         signing_readiness(record, arguments.candidate)

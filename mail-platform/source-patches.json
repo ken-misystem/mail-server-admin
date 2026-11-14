@@ -52,8 +52,8 @@
     "reviewed_after_sha256": "1c2eb031706308f00752154541a8312fc547fa49a64615d682bc1d4b839fdcdd",
     "hunks": [
       {
-        "before": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"\u5916\u90e8\u30e1\u30fc\u30e9\u30fc\u7528\u306e\u7aef\u672b\u8a3c\u660e\u66f8\" aria-busy=\"false\">\n  <h2>\u7aef\u672b\u8a3c\u660e\u66f8</h2>\n  <p>\u5916\u90e8\u306e\u30e1\u30fc\u30eb\u30bd\u30d5\u30c8\u3084EC-CUBE\u304b\u3089SMTP\u9001\u4fe1\u3059\u308b\u306b\u306f\u3001\u3053\u306e\u7aef\u672b\u8a3c\u660e\u66f8\u3068\u540c\u3058\u30a2\u30ab\u30a6\u30f3\u30c8\u306e\u30a2\u30d7\u30ea\u7528\u30d1\u30b9\u30ef\u30fc\u30c9\u3092\u30bb\u30c3\u30c8\u3067\u8a2d\u5b9a\u3057\u3066\u304f\u3060\u3055\u3044\u3002IMAP\u30fbPOP\u306e\u5916\u90e8\u63a5\u7d9a\u306b\u3082\u7aef\u672b\u8a3c\u660e\u66f8\u304c\u5fc5\u8981\u3067\u3059\u3002Roundcube\u306eWeb\u5229\u7528\u306b\u306f\u4e0d\u8981\u3067\u3059\u3002</p>\n  <p>\u8a3c\u660e\u66f8\u306f\u7aef\u672b\u3054\u3068\u306b\u767a\u884c\u3057\u307e\u3059\u3002P12\u306b\u306f\u79d8\u5bc6\u9375\u304c\u542b\u307e\u308c\u307e\u3059\u3002\u4ed6\u4eba\u306b\u6e21\u3055\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002</p>\n",
-        "after": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"\u5916\u90e8\u30e1\u30fc\u30e9\u30fc\u7528\u306e\u7aef\u672b\u8a3c\u660e\u66f8\" aria-busy=\"false\">\n<p class=\"mail-app-help-link\"><a href=\"./?_task=settings&amp;_action=plugin.mail_client_certificates-help\" target=\"_blank\" rel=\"noopener noreferrer\">\u30e1\u30fc\u30eb\u30a2\u30d7\u30ea\u767b\u9332\u65b9\u6cd5\uff1a993\u30fb995\u30fb587\u3068\u8a3c\u660e\u66f8\u306e\u8a2d\u5b9a\u3092\u56f3\u89e3\u3067\u898b\u308b\uff08\u5225\u30bf\u30d6\uff09</a></p>\n  <h2>\u7aef\u672b\u8a3c\u660e\u66f8</h2>\n  <p>\u5916\u90e8\u306e\u30e1\u30fc\u30eb\u30bd\u30d5\u30c8\u3084EC-CUBE\u304b\u3089SMTP\u9001\u4fe1\u3059\u308b\u306b\u306f\u3001\u3053\u306e\u7aef\u672b\u8a3c\u660e\u66f8\u3068\u540c\u3058\u30a2\u30ab\u30a6\u30f3\u30c8\u306e\u30a2\u30d7\u30ea\u7528\u30d1\u30b9\u30ef\u30fc\u30c9\u3092\u30bb\u30c3\u30c8\u3067\u8a2d\u5b9a\u3057\u3066\u304f\u3060\u3055\u3044\u3002IMAP\u30fbPOP\u306e\u5916\u90e8\u63a5\u7d9a\u306b\u3082\u7aef\u672b\u8a3c\u660e\u66f8\u304c\u5fc5\u8981\u3067\u3059\u3002Roundcube\u306eWeb\u5229\u7528\u306b\u306f\u4e0d\u8981\u3067\u3059\u3002</p>\n  <p>\u8a3c\u660e\u66f8\u306f\u7aef\u672b\u3054\u3068\u306b\u767a\u884c\u3057\u307e\u3059\u3002P12\u306b\u306f\u79d8\u5bc6\u9375\u304c\u542b\u307e\u308c\u307e\u3059\u3002\u4ed6\u4eba\u306b\u6e21\u3055\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002</p>\n"
+        "before": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"外部メーラー用の端末証明書\" aria-busy=\"false\">\n  <h2>端末証明書</h2>\n  <p>外部のメールソフトやEC-CUBEからSMTP送信するには、この端末証明書と同じアカウントのアプリ用パスワードをセットで設定してください。IMAP・POPの外部接続にも端末証明書が必要です。RoundcubeのWeb利用には不要です。</p>\n  <p>証明書は端末ごとに発行します。P12には秘密鍵が含まれます。他人に渡さないでください。</p>\n",
+        "after": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"外部メーラー用の端末証明書\" aria-busy=\"false\">\n<p class=\"mail-app-help-link\"><a href=\"./?_task=settings&amp;_action=plugin.mail_client_certificates-help\" target=\"_blank\" rel=\"noopener noreferrer\">メールアプリ登録方法：993・995・587と証明書の設定を図解で見る（別タブ）</a></p>\n  <h2>端末証明書</h2>\n  <p>外部のメールソフトやEC-CUBEからSMTP送信するには、この端末証明書と同じアカウントのアプリ用パスワードをセットで設定してください。IMAP・POPの外部接続にも端末証明書が必要です。RoundcubeのWeb利用には不要です。</p>\n  <p>証明書は端末ごとに発行します。P12には秘密鍵が含まれます。他人に渡さないでください。</p>\n"
       }
     ]
   },
@@ -180,6 +180,122 @@
       {
         "before": "        except Exception as error:errors['backup']=type(error).__name__",
         "after": "        except FileNotFoundError:status['backup']={'state':'not_configured'}\n        except Exception as error:errors['backup']=type(error).__name__"
+      }
+    ]
+  },
+  "usr/local/lib/mail-client-certificates-v1/client-certificates/adapters-v1/transport.py": {
+    "reviewed_before_sha256": "ee503918a5453330d6c262e6bbc849ff5db1a9671ea50775eba9cd46c0c16aed",
+    "reviewed_after_sha256": "896b25c95498bce41d2fedf51dd8586dbcb474b8a1a177ee0ee5015cd07a5c58",
+    "hunks": [
+      {
+        "before": "    check_at, last_io = clock(), clock()\n",
+        "after": "    check_at, last_io = clock(), clock()\n    eof = set()\n"
+      },
+      {
+        "before": "            reads = [s for s in queues if len(queues[counterpart[s]]) < 65536]\n",
+        "after": "            reads = [s for s in queues if s not in eof and len(queues[counterpart[s]]) < 65536]\n"
+      },
+      {
+        "before": "                if not data: return\n",
+        "after": "                if not data:\n                    eof.add(endpoint)\n                    continue\n"
+      },
+      {
+        "before": "                last_io = clock()\n    finally:\n",
+        "after": "                last_io = clock()\n            if eof and all(not queues[counterpart[endpoint]] for endpoint in eof):\n                return\n    finally:\n"
+      }
+    ]
+  },
+  "usr/local/lib/mail-send-limits-v1/profile_connection.py": {
+    "reviewed_before_sha256": "22f0734a289ce46f19c3466566c0e042820c8c9f010c4cb86a34b291c22d0ed2",
+    "reviewed_after_sha256": "fde728c46808f12150b71cf633f780d2bde1a1df4194ca22151329a6b8488b0b",
+    "hunks": [
+      {
+        "before": "    def __init__(self, reader, writer, clock=time.time):\n",
+        "after": "    def __init__(self, reader, writer, clock=time.time, *, generation_front=False):\n        need(type(generation_front) is bool,'generation_front_flag')\n        self.generation_front=generation_front\n"
+      },
+      {
+        "before": "                channel.sendall(self.evaluate(bytes(frame),nonce,peer_verified=True))\n",
+        "after": "                raw=bytes(frame)\n                fields=parse_frame(raw)\n                if fields=={'request':'mail_platform_generation_health'}:\n                    from profile_runtime import parse\n                    parse(self.reader.profiles())\n                    self.load_stop('0'*64)\n                    channel.sendall(b'action=DUNNO\\n\\n')\n                    continue\n                supplied=fields.pop('mail_platform_generation_nonce',None)\n                request_nonce=nonce\n                if self.generation_front:\n                    need(type(supplied) is str and re.fullmatch('[a-f0-9]{64}',supplied),'generation_nonce_required')\n                    request_nonce=bytes.fromhex(supplied)\n                    raw=('\\n'.join(key+'='+value for key,value in fields.items())+'\\n\\n').encode()\n                else:\n                    need(supplied is None,'generation_nonce_not_enabled')\n                channel.sendall(self.evaluate(raw,request_nonce,peer_verified=True))\n"
+      }
+    ]
+  },
+  "usr/local/lib/mail-send-limits-v1/runtime.py": {
+    "reviewed_before_sha256": "d0bde6d5bce24aba957121981fc3e4a1da62ec162b7c848479a25b691bb46ba3",
+    "reviewed_after_sha256": "9f36f563d910292a892cadebbef3231fd4cba90e79e3ddae7a858a31ae53d7ec",
+    "hunks": [
+      {
+        "before": "def run(config,driver):\n",
+        "after": "def run(config,driver,*,generation_front=False,listener_factory=activated_listener):\n"
+      },
+      {
+        "before": "    service=Service(reader,writer)\n",
+        "after": "    service=Service(reader,writer,generation_front=generation_front)\n"
+      },
+      {
+        "before": "        listener=activated_listener(config)\n",
+        "after": "        listener=listener_factory(config)\n"
+      }
+    ]
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminUserChecker.php": {
+    "reviewed_before_sha256": "cda8b020943ea3ab798a6bcfeb729425ee1714e47f73bb8f6b44d28f8af70efb",
+    "reviewed_after_sha256": "2a70fb2296edc3f6e43297c568729070e63ae903641866942f4c8a00ded3974e",
+    "hunks": [
+      {
+        "before": "        if (!$user instanceof AdminUser || !$user->active) { throw new DisabledException('admin_disabled'); }",
+        "after": "        if (!$user instanceof AdminUser || !$user->active) { throw new DisabledException('admin_disabled'); }\n        AdminBootstrapAccess::check($user);"
+      }
+    ]
+  },
+  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/boot.py": {
+    "hunks": [
+      {
+        "before": "def open(self):\n",
+        "after": "def open(self,extra=()):\n"
+      },
+      {
+        "before": "for name in ROLES[self.actor]:",
+        "after": "for name in (*ROLES[self.actor],*extra):"
+      }
+    ]
+  },
+  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/assembly.py": {
+    "hunks": [
+      {
+        "before": "self.fds=self.credentials.open();",
+        "after": "self.fds=self.credentials.open(__import__('ca_generations').credential_names(config) if config['actor']=='issuer' else ());"
+      },
+      {
+        "before": "    def crl_handler(operation,data):need(operation=='crl'and not data,'issuer_crl_operation');return authority.bundle()",
+        "after": "    from ca_generations import authorities\n    authority=authorities(c,authority,checker,regions,connection)\n    def crl_handler(operation,data):need(operation=='crl'and not data,'issuer_crl_operation');return authority.bundle()"
+      }
+    ]
+  },
+  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/crl.py": {
+    "hunks": [
+      {
+        "before": "stats['crl']==2 and stats['x509_ca']==2",
+        "after": "stats['crl']==getattr(self,'expected_crl_count',2) and stats['x509_ca']==getattr(self,'expected_ca_count',2)"
+      }
+    ]
+  },
+  "usr/local/lib/mail-client-cert-public-v1/health.py": {
+    "hunks": [
+      {
+        "before": "def check():\n",
+        "after": "def check():\n    sys.path.insert(0,'/usr/local/lib/mail-platform-update')\n    from certificate_state import certificate_lock\n    try:\n        with certificate_lock(update=False):return unlocked_check()\n    except BlockingIOError:\n        print(json.dumps({'status':'deferred_certificate_transaction','previous_snapshot_preserved':True}));return 0\n\ndef unlocked_check():\n"
+      },
+      {
+        "before": "target=os.readlink(STATE/'tls/current');need(re.fullmatch('generation-[0-9a-f]{32}',target)is not None,'tls_bundle_current_target')",
+        "after": "target=os.readlink(STATE/'tls/current');resolved=(STATE/'tls/current').resolve(strict=True)\n            need(re.fullmatch('generation-[0-9a-f]{32}',Path(target).name)is not None and (resolved.parent==STATE/'tls' or resolved.parent==Path(config['certificate_source']).parent.resolve().parent),'tls_bundle_current_target')"
+      }
+    ]
+  },
+  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/actuation.py": {
+    "hunks": [
+      {
+        "before": "need(str(uuid.UUID(bytes=current[6]))==data['crl']['issuer_id'],'actuation_issuer_binding')\n            installed=self.contexts.install(data['crl'],int.from_bytes(current[5],'big'))",
+        "after": "identity=str(uuid.UUID(bytes=current[6]))\n            need(identity in [item['issuer_id'] for item in [data['crl'],*data['crl'].get('previous',[])]],'actuation_issuer_binding')\n            installed=self.contexts.install(data['crl'],int.from_bytes(current[5],'big'),required_issuer=identity)"
       }
     ]
   }

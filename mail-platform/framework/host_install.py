@@ -26,6 +26,7 @@ from install_preparation import baseline_identities, read_payload
 from site_bindings import bind as bind_site, validate
 from release import version
 from roundcube_core import render as render_roundcube_core
+from roundcube_plugins import PluginLinks, packaged_plugins
 
 PACKAGES = ('postfix', 'postfix-mysql', 'mariadb-server', 'dovecot-core', 'dovecot-imapd',
             'dovecot-pop3d', 'dovecot-lmtpd', 'dovecot-sieve', 'dovecot-managesieved',
@@ -33,7 +34,7 @@ PACKAGES = ('postfix', 'postfix-mysql', 'mariadb-server', 'dovecot-core', 'dovec
             'php8.4-mysql', 'php8.4-sqlite3', 'php8.4-mbstring', 'php8.4-intl', 'php8.4-xml',
             'php8.4-curl', 'php8.4-zip', 'roundcube-core', 'roundcube-plugins', 'fail2ban',
             'postsrsd', 'rsyslog', 'libsasl2-modules', 'python3-cryptography', 'openssl', 'ca-certificates',
-            'curl', 'ufw', 'fetchmail', 'php-net-smtp', 'bind9-dnsutils')
+            'curl', 'ufw', 'fetchmail', 'php-net-smtp', 'php-net-sieve', 'bind9-dnsutils')
 CUSTOM_USERS = ('mailadmin', 'mailpop', 'vmail', 'mailalerts', 'mailantivirus', 'mailsendlimits',
                 'mail-route-collector', 'mail-route-map', 'mail-legacy-auth',
                 'mailcert-owner', 'mailcert-lifecycle', 'mailcert-verifier', 'mailcert-issuer', 'mailcert-gate')
@@ -51,8 +52,10 @@ def plan(product, site):
     units = sorted(path.name for path in (Path(product) / 'payload/blueprint/systemd').iterdir()
                    if path.name not in LEGACY_UNITS)
     return {'target': 'Debian 13 amd64', 'phase_order': [
-        'preflight', 'packages', 'identities', 'assemble', 'database', 'files', 'native_validation',
-        'administrator', 'start', 'health'], 'packages': list(PACKAGES), 'custom_users': list(CUSTOM_USERS),
+        'environment_check', 'preflight', 'packages', 'identities', 'assemble', 'database', 'files', 'native_validation',
+        'administrator', 'isolated_UI_start', 'isolated_health'], 'packages': list(PACKAGES), 'custom_users': list(CUSTOM_USERS),
+        'public_activation': 'separate_root_publish_after_verified_passkey_and_password_rotation',
+        'initial_UI': '127.0.0.1:443 over an administrator-controlled HTTPS tunnel',
         'units': units, 'host_changes': False, 'empty_OS_test': 'deferred',
         'failure_behavior': 'CAS_restore_config_keep_DB_mail_credentials_history',
         'site': site}
@@ -85,7 +88,8 @@ def read_kit(directory):
         files[name] = {'bytes': raw, 'path': str(directory / path), 'sha256': entry['sha256']}
     required = {'tls_certificate', 'tls_key', 'root', 'issuer', 'root_crl', 'custody', 'restoration',
                 'custody_statement', 'issuer_key', 'issuer_password', 'guard', 'release_public_key',
-                'clamav_runtime_manifest', 'definition_main', 'definition_daily', 'definition_bytecode', 'github_token'}
+                'clamav_runtime_manifest', 'definition_main', 'definition_daily', 'definition_bytecode', 'github_token',
+                'sieve_session_lock', 'sieve_session_lock_metadata'}
     if not required <= set(files):
         raise ValueError('kit_required_resources')
     packages = value['dovecot_packages']
@@ -113,6 +117,11 @@ class Installer:
         self.activation_attempted = False
 
     def preflight(self):
+        report = self.check_environment()
+        if report['status'] != 'PASS':
+            from environment_check import record_report
+            record_report(self.evidence, report)
+            raise ValueError('environment_check_refused_see_environment_check_json')
         import ipaddress
         if not ipaddress.ip_address(self.site['public_ipv4']).is_global:
             raise ValueError('site_public_IPv4_required')
@@ -125,7 +134,7 @@ class Installer:
             raise ValueError('amd64_required')
         if any(Path(path).exists() for path in ('/var/vmail', '/etc/mail-management',
                 '/var/lib/mail-platform-install', '/etc/postfix/main.cf', '/etc/dovecot/dovecot.conf',
-                '/etc/nginx/nginx.conf', '/etc/roundcube/config.inc.php', '/var/lib/mysql/mysql')):
+                '/etc/nginx/nginx.conf', '/etc/roundcube/config.inc.php', '/var/lib/mysql/mysql', '/var/lib/mail-platform-setup')):
             raise ValueError('existing_mail_installation')
         if not self.evidence.is_absolute() or self.evidence.exists() or self.evidence.is_symlink():
             raise ValueError('new_evidence_directory_required')
@@ -134,7 +143,14 @@ class Installer:
             if parent.is_symlink() or info.st_uid != 0 or (info.st_mode & 0o022 and not info.st_mode & 0o1000):
                 raise ValueError('evidence_parent_trust')
         self.kit, self.inputs = read_kit(self.kit_path)
+        if getattr(self,'acme_config',None) is not None:
+            from acme_lifecycle import validate as validate_ACME
+            from certificate_state import trusted
+            self.acme=validate_ACME(json.loads(trusted(self.acme_config,private=True)[0]))
+            if self.acme['host']!=self.site['mail_host']:
+                raise ValueError('ACME_site_hostname_mismatch')
         self.transaction = Transaction(self.evidence)
+        durable_json(self.evidence/'environment-check.json', report)
         self.commands = Commands(self.evidence)
         self.files = Files('/', self.evidence)
         # Fresh install does not adopt any local account with a custom role name.
@@ -147,6 +163,13 @@ class Installer:
         if Path('/usr/sbin/policy-rc.d').exists():
             raise ValueError('existing_service_start_policy')
         self.files.write('/usr/sbin/policy-rc.d', b'#!/bin/sh\nexit 101\n', 0o755)
+        from setup_access import install_barriers
+        install_barriers(plan(self.product, self.site)['units'], BASE_SERVICES)
+        self.commands.run('setup_barrier_reload', ['/usr/bin/systemctl', 'daemon-reload'])
+
+    def check_environment(self):
+        from environment_check import inspect
+        return inspect(self.product, self.site, CUSTOM_USERS, self.evidence)
 
     def packages(self):
         self.commands.run('APT_index', ['/usr/bin/apt-get', 'update'], timeout=300)
@@ -166,7 +189,11 @@ class Installer:
         required = {name for name in PACKAGES if name.startswith('dovecot-')}
         if not required <= observed:
             raise ValueError('custom_Dovecot_package_inventory')
-        ordinary = [name for name in PACKAGES if name not in observed]
+        selected_packages=list(PACKAGES)
+        if getattr(self,'acme',None) is not None:
+            from acme_lifecycle import PROVIDERS
+            selected_packages+=['certbot',PROVIDERS[self.acme['provider']]]
+        ordinary = [name for name in selected_packages if name not in observed]
         policies = self.commands.run('APT_candidates', ['/usr/bin/apt-cache', 'policy', *ordinary]).decode()
         selected = {}
         package = None
@@ -189,7 +216,7 @@ class Installer:
         self.commands.run('APT_install', ['/usr/bin/apt-get', '-y', '--no-remove',
                           '-o', 'Dpkg::Options::=--force-confold', 'install', *arguments], timeout=1200)
         installed = self.commands.run('installed_versions', ['/usr/bin/dpkg-query', '-W',
-                                      '-f=${Package}\t${Version}\t${Architecture}\n', *PACKAGES])
+                                      '-f=${Package}\t${Version}\t${Architecture}\n', *selected_packages])
         durable_json(self.evidence / 'installed-packages.json', {'rows': installed.decode().splitlines()})
 
     def identities(self):
@@ -224,6 +251,8 @@ class Installer:
             path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
             path.write_bytes(raw)
         self.staged = staged
+        from sieve_lock import resources as sieve_lock_resources
+        sieve_resources = sieve_lock_resources(self.inputs, (staged/'blueprint/native-sources/sieve_session_lock.c').read_bytes())
         certificate = staged / CERTIFICATE.lstrip('/')
         self.bound[CERTIFICATE.lstrip('/') + '/guard.so'] = self.inputs['guard']['bytes']
         manifest = json.loads((certificate / 'runtime-manifest.json').read_bytes())
@@ -260,7 +289,7 @@ class Installer:
                 raise ValueError('actor_primary_group_inventory')
             native['actor_gids'][actor] = grp.getgrnam(matches[0]).gr_gid
             native['actor_groups'][actor] = matches[0]
-        self.resources = assemble(staged, self.site, self.ids, self.passwords, native)
+        self.resources = assemble(staged, self.site, self.ids, self.passwords, native) + sieve_resources
         self.bound.update(render_roundcube_core(self.bound,lambda name:regular(Path(name))))
         resolvers = []
         import ipaddress
@@ -308,7 +337,17 @@ class Installer:
             self.files.write('/' + name, raw, mode, gid=group)
         for resource in self.resources:
             group = grp.getgrnam(resource.group).gr_gid
-            self.files.write(resource.path, resource.raw, resource.mode, gid=group, preserve=resource.preserve)
+            from setup_access import WEB, local_web
+            raw = local_web(resource.raw) if resource.path == WEB else resource.raw
+            self.files.write(resource.path, raw, resource.mode, gid=group, preserve=resource.preserve)
+        nginx, _ = regular('/etc/nginx/nginx.conf')
+        for anchor, replacement in [
+            (b'include /etc/nginx/sites-enabled/*;', b'include /etc/nginx/sites-enabled/mail-platform.conf;'),
+            (b'include /etc/nginx/conf.d/*.conf;', b'# Optional server snippets are disabled by the fresh-site installer.')]:
+            if nginx.count(anchor) != 1:
+                raise ValueError('initial_nginx_include_requires_review')
+            nginx = nginx.replace(anchor, replacement)
+        self.files.write('/etc/nginx/nginx.conf', nginx)
         for name, raw in self.bound.items():
             if name.startswith('blueprint/systemd/') and Path(name).name not in LEGACY_UNITS:
                 self.files.write('/etc/systemd/system/' + Path(name).name, raw)
@@ -317,6 +356,10 @@ class Installer:
         self.commands.run('Postfix_package_permissions', ['/usr/sbin/postfix', 'set-permissions'])
         self.install_private_assets()
         self.initialize_state()
+        if getattr(self,'acme_config',None) is not None:
+            from acme_lifecycle import configure
+            configure(self.acme_config,self.commands,self.files,enable=False)
+        PluginLinks(self.files.root, self.evidence / 'roundcube-plugin-links.json').apply(packaged_plugins(self.bound))
         # Reuse the existing public certificate preparation before enabling its marker.
         self.commands.run('preparation_systemd_reload', ['/usr/bin/systemctl', 'daemon-reload'])
         self.commands.run('prepare_TLS_bundle', ['/usr/bin/systemctl', 'start', 'mail-client-cert-health.service'])
@@ -333,6 +376,7 @@ class Installer:
         self.files.write('/etc/mail-platform/private/github-token', self.inputs['github_token']['bytes'],
                          0o600, preserve=True)
         self.install_tls_sources()
+        self.files.write('/var/lib/mail-platform-update/update.lock',b'',0o600,preserve=True)
         # Native runtime files are a bounded, pinned flat file inventory in the kit.
         manifest = json.loads(self.inputs['clamav_runtime_manifest']['bytes'])
         if set(manifest) != {'files'} or not 1 <= len(manifest['files']) <= 128:
@@ -353,6 +397,11 @@ class Installer:
     def install_tls_sources(self):
         # Retain the numbered archive and relative live links checked by the monitor.
         host = self.site['mail_host']
+        from certificate_state import private_directory
+        private_directory('/var/lib/mail-platform-certificates')
+        private_directory('/var/lib/mail-platform-acme')
+        self.files.write('/etc/mail-platform/certificates.json',encoded({'format':1,'profile':'production',
+            'host':host,'probe_address':self.site['public_ipv4'],'trust_store':'/etc/ssl/certs/ca-certificates.crt'}),0o600)
         for name, stem in (('tls_certificate', 'fullchain'), ('tls_key', 'privkey')):
             archive = stem + '1.pem'
             self.files.write('/etc/letsencrypt/archive/' + host + '/' + archive,
@@ -365,9 +414,12 @@ class Installer:
 
     def initialize_state(self):
         directory_roles = {
+            '/var/lib/roundcube/mail-settings-locks': ('www-data', 'www-data', 0o700),
             '/var/vmail': ('vmail', 'vmail', 0o750), '/var/lib/mail-management': ('mailadmin', 'mailadmin', 0o700),
             '/var/lib/mail-client-cert-issuer-v1': ('mailcert-issuer', 'mailcert-issuer', 0o700),
             '/var/lib/mail-feature-admin-v1': ('root', 'root', 0o700),
+            '/var/lib/mail-feature-admin-v1/diagnostics': ('root', 'root', 0o700),
+            '/var/lib/mail-feature-admin-v1/public-stops': ('root', 'mailsendlimits', 0o750),
             '/var/lib/mail-feature-runtime-v1': ('root', 'root', 0o700),
             '/var/lib/mail-feature-runtime-v1/diagnostics': ('root', 'root', 0o700),
             '/var/lib/mail-feature-runtime-v1/compiler': ('root', 'root', 0o700),
@@ -498,16 +550,39 @@ class Installer:
         if password != repeat:
             raise ValueError('administrator_password_confirmation')
         output = self.commands.run('bootstrap_administrator', ['/usr/bin/php8.4', '-d', 'display_errors=0',
-            '-d', 'log_errors=0', '/usr/local/lib/mail-platform-update/bootstrap_admin.php'],
+            '-d', 'log_errors=0', '/usr/local/lib/mail-platform-update/bootstrap_admin_secure.php'],
             encoded({'email': email, 'password': password, 'repeat': repeat}))
-        if json.loads(output).get('status') != 'ok':
+        result = json.loads(output)
+        if result.get('status') != 'ok':
             raise ValueError('administrator_bootstrap')
+        from setup_access import ACCESS, access_metadata
+        durable_json(ACCESS, access_metadata(result['administrator']), mode=0o640, gid=self.ids['mailadmin.gid'])
 
     def start(self):
+        from setup_access import STATE
+        self.activation_attempted = True
+        if self.files.restore(['/usr/sbin/policy-rc.d'])['status'] != 'restored':
+            raise ValueError('package_start_policy_restoration')
+        self.commands.run('setup_systemd_reload', ['/usr/bin/systemctl', 'daemon-reload'])
+        blocked = sorted(set(plan(self.product, self.site)['units']) | (set(BASE_SERVICES)-{'mariadb.service', 'php8.4-fpm.service', 'nginx.service'}))
+        self.commands.run('disable_unpublished_units', ['/usr/bin/systemctl', 'disable', '--quiet', *blocked])
+        durable_json(STATE, {'format': 1, 'phase': 'setup', 'site': self.site})
+        for name in ['php8.4-fpm.service', 'nginx.service']:
+            self.started.append(name)
+            self.commands.run('setup_start_'+name.replace('.', '_').replace('-', '_'), ['/usr/bin/systemctl', 'start', name])
+        self.commands.run('enable_setup_UI', ['/usr/bin/systemctl', 'enable', '--quiet',
+                                           'mariadb.service', 'php8.4-fpm.service', 'nginx.service'])
+        if getattr(self,'acme_config',None) is not None:
+            self.commands.run('enable_setup_DNS01_renewal',['/usr/bin/systemctl','enable','--now','mail-platform-acme.timer'])
+            self.started.append('mail-platform-acme.timer')
+
+    def activate_public_services(self):
         self.activation_attempted = True
         if self.files.restore(['/usr/sbin/policy-rc.d'])['status'] != 'restored':
             raise ValueError('package_start_policy_restoration')
         self.commands.run('systemd_reload', ['/usr/bin/systemctl', 'daemon-reload'])
+        # bootstrap disable removes the package's syslog.service alias as well.
+        self.commands.run('restore_rsyslog_alias', ['/usr/bin/systemctl', 'enable', '--quiet', 'rsyslog.service'])
         # TLS preparation, schema and native syntax have completed before markers.
         self.files.write('/etc/mail-client-certificates-v1/private-backends-approved.json',
                          encoded({'version': 1, 'installer_transaction': self.evidence.name}))
@@ -559,6 +634,32 @@ class Installer:
                           *BASE_SERVICES])
 
     def health(self):
+        from setup_access import STATE, guarded_units
+        if json.loads(regular(STATE)[0]).get('phase') != 'setup':
+            raise ValueError('initial_setup_state')
+        self.commands.run('setup_DB_health', ['/usr/bin/mariadb-admin', '--no-defaults', '--protocol=socket', '--user=root', 'ping'])
+        self.commands.run('setup_web_TLS', ['/usr/bin/curl', '--fail', '--silent', '--show-error',
+                          '--resolve', self.site['mail_host']+':443:127.0.0.1', '--output', '/dev/null',
+                          'https://'+self.site['mail_host']+'/mail-admin/login'])
+        units = [name for name in guarded_units(plan(self.product, self.site)['units'], BASE_SERVICES)
+                 if '@.' not in name]
+        output = self.commands.run('setup_guarded_unit_states', ['/usr/bin/systemctl', 'show', *units,
+                                   '-p', 'Id,ActiveState,SubState,MainPID'])
+        if any(line in (b'ActiveState=active', b'ActiveState=activating') for line in output.splitlines()):
+            raise ValueError('unpublished_service_active')
+        listeners = self.commands.run('setup_TCP_listeners', ['/usr/bin/ss', '-H', '-ltnp'])
+        # Match application port numbers in the local-address column, including IPv6.
+        ports = {25, 80, 110, 143, 443, 465, 587, 993, 995, 4190, 3306, 6379, 11332, 11333, 11334}
+        for line in listeners.decode().splitlines():
+            fields = line.split()
+            endpoint = fields[3]
+            address, _, port = endpoint.rpartition(':')
+            if port.isdigit() and int(port) in ports and address not in ('127.0.0.1', '[::1]', '::1'):
+                raise ValueError('initial_public_listener_detected')
+
+    def public_health(self):
+        from policy_binding import probe
+        probe(self.commands)
         for name in tuple(dict.fromkeys(BASE_SERVICES+PERSISTENT+('mail-client-cert-gate.service',))):
             self.commands.run('active_' + name.replace('.', '_').replace('-', '_'),
                               ['/usr/bin/systemctl', 'is-active', '--quiet', name])
@@ -589,6 +690,10 @@ class Installer:
         raise ValueError('natural_publication_health')
 
     def restore(self):
+        from setup_access import STATE
+        if STATE.exists():
+            durable_json(STATE, {'format': 1, 'phase': 'failed'})
+            self.commands.run('close_setup_UI', ['/usr/bin/systemctl', 'stop', '--quiet', 'mail-platform-setup-ui-approved.service'])
         held = []
         units = plan(self.product, self.site)['units'] if self.activation_attempted else []
         sockets = [name for name in units if name.endswith('.socket')]
@@ -602,10 +707,12 @@ class Installer:
                                   ['/usr/bin/systemctl', 'stop', '--quiet', name], timeout=120)
             except Exception:
                 held.append(name)
+        links = PluginLinks(self.files.root, self.evidence / 'roundcube-plugin-links.json').restore()
         result = self.files.restore()
         self.commands.run('restore_systemd_definitions', ['/usr/bin/systemctl', 'daemon-reload'])
-        return {'status': 'held' if held or result['held_paths'] else 'restored',
-                'held_units': held, 'held_files': result['held_paths'], 'DB_and_credentials_preserved': True}
+        return {'status': 'held' if held or result['held_paths'] or links['held'] else 'restored',
+                'held_units': held, 'held_files': result['held_paths'],
+                'held_plugin_links': links['held'], 'DB_and_credentials_preserved': True}
 
     def run(self, administrator):
         os.umask(0o077)
@@ -669,7 +776,8 @@ class Installer:
             self.transaction.step(name, operation)
         self.seal_installation()
         self.transaction.finish('complete', empty_OS_test='performed_by_this_installation')
-        return {'status': 'complete', 'evidence': str(self.evidence)}
+        return {'status': 'complete', 'phase': 'isolated_setup', 'public_services_enabled': False,
+                'evidence': str(self.evidence)}
 
     def seal_installation(self):
         code = {}
@@ -684,7 +792,7 @@ class Installer:
                       and Path(entry['path']).parent == Path('/etc/systemd/system')}
         blueprints = {name: sha(raw) for name, raw in self.bound.items()
                       if name.startswith('blueprint/') and not name.startswith('blueprint/systemd/')
-                      and name != 'blueprint/update-contract.json'}
+                      and name != 'blueprint/update-contract.json' and not name.startswith('blueprint/migrations/')}
         durable_json(Path('/var/lib/mail-platform-update/installed-code.json'),
                      {'format': 2, 'version': self.product_version, 'site': self.site, 'identities': self.ids,
                       'code': code, 'schemas': schemas, 'unit_files': unit_files, 'blueprints': blueprints})

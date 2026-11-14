@@ -29,12 +29,27 @@ final class UpdateController
             $pool[$nonce]=['id'=>$actor->id,'epoch'=>$actor->epoch,'revision'=>$s['revision'],'at'=>time()];$request->getSession()->set(self::SESSION,$pool);
             $html='<p>現在のバージョン：'.$e($s['installed_version']).'</p><p>新しいバージョン：'.$e($s['available_version']??'確認待ち').'</p>'
                 .'<p>更新状態：'.$e($s['phase']).'</p><p>正式リリースの署名と内容を確認して更新します。メール・利用者設定は保持します。</p>'
-                .'<p>Web機能の更新中は画面を一時停止します。完了後に再読み込みしてください。</p>'
+                .'<p>更新方式と対象機能の停止影響を確認して適用してください。</p>'
                 .'<form method="post"><input type="hidden" name="_csrf_token" value="'.$e($this->csrf->getToken('mail_updates')->getValue()).'">'
                 .'<input type="hidden" name="nonce" value="'.$nonce.'"><label>更新方法<select name="mode">'
                 .'<option value="manual"'.($s['mode']==='manual'?' selected':'').'>通知を確認して手動で更新</option>'
                 .'<option value="automatic"'.($s['mode']==='automatic'?' selected':'').'>正式リリースを自動更新</option></select></label>'
                 .'<button name="action" value="settings">更新方法を保存</button><button name="action" value="apply">今すぐ更新を予約</button></form>';
+            $pending=$s['retirement_pending']??[];
+            if (is_array($pending)&&$pending!==[]) {
+                $html.='<p>新しい世代へ切替え済みです。既存接続の終了を待って旧世代を停止します。</p><ul>';
+                foreach ($pending as $component) {
+                    if (is_string($component)) $html.='<li>'.$e($component).'</li>';
+                }
+                $html.='</ul>';
+            }
+            $effect=$s['impact']??null;
+            if(is_array($effect)&&is_string($effect['method']??null)&&is_string($effect['delivery']??null)){
+                $html.='<p>更新方法：'.$e($effect['method']).'</p><p>'.$e($effect['delivery']).'</p>';
+                if(is_array($effect['components']??null)){
+                    foreach($effect['components'] as $component){if(is_string($component)){$html.='<p>対象機能：'.$e($component).'</p>';}}
+                }
+            }
             return $this->page($html);
         }catch(\Throwable){return $this->page('<p>更新サービスの状態を確認できません。設定は変更していません。</p>',503);}
     }

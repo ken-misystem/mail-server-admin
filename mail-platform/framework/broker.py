@@ -9,7 +9,13 @@ def status(root=ROOT):
  p=load(root/'policy.json',{'revision':0,'mode':'manual'});i=load(root/'installed.json',{'version':'0.0.0'});a=load(root/'available.json',{});t=load(root/'transaction.json',{})
  offered=a.get('version')
  available=offered if offered and version(offered)>version(i['version']) else None
- return {'status':'ok','revision':p['revision'],'mode':p['mode'],'installed_version':i['version'],'available_version':available,'phase':t.get('phase','idle')}
+ pending=[]
+ identifier=t.get('id')
+ if isinstance(identifier,str) and re.fullmatch('[0-9]{1,30}',identifier):
+  generation=load(root/('transaction-'+identifier)/'generation-update.json',{})
+  pending=generation.get('retirement_pending',[])
+  require(type(pending)is list and all(type(name)is str and re.fullmatch('[a-z][a-z0-9-]{0,30}',name) for name in pending),'retirement_status')
+ return {'status':'ok','revision':p['revision'],'mode':p['mode'],'installed_version':i['version'],'available_version':available,'phase':t.get('phase','idle'),'impact':a.get('impact') if available else None,'retirement_pending':pending}
 
 def operation(req,root=ROOT):
  require(isinstance(req,dict),'request')

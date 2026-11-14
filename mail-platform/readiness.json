@@ -16,7 +16,22 @@
   "production_update_hook_implemented": true,
   "production_update_hook_Linux_validated": true,
   "production_fixes_and_help_included": true,
+  "sieve_graphical_document_editor_validated": true,
+  "production_public_code_comparison_reviewed": true,
   "release_asset_builder_tested": true,
   "custom_Dovecot_distribution_validated": true,
-  "third_party_distribution_review_completed": true
+  "third_party_distribution_review_completed": true,
+  "delivery_preserving_updates_validated": true,
+  "sieve_server_concurrency_validated": true,
+  "generation_shared_retirement_validated": true,
+  "generation_writer_nonce_validated": true,
+  "legacy_0_3_first_migration_validated": true,
+  "site_generation_registration_validated": true,
+  "real_SQL_CRL_generation_health_validated": true,
+  "generation_boot_restore_validated": true,
+  "secure_initial_setup_validated": true,
+  "ACME_DNS01_lifecycle_Linux_validated": true,
+  "TLS_pair_activation_recovery_Linux_validated": true,
+  "CA_overlap_rotation_recovery_Linux_validated": true,
+  "certificate_runtime_upgrade_migration_validated": true
 }

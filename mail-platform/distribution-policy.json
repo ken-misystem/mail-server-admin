@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "original_code": {
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 MI-SYSTEM"
+  },
+  "default_distribution": "product-code-with-notices",
+  "components": [
+    {
+      "name": "Composer dependencies",
+      "provision": "bundled-source",
+      "licenses": ["MIT"],
+      "notice_source": "vendor package LICENSE files and generated distribution-inventory.json"
+    },
+    {
+      "name": "PyMySQL",
+      "version": "1.2.3",
+      "provision": "bundled-wheel",
+      "licenses": ["MIT"],
+      "notice_source": "LICENSE inside each wheel"
+    },
+    {
+      "name": "Roundcube Sieve modifications",
+      "provision": "bundled-patches",
+      "licenses": ["GPL-3.0-or-later"],
+      "additional_permission": "Roundcube upstream skins/plugins exception retained",
+      "notice_source": "third-party/roundcube/NOTICE.md",
+      "upstream": "https://roundcube.net/license/"
+    },
+    {
+      "name": "Debian service packages",
+      "provision": "target-apt",
+      "licenses": ["per-installed-package"],
+      "notice_source": "/usr/share/doc/<package>/copyright on the installation target"
+    },
+    {
+      "name": "Dovecot cnfix1 and Pigeonhole",
+      "version": "1:2.4.1+dfsg1-6+deb13u7+cnfix1",
+      "provision": "target-build-from-corresponding-source",
+      "licenses": ["MIT", "LGPL-2.1-only", "file-specific-terms"],
+      "notice_source": "source COPYING, COPYING.MIT, COPYING.LGPL and Debian copyright",
+      "optional_binary_distribution": "separate-component-with-matching-source"
+    },
+    {
+      "name": "ClamAV",
+      "version": "1.4.6",
+      "provision": "official-download-and-local-preparation",
+      "licenses": ["GPL-2.0-only", "dependency-specific-terms"],
+      "notice_source": "official source COPYING and dependency notices, including unRAR",
+      "upstream": "https://github.com/Cisco-Talos/clamav/releases/tag/clamav-1.4.6",
+      "optional_binary_distribution": "separate-component-with-matching-source"
+    }
+  ]
+}

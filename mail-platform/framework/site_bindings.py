@@ -47,6 +47,9 @@ def rebase(rendered,baseline):
    require(h not in mapping or mapping[h]==v,'ambiguous_source_pin');mapping[h]=v
   following={}
   for name,raw in rendered.items():
+   # Upstream diffs and their body digests are data, not code-pin references.
+   if name.removeprefix('payload/').startswith('integration/roundcube-patches/')and name.endswith('.patch'):
+    following[name]=raw;continue
    try:text=raw.decode()
    except UnicodeDecodeError:following[name]=raw;continue
    if name.endswith('.json'):

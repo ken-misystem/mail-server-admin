@@ -14,11 +14,18 @@ def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
-def durable_json(path, value):
+def durable_json(path, value, *, mode=0o600, uid=None, gid=None):
+    if type(mode) is not int or mode<0 or mode>0o777:
+        raise ValueError('durable_json_mode')
+    if any(identity is not None and (type(identity) is not int or identity<0) for identity in (uid,gid)):
+        raise ValueError('durable_json_identity')
     path = Path(path)
     temporary = path.with_name(path.name + '.' + uuid.uuid4().hex)
     fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, 'wb') as stream:
+        if uid is not None or gid is not None:
+            os.fchown(stream.fileno(),-1 if uid is None else uid,-1 if gid is None else gid)
+        os.fchmod(stream.fileno(),mode)
         stream.write(json.dumps(value, sort_keys=True, indent=2).encode() + b'\n')
         stream.flush()
         os.fsync(stream.fileno())
@@ -73,7 +80,8 @@ class Commands:
     def run(self, label, argv, data=None, timeout=300):
         if not label.replace('_', '').isalnum() or not all(type(value) is str for value in argv):
             raise ValueError('command_shape')
-        self.sequence += 1
+        retained = [path.name.split('-',1)[0] for path in self.directory.glob('*-*')]
+        self.sequence = max([self.sequence, *(int(value) for value in retained if value.isdecimal() and len(value)<=12)]) + 1
         prefix = str(self.sequence).zfill(4) + '-' + label
         started = time.time()
         out = self.directory / (prefix + '.stdout')
@@ -265,6 +273,22 @@ class Files:
         entry['phase'] = 'written'
         self.save_entry(entry)
 
+    def mark_unapplied(self, entry):
+        """An exited write that left the exact original resource needs no replacement."""
+        if entry['phase'] != 'write_started':
+            return False
+        path = self.target(entry['path'])
+        try:
+            current = regular(path)[1] if os.path.lexists(path) else None
+        except (OSError, ValueError):
+            return False
+        if current != entry['before']:
+            return False
+        entry['phase'] = 'restored'
+        entry['not_applied'] = True
+        self.save_entry(entry)
+        return True
+
     def restore(self, paths=None):
         held = []
         # Restoring writes must not append to the journal being traversed.
@@ -272,6 +296,8 @@ class Files:
             if paths is not None and entry['path'] not in paths:
                 continue
             if entry['preserve'] or entry['phase'] == 'restored':
+                continue
+            if self.mark_unapplied(entry):
                 continue
             if entry['phase'] != 'written':
                 held.append(entry['path'])

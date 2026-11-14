@@ -1,6 +1,6 @@
 # Mail platform — 同一リポジトリで管理する配布候補
 
-状態は専用Debian 13で導入・更新・復旧を検証済みの配布候補である。正式署名とGitHub公開は本人確認後に行う。検証結果と導入先の確認項目はVALIDATION.mdを参照する。
+標準Roundcube＋独自プラグインを使う配布候補である。導入・更新・復旧の合否は、実際に検証した候補hashと検証結果へ結び付ける。正式署名とGitHub公開は本人確認後に行う。検証範囲と導入先の確認項目はVALIDATION.mdを参照する。
 
 ## ソースと更新の関係
 
@@ -14,6 +14,8 @@
 開発元へのcommit後、事業用リポジトリに検証済みの署名付き正式Releaseを公開すると更新機構が検出する。管理画面で「正式リリースを自動更新」「通知を確認して手動で更新」を切替える。
 
 ## 候補の生成
+
+通常のbuild.pyまたはrelease_assets.py prepareは、標準Roundcubeと転送・フィルター・休暇応答の独自プラグインを使う候補を生成する。既定値はpluginで、`--roundcube-settings plugin` でも明示できる。既知のmanagesieve修正2件は原版へ戻す。旧構成を検証する場合は `--roundcube-settings legacy` を明示する。既存環境の設定移行は専用工程で確認する。[プラグインの設定と制約](plugins/mail_settings/README.md)
 
 ```powershell
 python -B mail-platform/build.py --repository-root . --version 0.1.0 --output ./mail-platform-dist/0.1.0-candidate
@@ -37,13 +39,15 @@ GitHub Releases APIで正式版だけを検出。Ed25519署名、archive/manifes
 
 更新はplan→stage→activate→health。状態と取引履歴をfsync保存し、health失敗はrollback。復旧不能/終了不明は保留して再試行しない。同じ失敗版を自動再実行しない。手動待機中は検証済みcacheを再利用し、15分ごとの再downloadを避ける。実データ領域はreleaseと分離し、DBの破壊的migrationを自動復旧で巻き戻さない。
 
-正式配布時の固定asset名は mail-platform.tar.gz / release.json / release.sig。現候補は install_ready=false のため自動適用機構も拒否する。本番署名用の暗号化Ed25519鍵は生成・公開署名証跡の独立検証まで完了した。信頼する公開鍵は導入時の別経路で照合する。
+正式配布時の固定asset名は mail-platform.tar.gz / release.json / release.sig。未署名の導入候補はinstall_ready=falseで生成する。通常更新と、管理画面・Roundcube・送信量policyを対象とするformat 2の導入・更新・条件付き復旧を隔離環境で確認した。検証条件と登録構成が一致する正式資材は--install-readyで準備できる。本番署名用の暗号化Ed25519鍵は生成・公開署名証跡の独立検証まで完了した。信頼する公開鍵は導入時の別経路で照合する。
 
-## 未完了・適用前の必須条件
+## 確認結果と導入先の準備
+
+新規導入の初期UIはloopback HTTPSに限定する。初期パスワードは管理端末へ期限付きで発行し、パスキー確認と恒久パスワードへの更新後、rootが明示的に公開する。手順はINITIAL_SETUP.mdを参照する。追加した初期設定方式の検証状態はreadiness.jsonのsecure_initial_setup_validatedへ記録する。
 
 readiness.jsonとINSTALLATION.mdを参照。基本設定・証明書actor5設定・同一repo由来の依存組立て、OS package・専用OS利用者・DB・配置・サービスの新規導入adapterを実装した。installの入口は明示的な--apply、私有kit、取引ごとの新規証拠領域、端末での管理者パスワード入力を要求する。設定復旧はCASで行い、DB・メール・履歴・秘密を保持する。
 
-空Debian13での実導入・全service保護下の実行、認証付き画面、実サービスでのupgrade/rollback統合は残る。更新hookは実装した。現候補はinstall_ready=falseを維持する。
+空Debian13での実導入・認証付き画面・実サービスでの更新/復旧を、候補ごとの保存結果で確認する。旧構成の成功証拠と最新構成の差分を照合する。正式資材への採用には対象候補全体の検証結果を使用する。現候補はinstall_ready=falseで生成する。
 
 独自コードのライセンスはMIT、著作権表示はMI-SYSTEMである。LICENSEとLICENSING.mdに全文と第三者製コードの配布条件を収録した。
 
@@ -65,9 +69,9 @@ WSL内の空Debian13で実導入と更新/復旧、実ブラウザーで管理�
 
 release_assets.pyのplan・prepare・sign・verifyで、固定assetの生成・暗号化鍵による署名・公開鍵での独立確認を行う。操作はRELEASE.mdを参照する。候補を合成鍵で署名してもinstall_ready=falseを保持する。必須検証欄の欠落時も正式資材の生成・署名を保留する。
 
-distribution-inventory.jsonへ同梱Composer依存の宣言ライセンス・版・noticeのhashを保存する。今回確認した58種類・116配置は、全配置に宣言とnoticeがある。Dovecot/ClamAVの対応sourceとnoticeを配布資材へ収録し、空OSで実起動を確認した。
+公開コードのライセンス一覧はTHIRD_PARTY.mdを参照する。build.pyとrelease_assets.pyは、導入・更新資材へdistribution-inventory.jsonを収録する。同梱Composer依存の宣言ライセンス・版・noticeのhash、PyMySQL wheelの許諾文、各componentの取得方法を記録する。
 
-native_assets.pyとnative-assets-lock.jsonでClamAV runtime・対応source・noticeを版固定で組み立てる。公式sourceのRust依存195件を検査し、Dovecot source候補と同時配布用のarchiveへまとめる。導入先kitへの採用と未実施の実環境確認はNATIVE_ASSETS.mdを参照する。
+標準の取得方法はdistribution-policy.jsonとDISTRIBUTION.mdを参照する。native_assets.pyとnative-assets-lock.jsonでClamAV公式資材を照合し、現地kitへ準備する。改造版binaryを別配布するときは対応source・notice・build recipeを同版で提供する。NATIVE_ASSETS.mdに準備手順を記載する。
 
 ## 運用境界
 

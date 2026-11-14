@@ -45,6 +45,10 @@ python3 -I -S -B install.py plan --site site.json
 
 初期UIは127.0.0.1:443で待ち受ける。ランダムな初期パスワードを管理端末へ表示し、発行から30分で失効する。パスキー登録・認証後にrootが明示公開する。[導入環境と全手順](mail-platform/INSTALLATION.md)、[初期ログインと公開](mail-platform/INITIAL_SETUP.md)
 
+## 証明書の導入・更新
+
+サーバーTLSは事前資材をkitへ入力し、端末証明書はRoundcubeから発行・失効する。サーバーTLSのACME取得・自動更新設定と全入口への反映、CA世代交代は残件である。現在の実装範囲と運用手順を確認する。[証明書の導入・更新](mail-platform/CERTIFICATES.md)
+
 ## 資材・更新・復旧
 
 公式ClamAV資材とDovecot cnfix1の対応ソース・build手順を利用し、導入先のkitへ必要な資材を準備する。独自MITと第三者GPL/LGPL等の許諾文・notice・対応ソースを保持する。[native資材](mail-platform/NATIVE_ASSETS.md)、[ライセンス](mail-platform/LICENSING.md)

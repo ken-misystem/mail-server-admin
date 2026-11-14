@@ -2,7 +2,71 @@
 
 基本設定とOS・DB・サービス導入adapterを実装した。対象は空のDebian 13 amd64。既存メール構成・同名専用OS利用者・既存DBを検出すると停止する。2026-11-12、専用WSL2内の空Debian 13.5/systemd-nspawnで通常入口からの実導入、実認証UI、署名付き手動/自動更新、故障時復旧と未知差分保留を確認した。検証範囲はVALIDATION.mdを参照する。
 
+## 対応版と配布状況
+
+2026-11-14時点では導入・更新バイナリの配布を停止し、ソースとライセンス資料を公開している。本ページのcheck・reissue・publishは準備中の0.4.0候補の機能である。対応する署名付き導入資材の公開後に本手順を使用する。GitHubの現行mainと旧0.1.1には追加前のコードが含まれる。
+
+新しい初期設定方式は、成功済み工程を再利用した続行と新規差分で確認した。環境チェックのLinux新規12条件、初期UI・仮想パスキー・明示公開・条件付き復旧を確認済み。最新版一式の空OSからの単一無中断実行、実VPSの外部経路、物理認証器は未確認である。
+
+## 導入環境
+
+| 項目 | 準備する内容 |
+|---|---|
+| OS・CPU | 専用の空Debian 13 amd64/x86_64、systemdをPID1として起動 |
+| 管理権限 | rootの対話端末。既存SSHのホスト鍵と接続方法を確認する |
+| ツール | DebianのPython 3、dpkg-query、systemctl。kitのbuild・検証用依存はNATIVE_ASSETS.mdを参照 |
+| IPv4・名前 | サーバーへ割り当てたグローバルIPv4、メール用FQDN、管理するドメイン |
+| TLS・PKI | FQDNと一致する有効なTLS証明書・秘密鍵、新サイト用のCA/issuer資材 |
+| ネット接続 | DebianのAPT、公式native資材・定義、公開更新元への必要な接続 |
+| 保存先 | rootが管理する書込み可能な配置先と、新規診断領域の既存親フォルダー |
+| 容量 | メール・DB・ログ・AV定義・バックアップを収容する容量。固定の最低CPU/RAM/disk必要量は未確定 |
+
+### 公開ポートと内部ポート
+
+導入開始時は管理用SSHで接続し、VPS側パケットフィルターのメール・Web公開は初期設定と公開判断の後に行う。SSHのポート番号は導入先の現行設定を使用する。
+
+| 外部向けTCP | 用途 |
+|---|---|
+| 25 | 他メールサーバーからの受信 |
+| 443 | Roundcube・管理画面 |
+| 465 | 旧SMTP認証ID向けのTLS送信入口 |
+| 587 | クライアント証明書方式のメール送信入口 |
+| 993・995 | クライアント証明書方式のIMAP・POP接続 |
+
+110・143・3306・4190・6379・10001・10002・10027・11332・11333・11334はloopback等の内部利用として扱う。外部向けポートの許可元と利用範囲は運用に合わせて確定する。公開DNSにはA/PTRと、配送先として採用する時点のMX、送信ドメインのSPF/DKIM/DMARCを準備する。
+
+## 導入前の準備
+
+署名付き正式資材を取得し、別経路で信頼を確認した公開鍵を使って署名とSHA256・サイズを照合する。導入archiveの展開先で作業し、kitは後述のroot専用領域へ配置する。[署名確認手順](../PUBLICATION.md)
+
+site.example.jsonをsite.jsonへコピーし、次の値を導入先に合わせる。例の192.0.2.10は文書用IPv4である。installには実際のグローバルIPv4を指定する。
+
+| キー | 設定する値 |
+|---|---|
+| mail_host | TLS証明書と一致するメールサーバーのFQDN |
+| primary_domain | 最初に管理するメールドメイン |
+| public_ipv4 | 導入先のグローバルIPv4 |
+| notification_recipient | 管理通知の受信先 |
+| legacy_pop_host | 旧POP取込みを使う場合の接続先。初期例はold-disabled.example.invalid |
+| legacy_import_email | 移行用アドレス。初期例はlegacy-disabled@example.invalid |
+| migration_domain | 移行対象のドメイン |
+
+以下は導入先のrootシェルで実行する。各--evidenceには毎回異なる新規ディレクトリーを指定する。checkの診断先とinstallの診断先も別にする。
+
 ## 操作入口
+
+環境チェックを最初に実行する。Debian 13 amd64・systemd、既存の競合アプリとunit、利用予定TCPポート、配置先と親フォルダー、専用ユーザー／グループを一括確認する。検出した競合を一覧で返し、終了値2で停止する。環境チェック本体はホスト設定を変更しない。`--evidence`を指定した場合だけ、新規のroot専用診断領域へ結果を保存する。
+
+```sh
+sudo python3 -I -S -B install.py check --site site.json \
+  --evidence /root/mail-platform-environment-001
+```
+
+配置先の既存資源、途中のsymlink、root以外が所有する親フォルダー、他者の書込み権限、読取り専用ファイルシステムを拒否する。診断保存先がアプリ配置先へ重なる場合も拒否する。専用の空OS向けの導入であり、既存アプリの採用・停止・設定の修復は管理者が判断する。
+
+使用予定ポートはIPv4・IPv6、loopbackを含めて確認する。同じ番号を使用中の別アドレスの待受けも競合として扱う。SSH等の導入対象外ポートの利用は許可する。予約ポートは25/110/143/443/465/587/993/995/3306/4190/6379/10001/10002/10027/11332/11333/11334である。
+
+確認後の状態変化を検出するため、installも初期資格情報の発行前と、設定変更開始前に確認する。保存した診断のPASSで次の実行を無条件に許可する仕組みは設けていない。ネットワーク検査はその時点のTCP待受けを確認するものであり、後から別プロセスが起動する競合やVPS側のパケットフィルターを保証しない。
 
 ```sh
 python3 -I -S -B install.py plan --site site.json
@@ -20,7 +84,23 @@ sudo python3 -I -S -B install.py install --site site.json \
   --administrator-email admin@example.test --resolver 1.1.1.1 --apply
 ```
 
-管理者の新しいパスワードを端末の非表示入力で2回受け付ける。installは新規導入用である。中断した場合は取引記録と作成済み資源を照合して続行方法を決定する。
+installは初期管理者用のランダムな期限付きパスワードを生成し、成功後に管理端末だけへ表示する。初期UIは127.0.0.1:443へ限定し、メール関連の公開用unitは停止する。INITIAL_SETUP.mdの初期ログイン・パスキー確認・明示的publishを実施する。installは新規導入用である。中断した場合は取引記録と作成済み資源を照合して続行方法を決定する。
+
+## 初期ログインから公開まで
+
+1. 管理用HTTPS接続経路を用意し、mail_hostと同じホスト名・443で管理画面を開く。
+2. 端末に表示された管理者名と30分有効の初期パスワードでログインする。
+3. パスキーを登録し、そのパスキーで本人確認を成功させる。
+4. rootが次のpublishを実行し、初期値と異なる恒久パスワードを非表示で2回入力する。
+
+```sh
+python3 -I -S -B install.py publish --site site.json \
+  --confirm-host mx.example.net --evidence /root/mail-platform-publish-001 --apply
+```
+
+--confirm-hostにはsite.jsonのmail_hostを指定する。公開処理はメール関連サービスを起動し、nginxを再起動して公開待受けへ切り替える。初期画面の接続は終了する。初期資格情報の再発行、HTTPS接続、公開失敗時の復旧はINITIAL_SETUP.mdに記載した。[初期ログインの詳細](INITIAL_SETUP.md)
+
+公開確認後、ドメイン・利用者、端末証明書、通知・バックアップを設定する。VPS側とOS側のFW規則を確認して必要な入口を許可し、宛先の準備が完了した時点でMXを切り替える。UFWの許可規則とENABLEDは導入先で設定する。
 
 ## 現地の私有資材
 
@@ -29,6 +109,7 @@ kit.example.jsonの各files項目に相対pathと実ファイルのSHA256を記�
 - tls_certificate / tls_keyは新サーバー名に一致する公開TLS証明書chainと秘密鍵。
 - root / issuer / root_crl / custody / restoration / custody_statementは証明書機能の公開CA・CRL・custody/restoration証跡。CA root秘密鍵はオフラインで管理する。新サイト用issuer_keyは暗号化し、issuer_passwordと分けて置く。
 - guardは収録C sourceから導入先向けに構築したguard.so。release_public_keyは別経路で信頼を固定したEd25519公開鍵。
+- sieve_session_lock / sieve_session_lock_metadataは、同じDovecot build treeから作成したSieve排他moduleとsource/ABI/hash記録である。NATIVE_ASSETS.mdの生成手順と実SHA256を使う。
 - github_tokenは配布リポジトリーのRelease取得用資格情報。公開リポジトリーで匿名取得する場合もroot600の入力ファイルを用意し、空値を渡す。実LoadCredentialと厳格なHTTPSで空値の処理を確認した。
 - dovecot_packagesに独自修正版1:2.4.1+dfsg1-6+deb13u7+cnfix1の必要7packageを列挙する。dpkg-debで名前・版・amd64/allを照合する。
 - clamav_runtime_manifestはfilesオブジェクトを持ち、usr/local以下の各通常ファイルをkit.files内の資材名へ対応させる。ClamAV 1.4.6の署名・ライセンス・依存を確認したruntimeを使用する。definition_main / definition_daily / definition_bytecodeは公式定義である。
@@ -40,14 +121,14 @@ ClamAVの公開runtime資材はnative_assets.pyで組み立てる。NATIVE_ASSET
 ## 実行順序
 
 1. root・Debian 13 amd64・空構成・新規証拠領域・kitの属性/hash・排他を照合する。
-2. 一時policy-rc.dでAPTの自動起動を抑止する。候補版を記録し、削除なしのsimulation後、同じ指定版で導入する。Postfix自動構成とRoundcube dbconfig自動作成を抑止する。
+2. 一時policy-rc.dと常設の公開承認barrierで自動起動を抑止する。候補版を記録し、削除なしのsimulation後、同じ指定版で導入する。Postfix自動構成とRoundcube dbconfig自動作成を抑止する。
 3. 専用OS利用者/groupを作り、NSSの実UID/GIDで監査済みguardとunitを変換する。資格情報は新規64桁hexを同じ取引内で使用する。
 4. サイト・UID/GID・5証明書actor・private backend・CA参照・22私有設定を組み立てる。Postfix/Dovecot/Rspamd/nginx/FPM、SRS・DKIM・5jailの基本設定を作る。
 5. MariaDBの39オブジェクト、最小権限、Roundcube package core＋認証拡張、lock2件・送信量profile2件を作る。DDLごとにstarted/completedを保存する。公開3列のUNION viewにはview SELECTを付与する。
 6. コード・設定・unitを原子的に配置して元値と最終hash/属性を保存する。SQLite、POP暗号鍵、DKIM鍵、公式AV資材を初期化し、TLS health unitで公開前bundleを準備する。
 7. native構文・TLSの鍵対応/chain/名前・systemd定義を確認し、初期管理者を監査付き取引で登録する。
-8. 一時policy-rc.dを元へ戻す。socket、互換認証、基礎サービス、証明書target、ログcollector、publisher、容量collector、AV、socket worker、timerを順に起動し、自動起動を設定する。
-9. 必須service・DB ping・自分の管理画面HTTPS・後続publisher世代を確認する。取引・所有コードreceipt・installed版を保存し、読戻してcompleteを記録する。
+8. 一時policy-rc.dを元へ戻す。MariaDBとPHP-FPM、loopback HTTPSだけを起動し、公開用unitとtimerは無効化する。
+9. DB ping、loopback管理画面HTTPS、公開用unitの停止、公開application listenerが0件であることを確認する。取引・所有コードreceipt・installed版を保存し、隔離初期設定の完了を記録する。全体serviceの起動・自然更新healthは、管理者のpublishで確認する。
 
 ## 初期値と現地設定
 

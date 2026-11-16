@@ -61,3 +61,8 @@ python3 -I -S -B payload/usr/local/lib/mail-platform-update/sieve_lock.py build 
 - ClamAV公式Releaseとsourceを参照する。[ClamAV 1.4.6](https://github.com/Cisco-Talos/clamav/releases/tag/clamav-1.4.6)
 - Cargoのvendorとchecksum metadataを参照する。[cargo vendor](https://doc.rust-lang.org/cargo/commands/cargo-vendor.html)、[source replacement](https://doc.rust-lang.org/cargo/reference/source-replacement.html)
 - 公式定義の取得はFreshClamを使用する。[ClamAV公式FAQ](https://docs.clamav.net/faq/faq-cvd.html)
+# Rspamd symbols.cacheのソース修正
+
+Debian 3.12.1-1向けの修正パッチ・固定SHA256・ソース準備helper・ビルド／適用時の
+注意事項は[third-party/rspamd/README.md](third-party/rspamd/README.md)を参照。
+既存v0.4.0の署名付き資材を置換せず、インストーラー／更新器による自動導入も行わない。

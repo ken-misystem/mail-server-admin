@@ -2,6 +2,14 @@
 
 Debian 13 amd64向けメールサーバーの導入・管理・署名付き更新コードです。Roundcube、クライアント証明書、送信量制限、転送・Sieve、監視、ウイルス・添付制御を組み込みます。
 
+## Rspamd symbols.cache修正（ソース公開）
+
+Debian Rspamd 3.12.1-1向けの保存修正を追加しました。
+[修正パッチ・ソース準備・ビルド／適用手順](mail-platform/third-party/rspamd/README.md)
+と[ライセンス・変更表示](mail-platform/third-party/rspamd/NOTICE.md)を参照してください。
+既存の署名付きv0.4.0資材は変更していません。v0.4.0のインストーラー・更新器は
+このパッチを自動適用しません。ソースの反映と新しいバイナリReleaseは別工程です。
+
 ## 0.4.0
 
 [署名付きReleaseと配布資材](https://github.com/ken-misystem/mail-server-admin/releases/tag/v0.4.0)

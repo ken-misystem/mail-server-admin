@@ -1,0 +1,7 @@
+rspamd (3.12.1-1+0misystem1) unstable; urgency=medium
+
+  * Backport upstream symcache persistence fix (381fafc), preserving 3.12.1
+    statistics rounding. Include persistence regression tests.
+
+ -- MI SYSTEM <62289705+ken-misystem@users.noreply.github.com>  Mon, 16 Nov 2026 21:40:00 +0900
+

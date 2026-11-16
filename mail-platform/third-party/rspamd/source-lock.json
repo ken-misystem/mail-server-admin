@@ -1,0 +1,30 @@
+{
+  "format": 1,
+  "package_version": "3.12.1-1+0misystem1",
+  "upstream_commit": "381fafc48f4d1c6a3550cb4b5123b78c104513a1",
+  "target": "src/libserver/symcache/symcache_impl.cxx",
+  "before_sha256": "f5bcf8d9cb224232d6a268749c9d2d63990d2dd30ddf6be4c8e07aae88c05e33",
+  "after_sha256": "00a4a74c35ca918e9f1c06d5e41a5307180f303b7c1415afcaaa32633b7108ea",
+  "sources": {
+    "rspamd_3.12.1-1.dsc": {
+      "sha256": "777411f0233efbb3288451c8fbadcdea23c27ff2244848a4b053d6cdd6523358",
+      "bytes": 2368,
+      "url": "https://deb.debian.org/debian/pool/main/r/rspamd/rspamd_3.12.1-1.dsc"
+    },
+    "rspamd_3.12.1.orig.tar.xz": {
+      "sha256": "8801ee6838114c5a9e69fc27e818be4d636c051f06c87a2c711111dc21a4a254",
+      "bytes": 4799316,
+      "url": "https://deb.debian.org/debian/pool/main/r/rspamd/rspamd_3.12.1.orig.tar.xz"
+    },
+    "rspamd_3.12.1-1.debian.tar.xz": {
+      "sha256": "440a6b55698724f36d44e778f655a5f9817fb2d7051d7e3ba77e8f76a99e5f87",
+      "bytes": 388644,
+      "url": "https://deb.debian.org/debian/pool/main/r/rspamd/rspamd_3.12.1-1.debian.tar.xz"
+    }
+  },
+  "materials": {
+    "symcache-persistence.patch": "3d3b6d67d99e7b12c5c5b0a46c7b8d6046853407fe7b7f8716b11efcb61202a9",
+    "rspamd_cxx_unit_symcache_persistence.hxx": "930b62058e59f0107fda078999d1df2f8eaf5692739111f6202a9f5658b8b361",
+    "changelog-entry.txt": "2dbdd2c901557c4bd13191627d10081f75672921ed659f45b95722c0629191e9"
+  }
+}

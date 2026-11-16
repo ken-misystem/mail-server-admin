@@ -22,3 +22,11 @@ MI-SYSTEM独自コードのライセンスはMIT。第三者ソフトウェア�
 既定のplugin構成では、Roundcube本体を原版に保ち、独自mail_settingsを登録する。旧構成のGPL修正patchは移行と復旧の資料として収録し、patch先頭の変更者・日付・GPL表示、NOTICE.mdと全文を保持する。managesieveのMI-SYSTEM-MODIFICATIONS.mdは選択した構成の状態を記録する。
 
 [Roundcube変更表示](third-party/roundcube/NOTICE.md)
+# Rspamd cache修正の追加資料
+
+`third-party/rspamd/`にDebian 3.12.1-1用の保存修正パッチ、固定取得元、準備helper、
+build手順を追加した。C++ patch/testはApache-2.0を維持し、独自MITには含めない。
+元のApache許諾文とDebianのcomponent別copyright一覧を同梱する。
+Rspamd全体の依存にはLGPL等も含まれる。詳細は
+[変更表示](third-party/rspamd/NOTICE.md)・[適用範囲](third-party/rspamd/README.md)を参照。
+今回の追加はソースのみで、署名付きv0.4.0や自動更新資材は変更しない。

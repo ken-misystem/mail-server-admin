@@ -7,6 +7,16 @@
   "default_distribution": "product-code-with-notices",
   "components": [
     {
+      "name": "Rspamd symbols.cache backport",
+      "version": "3.12.1-1+0misystem1",
+      "provision": "source-patch-and-local-build-recipe",
+      "licenses": ["Apache-2.0", "dependency-specific-terms"],
+      "notice_source": "third-party/rspamd/NOTICE.md and COPYRIGHT.debian",
+      "upstream": "https://github.com/rspamd/rspamd/commit/381fafc48f4d1c6a3550cb4b5123b78c104513a1",
+      "automatic_installation": false,
+      "optional_binary_distribution": "separate-component-with-matching-source"
+    },
+    {
       "name": "Composer dependencies",
       "provision": "bundled-source",
       "licenses": ["MIT"],

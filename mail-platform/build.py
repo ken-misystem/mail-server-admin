@@ -22,6 +22,11 @@ def release_cache(text):
 
 def transformed(name,raw):
  text=raw.decode('utf-8')
+ if name=='dkim_dashboard':
+  before='Dashboard::render($snapshot,InternalAlertsStatus::read(time()))'
+  after='DkimReadiness::render().'+before
+  if after in text:return raw
+  require(text.count(before)==1,'dkim_dashboard_anchor');return text.replace(before,after).encode()
  if name=='monitor_environment':
   from monitor_render import render
   return render(raw)
@@ -84,7 +89,7 @@ def prepare(repository, roundcube_settings='plugin'):
  prefix='payload/opt/mail-management/candidates/protection-relay-v1/';m={n[len(prefix):]:{'bytes':len(b),'sha256':sha(b)}for n,b in files.items()if n.startswith(prefix)and not n.endswith('/BUNDLE_MANIFEST.json')}
  files[prefix+'BUNDLE_MANIFEST.json']=json.dumps(m,sort_keys=True,indent=2).encode()+b'\n'
  for n in ['install.py','readiness.json','site.example.json','facts.example.json','kit.example.json','acme.example.json','configuration-plan.json','README.md','INSTALLATION.md','CERTIFICATES.md','RELEASE.md','ACCEPTANCE.md','native_assets.py','native-assets-lock.json','NATIVE_ASSETS.md','VALIDATION.md','AVAILABILITY.md','INITIAL_SETUP.md']:files[n]=(HERE/n).read_bytes()
- documents=['LICENSE','LICENSING.md','THIRD_PARTY.md','DISTRIBUTION.md','COMMON_UPDATE.md','ADOPTION.md','distribution-policy.json','licenses/roundcube/LICENSE']
+ documents=['LICENSE','LICENSING.md','THIRD_PARTY.md','DISTRIBUTION.md','COMMON_UPDATE.md','DKIM_CHECKLIST.md','ADOPTION.md','distribution-policy.json','licenses/roundcube/LICENSE']
  documents.extend(path.relative_to(HERE).as_posix() for path in sorted((HERE/'third-party').rglob('*')) if path.is_file())
  for name in documents:
   raw = (HERE/name).read_bytes()

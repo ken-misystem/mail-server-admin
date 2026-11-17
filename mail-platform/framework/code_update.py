@@ -12,6 +12,7 @@ from site_bindings import bind as bind_site, rebase
 from release import sha, version
 from roundcube_core import TARGETS as ROUNDCUBE_TARGETS,render as render_roundcube_core
 from sieve_lock import MODULE as SIEVE_MODULE
+from code_attributes import attributes as code_attributes
 
 CERTIFICATE = 'usr/local/lib/mail-client-certificates-v1/'
 PREFIXES = ('usr/local/lib/', 'usr/local/sbin/', 'opt/mail-management/',
@@ -215,8 +216,7 @@ class CodeUpdate:
                 raise ValueError('installed_code_drift:'+path)
             if before is None and os.path.lexists(self.files.target(path)):
                 raise ValueError('new_code_collision:'+path)
-            mode, gid = (0o640, receipt['identities']['mailadmin.gid']) if name.startswith('opt/mail-management/') else (0o644, 0)
-            after = {'sha256': sha(content), 'uid': 0, 'gid': gid, 'mode': mode}
+            after = {'sha256': sha(content), **code_attributes(path, receipt['identities'], before, receipt['version'])}
             if before != after:
                 candidates[path] = {'before': before, 'after': after, 'source': name}
         if set(receipt['code']) - {'/'+name for name in bound}:
@@ -228,7 +228,7 @@ class CodeUpdate:
             source = 'blueprint/systemd/'+name
             if source not in bound:
                 raise ValueError('release_unit_removal_requires_migration_hook')
-            after = {'sha256': sha(bound[source]), 'uid': 0, 'gid': 0, 'mode': 0o644}
+            after = {'sha256': sha(bound[source]), **code_attributes(path, receipt['identities'], before, receipt['version'])}
             if before != after:
                 candidates[path] = {'before': before, 'after': after, 'source': source}
         operations = set(checked['pause']+checked['stop']+checked['reload'])
@@ -312,6 +312,8 @@ class CodeUpdate:
             self.files.write(path, raw, entry['after']['mode'], entry['after']['uid'], entry['after']['gid'])
         if any(path.startswith('/etc/systemd/system/') for path in self.record['candidates']):
             self.commands.run('systemd_reload', ['/usr/bin/systemctl', 'daemon-reload'])
+        from dkim_readiness import update_apply
+        update_apply(self)
         self.check_aliases(self.record['old_receipt'])
         for name in value['start']:
             if self.record['before_units'][name]['ActiveState'] == 'active':
@@ -385,6 +387,8 @@ class CodeUpdate:
             for name in value['pause']+value['stop']:
                 if self.unit(name)['ActiveState'] == 'active':
                     self.operation('stop', name)
+        from dkim_readiness import update_rollback
+        update_rollback(self)
         result = self.files.restore()
         if result['status'] != 'restored':
             raise ValueError('rollback_held_file_restore')

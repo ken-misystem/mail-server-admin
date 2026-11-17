@@ -19,6 +19,8 @@ def reusable_cache(available,release,cache):
 
 def check(apply_manual=False):
  require(os.geteuid()==0,'root_required');os.umask(0o077)
+ from dkim_readiness import refresh_for_update
+ refresh_for_update()
  retire_previous(ROOT)
  cfg=load('/etc/mail-platform/update-source.json');repository=repo(cfg['repository'])
  creds=os.environ.get('CREDENTIALS_DIRECTORY');token=None
@@ -44,9 +46,14 @@ def check(apply_manual=False):
   os.replace(ROOT/'manual-request.json',ROOT/('completed-request-'+str(time.time_ns())+'.json'))
  return result
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('command',choices=['check','worker']);args=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('command',choices=['check','worker','dkim-check','dkim-apply']);args=p.parse_args()
  try:
-  result=check(apply_manual=args.command=='worker'and(ROOT/'manual-request.json').exists());print(json.dumps(result))
+  if args.command in ('dkim-check','dkim-apply'):
+   require(os.geteuid()==0,'root_required');os.umask(0o077)
+   from dkim_readiness import installed
+   result=installed(refresh_only=args.command=='dkim-check')
+  else:result=check(apply_manual=args.command=='worker'and(ROOT/'manual-request.json').exists())
+  print(json.dumps(result))
  except Exception as e:
   # Finite error names, not subprocess output, secrets, tokens or URLs.
   print(json.dumps({'phase':'failed','error':type(e).__name__,'reason':str(e)if isinstance(e,ValueError)else'operation_failed'}));raise SystemExit(1)

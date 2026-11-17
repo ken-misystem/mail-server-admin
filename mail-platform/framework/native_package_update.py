@@ -102,6 +102,29 @@ class NativePackage:
             if p.is_symlink():result[name]={'link':os.readlink(p)}
             elif p.is_file():result[name]=regular(p)[1]
         return result
+    def configurations_after_common_hooks(self):
+        """Accept only the current transaction's exact, reversible DKIM dedup."""
+        expected=dict(self.record['configs'])
+        directory=self.directory.parent/'dkim'
+        from dkim_readiness import CONFIG, deduplicate
+        for path in sorted(directory.glob('file-entry-*.json')):
+            raw,trust=regular(path)
+            require(trust['uid']==0 and trust['mode']==0o600,'native_DKIM_journal_trust')
+            entry=json.loads(raw)
+            require(entry['path']==CONFIG and expected.get(CONFIG.lstrip('/'))==entry['before'],'native_DKIM_baseline')
+            if entry['phase']=='restored':continue
+            require(entry['phase']=='written','native_DKIM_change_unknown')
+            # Backup location is produced by Files; restrict it to this journal.
+            name=entry['backup']
+            require(type(name)is str and Path(name).name==name and name.startswith('original-'),'native_DKIM_backup_scope')
+            backup=directory/name
+            require(not backup.is_symlink(),'native_DKIM_backup_scope')
+            before=regular(backup)[0];require(sha(before)==entry['before']['sha256'],'native_DKIM_backup_hash')
+            normalized,count=deduplicate(before)
+            after=dict(entry['before'],sha256=sha(normalized))
+            require(count>0 and entry['after']==after,'native_DKIM_only_duplicate_removal')
+            expected[CONFIG.lstrip('/')]=after
+        return expected
     def runtime(self,kind):
         for path,digest in self.offer[kind]['runtime_files'].items():
             raw,meta=self.live(path)
@@ -235,7 +258,7 @@ class NativePackage:
     def health(self):
         self.load();require(self.record['phase']=='applied','native_health_order')
         require(self.version()==self.offer['candidate']['version'],'native_health_version');self.runtime('candidate')
-        require(self.configurations()==self.record['configs'],'native_health_config')
+        require(self.configurations()==self.configurations_after_common_hooks(),'native_health_config')
         require(json.loads(self.live(STATE)[0])==self.receipt(),'native_health_receipt')
         if self.record['before_unit']['ActiveState']=='active':self.ready()
         else:require(self.unit()['ActiveState']=='inactive','native_closed_service_started')
@@ -245,7 +268,7 @@ class NativePackage:
         if not self.path.exists():return
         self.load();require(self.record['request'] is None,'native_outcome_unknown')
         if self.record['phase']=='rolled_back':return
-        require(self.configurations()==self.record['configs'],'native_rollback_config_drift')
+        require(self.configurations()==self.configurations_after_common_hooks(),'native_rollback_config_drift')
         expected='candidate' if self.record['changed_package'] else self.record['kind']
         require(self.version()==self.offer[expected]['version'],'native_rollback_version');self.runtime(expected)
         for entry in self.files.entries:

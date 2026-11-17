@@ -65,6 +65,14 @@ def rebase(rendered,baseline):
      return mapping[value][0]if isinstance(value,str)and value in mapping else value
     text=json.dumps(update(json.loads(text)),sort_keys=True,indent=2)+'\n'
    else:
+    # Strict loaders compare a paired length and digest, not a tuple. Rebind
+    # both from the same source; never replace an unrelated integer constant.
+    def paired_loader(m):
+     v=mapping.get(m['hash'])
+     if not v:return m[0]
+     require(int(m['size'])==v[2],'loader_source_size_pin')
+     return m['head']+str(v[1])+m['between']+v[0]+m['quote']
+    text=re.sub(r"(?P<head>len\((?P<variable>[A-Za-z_]\w*)\)\s*!=\s*)(?P<size>[0-9]+)(?P<between>\s+or\s+hashlib\.sha256\((?P=variable)\)\.hexdigest\(\)\s*!=\s*(?P<quote>['\"]))(?P<hash>[a-f0-9]{64})(?P=quote)",paired_loader,text)
     def reference(m):
      v=mapping.get(m['hash'])
      if not v:return m[0]

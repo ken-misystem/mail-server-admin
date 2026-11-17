@@ -300,5 +300,5 @@ logpath = /var/log/fail2ban.log
     add('/etc/postsrsd.secret', passwords['postsrsd_secret'] + '\n', 'root', 0o600, True)
     add('/etc/rspamd/local.d/dkim_signing.conf',
         'selector = "mail";\npath = "/var/lib/rspamd/dkim/$domain.$selector.key";\n'
-        'sign_authenticated = true;\nsign_local = true;\nuse_domain = "header";\n')
+        'sign_authenticated = true;\nsign_local = true;\nuse_domain = "header";\nuse_esld = false;\ncheck_pubkey = true;\nallow_pubkey_mismatch = false;\nsign_inbound = false;\n')
     return files

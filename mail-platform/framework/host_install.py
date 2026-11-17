@@ -347,11 +347,9 @@ class Installer:
         for name, raw in self.bound.items():
             if name.startswith('blueprint/'):
                 continue
-            mode = 0o644
-            group = 0
-            if name.startswith('opt/mail-management/'):
-                mode, group = 0o640, self.ids['mailadmin.gid']
-            self.files.write('/' + name, raw, mode, gid=group)
+            from code_attributes import attributes
+            metadata = attributes('/' + name, self.ids)
+            self.files.write('/' + name, raw, metadata['mode'], uid=metadata['uid'], gid=metadata['gid'])
         for resource in self.resources:
             group = grp.getgrnam(resource.group).gr_gid
             from setup_access import WEB, local_web
@@ -505,11 +503,13 @@ class Installer:
                          0o640, gid=self.ids['mailpop.gid'], preserve=True)
         self.files.write('/etc/roundcube/mail-pop-public.key', (self.evidence / 'pop-public').read_bytes(),
                          0o640, gid=self.ids['www-data.gid'], preserve=True)
-        self.commands.run('DKIM_key', ['/usr/bin/openssl', 'genpkey', '-algorithm', 'RSA',
-                          '-pkeyopt', 'rsa_keygen_bits:2048', '-out', str(self.evidence / 'dkim.key')])
-        self.files.create_state('/var/lib/rspamd/dkim/' + self.site['primary_domain'] + '.mail.key',
-                                (self.evidence / 'dkim.key').read_bytes(),
-                                self.ids['_rspamd.uid'], self.ids['_rspamd.gid'])
+        self.initialize_dkim()
+
+    def initialize_dkim(self):
+        from dkim_readiness import Reconcile
+        evidence = self.evidence/'dkim'
+        evidence.mkdir(mode=0o700)
+        Reconcile(self.files.root, evidence, commands=self.commands).apply(self.site, self.ids)
 
     def native_validation(self):
         self.commands.run('TLS_hostname_chain', ['/usr/bin/openssl', 'verify', '-verify_hostname',
@@ -707,6 +707,9 @@ class Installer:
         raise ValueError('natural_publication_health')
 
     def restore(self):
+        from dkim_readiness import Reconcile
+        if (self.evidence/'dkim').exists():
+            Reconcile(self.files.root, self.evidence/'dkim', commands=self.commands).rollback()
         from setup_access import STATE
         if STATE.exists():
             durable_json(STATE, {'format': 1, 'phase': 'failed'})

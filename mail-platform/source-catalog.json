@@ -19735,7 +19735,8 @@
     "baseline_sha256": "15df30eabb97835e18eb590b5d1dcec99caa2b31965905b852b57ffd8a4dfd41",
     "normalize_LF": false,
     "path": "mail-management/cutover-closeout-v1/reference/ConsoleController.php",
-    "provider": "repository"
+    "provider": "repository",
+    "transform": "dkim_dashboard"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/ConsoleKernel.php": {
     "baseline_sha256": "60283eab10158fe1e2082ca61b340cab90ad8ce780d1adccae216cbf5c0eaf34",
@@ -19761,6 +19762,11 @@
     "normalize_LF": false,
     "path": "mail-management/cutover-features-v1/remaining-v1/candidate/CutoverStore.php",
     "provider": "repository"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/DkimReadiness.php": {
+    "baseline_sha256": "c56ce61e6871cd8b787fcf603f3d8d5bdc9b147b0864b730e79f60a74e672d67",
+    "path": "ui/DkimReadiness.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/DomainAliasChange.php": {
     "baseline_sha256": "836421a5bfd8ed6019774042f63f5a176c5024a3cac6a6df1f2bf079e0e4b6a3",
@@ -40937,6 +40943,10 @@
     "path": "framework/acme_lifecycle.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/adaptive_update.py": {
+    "path": "framework/adaptive_update.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/adoption_binding.py": {
     "baseline_sha256": "a935a69717cc10b8ac1765271e1ed2016fd83022628c61a10039451c5167df9e",
     "path": "framework/adoption_binding.py",
@@ -41045,6 +41055,11 @@
     "path": "framework/code_aliases.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/code_attributes.py": {
+    "baseline_sha256": "4f94e9472ad128d8e10e9927cb79caac7c77a76d2ad4f6ef47544a8c0f3fbb83",
+    "path": "framework/code_attributes.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/code_update.py": {
     "baseline_sha256": "b017b57525e51c96f731f91114ee04b493f847eff2401ee1a4f9646bd2d024e9",
     "path": "framework/code_update.py",
@@ -41063,6 +41078,11 @@
   "usr/local/lib/mail-platform-update/database_install.py": {
     "baseline_sha256": "133b0183048e3823e0c743781dd04ce7af24d5dc80ad76ebdcd4efa87907658f",
     "path": "framework/database_install.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/dkim_readiness.py": {
+    "baseline_sha256": "cbcdd49b8dbe806e36070eb9b1b1e048c2c22b9fbf4642924f10fff91d891c77",
+    "path": "framework/dkim_readiness.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/enrollment_entry.py": {
@@ -41137,6 +41157,26 @@
   "usr/local/lib/mail-platform-update/mailctl.py": {
     "baseline_sha256": "4a31b22baf5c53a5c7bdb485ecd8feb7fd22733d89b80161f483b6dd7ac0c2e6",
     "path": "framework/mailctl.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/monitor_binding.py": {
+    "path": "framework/monitor_binding.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/monitor_environment.py": {
+    "path": "framework/monitor_environment.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/monitor_render.py": {
+    "path": "framework/monitor_render.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/monitor_update.py": {
+    "path": "framework/monitor_update.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/native_package_update.py": {
+    "path": "framework/native_package_update.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/native_requirements.py": {
@@ -41251,6 +41291,10 @@
   "usr/local/lib/mail-platform-update/tls_deployment.py": {
     "baseline_sha256": "3bf464a6b3955bf7d59eb0ba863c81a038dd643a238d914f892d664ee8e7ebda",
     "path": "framework/tls_deployment.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/update_sources.py": {
+    "path": "framework/update_sources.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/updater.py": {
@@ -42617,33 +42661,5 @@
     "normalize_LF": false,
     "path": "roundcube-ui-guidance-v1/settings-repair-v1/ui_feedback.php",
     "provider": "repository"
-  },
-  "usr/local/lib/mail-platform-update/monitor_environment.py": {
-    "provider": "package",
-    "path": "framework/monitor_environment.py"
-  },
-  "usr/local/lib/mail-platform-update/monitor_binding.py": {
-    "provider": "package",
-    "path": "framework/monitor_binding.py"
-  },
-  "usr/local/lib/mail-platform-update/monitor_render.py": {
-    "provider": "package",
-    "path": "framework/monitor_render.py"
-  },
-  "usr/local/lib/mail-platform-update/monitor_update.py": {
-    "provider": "package",
-    "path": "framework/monitor_update.py"
-  },
-  "usr/local/lib/mail-platform-update/update_sources.py": {
-    "provider": "package",
-    "path": "framework/update_sources.py"
-  },
-  "usr/local/lib/mail-platform-update/adaptive_update.py": {
-    "provider": "package",
-    "path": "framework/adaptive_update.py"
-  },
-  "usr/local/lib/mail-platform-update/native_package_update.py": {
-    "provider": "package",
-    "path": "framework/native_package_update.py"
   }
 }

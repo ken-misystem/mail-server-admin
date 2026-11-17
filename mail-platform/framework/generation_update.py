@@ -14,6 +14,7 @@ from code_update import CodeUpdate, render
 from generation_front import control, read_route
 from host_transaction import durable_json, regular
 from release import canonical, sha
+from code_attributes import attributes as code_attributes
 
 
 class GenerationUpdate(CodeUpdate):
@@ -81,10 +82,8 @@ class GenerationUpdate(CodeUpdate):
                     raise ValueError('availability_code_addition_requires_adoption')
             elif self.live(target)[1] != before:
                 raise ValueError('availability_installed_drift:' + target)
-            if before is None or sha(raw) != before['sha256']:
-                metadata = before or {'uid': 0, 'gid': receipt['identities']['mailadmin.gid']
-                    if target.startswith('/opt/mail-management/') else 0,
-                    'mode': 0o640 if target.startswith('/opt/mail-management/') else 0o644}
+            metadata = {'sha256': sha(raw), **code_attributes(target, receipt['identities'], before, receipt['version'])}
+            if before != metadata:
                 changes[target] = {'source': name, 'before': before, 'sha256': sha(raw),
                                    'attributes': metadata}
         if set(receipt['code']) - {'/' + name for name in bound}:
@@ -157,9 +156,8 @@ class GenerationUpdate(CodeUpdate):
                 path = directory/'root'/target.lstrip('/')
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(raw)
-                if change['before'] is None:
-                    os.chmod(path, change['attributes']['mode'])
-                    os.chown(path, change['attributes']['uid'], change['attributes']['gid'])
+                os.chown(path, change['attributes']['uid'], change['attributes']['gid'])
+                os.chmod(path, change['attributes']['mode'])
                 if path.suffix in ('.php', '.inc'):
                     self.commands.run('generation_PHP_lint', ['/usr/bin/php8.4', '-n', '-l', str(path)])
                 if path.suffix == '.py':
@@ -341,6 +339,8 @@ class GenerationUpdate(CodeUpdate):
             item['new_route'] = new_route
             item['phase'] = 'starting'
             self.save()
+        from dkim_readiness import update_apply
+        update_apply(self)
         for group in self.groups():
             first = group[0]
             if first['configuration']['kind'] == 'writer':
@@ -489,6 +489,8 @@ class GenerationUpdate(CodeUpdate):
                 self.front(item, 'resume')
                 item['phase'] = 'restored'
             self.save()
+        from dkim_readiness import update_rollback
+        update_rollback(self)
         result = self.files.restore()
         if result['status'] != 'restored':
             raise ValueError('generation_rollback_held')

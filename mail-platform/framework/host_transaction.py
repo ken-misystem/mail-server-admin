@@ -190,8 +190,8 @@ class Files:
         fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, mode)
         with os.fdopen(fd, 'wb') as stream:
             stream.write(raw)
-            os.fchmod(stream.fileno(), mode)
             os.fchown(stream.fileno(), uid, gid)
+            os.fchmod(stream.fileno(), mode)
             stream.flush()
             os.fsync(stream.fileno())
         # Refuse a competing writer between backup and publication.
@@ -325,8 +325,8 @@ class Files:
                     fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
                     with os.fdopen(fd, 'wb') as stream:
                         stream.write(raw)
-                        os.fchmod(stream.fileno(), entry['before']['mode'])
                         os.fchown(stream.fileno(), entry['before']['uid'], entry['before']['gid'])
+                        os.fchmod(stream.fileno(), entry['before']['mode'])
                         stream.flush()
                         os.fsync(stream.fileno())
                     if regular(path)[1] != entry['after']:

@@ -104,6 +104,8 @@ def snapshot_tree(source, destination, logical_root, aliases):
     for original in [Path(source),*Path(source).rglob('*')]:
         target=Path(destination)/original.relative_to(source);info=original.lstat()
         os.chown(target,info.st_uid,info.st_gid,follow_symlinks=False)
+        if not stat.S_ISLNK(info.st_mode):
+            os.chmod(target,stat.S_IMODE(info.st_mode),follow_symlinks=False)
     if tree_links(source,logical_root,aliases)!=expected or tree_links(destination,logical_root,aliases)!=expected:
         raise ValueError('generation_snapshot_links_changed')
     return expected

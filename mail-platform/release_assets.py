@@ -60,8 +60,16 @@ def update_contract(value, release_version):
         require(type(value['configuration_sha256']) is str and re.fullmatch('[a-f0-9]{64}', value['configuration_sha256']), 'availability_contract_digest')
         return value
     fields = {'format', 'from_version', 'to_version', 'pause', 'stop', 'start', 'reload', 'health'}
+    if 'optional_units' in value:
+        from host_install import LEGACY_UNITS
+        optional = value['optional_units']
+        require(type(optional) is list and all(type(n) is str and n in LEGACY_UNITS for n in optional)
+                and len(optional) == len(set(optional)), 'update_optional_units')
+        fields.add('optional_units')
     require(type(value) is dict and set(value) == fields and type(value['format']) is int and value['format'] == 1, 'update_contract_shape')
-    require(value['to_version'] == release_version and version(value['from_version']) < version(release_version), 'update_contract_version')
+    from update_sources import sources
+    require(value['to_version'] == release_version, 'update_contract_version')
+    sources(value['from_version'], release_version)
     for action in ('pause', 'stop', 'start', 'reload', 'health'):
         names = value[action]
         require(type(names) is list and all(type(name) is str for name in names), 'update_contract_units')
@@ -72,20 +80,46 @@ def update_contract(value, release_version):
 
 
 def prepare(repository, release_version, contract_path, output, install_ready=False, roundcube_settings='plugin',
-            sieve_migration_kit=None, sieve_migration_from=None):
+            sieve_migration_kit=None, sieve_migration_from=None, native_requirements_path=None,
+            monitor_environment_migration=False, code_only=False, native_migration=None):
     version(release_version)
     contract = update_contract(json.loads(Path(contract_path).read_bytes()), release_version)
-    gate = readiness(HERE/'readiness.json', contract['format'])
+    gate = readiness(HERE/'readiness.json', 2 if native_migration else contract['format'])
     require(not install_ready or gate['install_ready'], 'release_validation_pending')
     output = Path(output)
     require(not output.exists(), 'release_output_exists')
     sources, provenance = prepare_sources(repository, roundcube_settings)
+    if code_only:
+        require(not sieve_migration_kit and contract['format'] == 1, 'code_only_contract')
+        # A fresh-install descriptor is not a request to repeat certificate adoption.
+        sources.pop('payload/blueprint/migrations/certificates-v1/manifest.json', None)
+        from native_requirements import PRESERVE_DESCRIPTOR, PRESERVE_CONTRACT
+        sources[PRESERVE_DESCRIPTOR] = canonical(PRESERVE_CONTRACT)
     require(bool(sieve_migration_kit) == bool(sieve_migration_from), 'sieve_migration_asset_arguments')
     if sieve_migration_kit:
         require(contract['format'] == 1, 'sieve_migration_requires_initial_maintenance')
         from sieve_migration import add_assets
         add_assets(sources, sieve_migration_kit, sieve_migration_from)
     sources['payload/blueprint/update-contract.json'] = canonical(contract)
+    if monitor_environment_migration:
+        require(contract['format'] == 1 and not sieve_migration_kit, 'monitor_migration_contract_scope')
+        from monitor_update import DESCRIPTOR, CONTRACT
+        require('payload/'+DESCRIPTOR not in sources, 'duplicate_monitor_migration')
+        sources['payload/'+DESCRIPTOR] = canonical(CONTRACT)
+    if native_requirements_path:
+        from native_requirements import DESCRIPTOR, validate as validate_native
+        required = validate_native(json.loads(Path(native_requirements_path).read_bytes()))
+        require(DESCRIPTOR not in sources, 'duplicate_native_requirements')
+        sources[DESCRIPTOR] = canonical(required)
+    if native_migration:
+        require(code_only and monitor_environment_migration, 'adaptive_native_contract')
+        from native_requirements import PRESERVE_DESCRIPTOR
+        sources.pop(PRESERVE_DESCRIPTOR, None)
+        from adaptive_update import DESCRIPTOR as ADAPTIVE, CONTRACT as ADAPTIVE_CONTRACT
+        from native_package_update import add_assets
+        # Every extra byte is included inside the signed archive. No network fetch occurs on update.
+        add_assets(sources,native_migration)
+        sources['payload/'+ADAPTIVE]=canonical(ADAPTIVE_CONTRACT)
     payload = {name: raw for name, raw in sources.items() if name.startswith('payload/')}
     require('payload/installer.py' in payload, 'release_hook_missing')
     output.mkdir(mode=0o700, parents=True)
@@ -109,7 +143,7 @@ def prepare(repository, release_version, contract_path, output, install_ready=Fa
         'update_assets':list(ASSETS),
         'license_inventory':'distribution-inventory.json',
         'components':json.loads(sources['distribution-policy.json'])['components'],
-        'third_party_binary_uploads':'separate-reviewed-component-release'}))
+        'third_party_binary_uploads':'signed-rspamd-with-corresponding-source' if native_migration else 'separate-reviewed-component-release'}))
     record = {'format': 1, 'status': 'prepared_unsigned', 'version': release_version,
               'update_contract_format': contract['format'],
               'install_ready': install_ready, 'readiness': gate, 'metadata': metadata,
@@ -199,6 +233,10 @@ def main():
     prepare_command.add_argument('--roundcube-settings', choices=('legacy', 'plugin'), default='plugin')
     prepare_command.add_argument('--sieve-migration-kit', type=Path)
     prepare_command.add_argument('--sieve-migration-from', type=Path)
+    prepare_command.add_argument('--native-requirements', type=Path)
+    prepare_command.add_argument('--monitor-environment-migration', action='store_true')
+    prepare_command.add_argument('--code-only', action='store_true')
+    prepare_command.add_argument('--native-migration', type=Path)
     signing = commands.add_parser('sign')
     signing.add_argument('--directory', type=Path, required=True)
     signing.add_argument('--key', type=Path, required=True)
@@ -215,7 +253,8 @@ def main():
     elif arguments.action == 'prepare':
         result = prepare(arguments.repository_root, arguments.version, arguments.update_contract,
                          arguments.output, arguments.install_ready, arguments.roundcube_settings,
-                         arguments.sieve_migration_kit, arguments.sieve_migration_from)
+                         arguments.sieve_migration_kit, arguments.sieve_migration_from, arguments.native_requirements,
+                         arguments.monitor_environment_migration, arguments.code_only, arguments.native_migration)
     elif arguments.action == 'sign':
         record, _ = prepared(arguments.directory)
         signing_readiness(record, arguments.candidate)

@@ -63,7 +63,7 @@ def configuration(value):
     return value
 
 
-def select(contract, installed, changes):
+def select(contract, installed, changes, *, shared_closure=False, allow_empty=False):
     if set(contract) != {'format', 'from_version', 'to_version', 'components', 'configuration_sha256'} or contract['format'] != 2:
         raise ValueError('availability_contract')
     if version(contract['to_version']) <= version(contract['from_version']):
@@ -74,7 +74,7 @@ def select(contract, installed, changes):
     if contract['configuration_sha256'] != sha(canonical(installed)):
         raise ValueError('availability_configuration_drift')
     names = contract['components']
-    if type(names) is not list or not names or len(names) != len(set(names)):
+    if type(names) is not list or (not names and not allow_empty) or len(names) != len(set(names)):
         raise ValueError('availability_contract_components')
     if set(names) - installed['components'].keys():
         raise ValueError('availability_unregistered_component')
@@ -92,7 +92,11 @@ def select(contract, installed, changes):
         if not matching or set(matching) - set(names):
             raise ValueError('availability_uncovered_code:' + changed)
         owners[changed] = matching
-    if set().union(*(set(value) for value in owners.values())) != set(names):
+    needed = set().union(*(set(value) for value in owners.values()))
+    if shared_closure:
+        units = {installed['components'][name]['unit'] for name in needed}
+        needed.update(name for name,c in installed['components'].items() if c['unit'] in units)
+    if needed != set(names):
         raise ValueError('availability_extra_component')
     return owners
 
@@ -105,6 +109,12 @@ def impact(components):
 
 
 def release_impact(files):
+    adaptive=files.get('payload/blueprint/migrations/adaptive-update-v1.json')
+    if adaptive is not None:
+        from adaptive_update import CONTRACT
+        if json.loads(adaptive[0])!=CONTRACT:raise ValueError('adaptive_preview_contract')
+        return {'method':'導入先の通常構成／世代構成に対応する共通更新','components':[],
+                'delivery':'世代登録がある場合は既存接続を保持。旧Rspamdは修正導入・restart時に判定接続が一時停止。修正済み版は再導入なし。'}
     raw = files.get('payload/blueprint/update-contract.json')
     if raw is None:
         return None

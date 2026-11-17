@@ -33,5 +33,12 @@
   "ACME_DNS01_lifecycle_Linux_validated": true,
   "TLS_pair_activation_recovery_Linux_validated": true,
   "CA_overlap_rotation_recovery_Linux_validated": true,
-  "certificate_runtime_upgrade_migration_validated": true
+  "certificate_runtime_upgrade_migration_validated": true,
+  "existing_host_adoption_rollback_validated": true,
+  "current_production_settings_preservation_validated": true,
+  "retained_production_backports_integration_validated": true,
+  "native_fix_adoption_integration_validated": true,
+  "public_040_complete_direct_update_validated": true,
+  "mixed_generation_native_recovery_validated": true,
+  "fresh_rspamd_signed_package_validated": true
 }

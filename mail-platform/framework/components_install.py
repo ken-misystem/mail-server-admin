@@ -49,6 +49,9 @@ def assemble(payload, site, identities, passwords, native, call_recipe=recipe):
     base = json.loads((payload / 'blueprint/install-recipes.json').read_bytes())
     base['management_entry'] = (payload / 'blueprint/management_entry.php').read_text(encoding='utf-8')
     resources = base_files(site, identities, passwords, base)
+    from monitor_binding import initial
+    from monitor_environment import MONITOR_CONFIG, monitor_encode
+    resources.append(Resource(MONITOR_CONFIG, monitor_encode(initial(site)), preserve=True))
     by_path = {item.path: item for item in resources}
     backend = call_recipe(payload, 'backend', {'listeners': {'listeners': [
         {'service': 'imap-login', 'name': 'imap', 'kind': 'inet_listener'},

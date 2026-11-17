@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "components": {
+    "rspamd": {
+      "version": "3.12.1-1+0misystem1",
+      "architecture": "amd64",
+      "fix": "symcache-single-fd-persistence-v1",
+      "files": {
+        "/usr/lib/rspamd/librspamd-server.so": "ffa5ed2a19ad2eeb3bc46bf7496393bad096edd373ba51147a2bf791e0e2adf1"
+      }
+    }
+  }
+}

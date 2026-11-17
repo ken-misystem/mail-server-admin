@@ -37,6 +37,11 @@
     "path": "templates/management_entry.php",
     "provider": "package"
   },
+  "blueprint/migrations/certificates-v1/manifest.json": {
+    "baseline_sha256": "e033a65d29b559f961300dea42bfd9ccfec05be1cd65fdcca7e15dd29910093e",
+    "path": "templates/certificate-migration.json",
+    "provider": "package"
+  },
   "blueprint/native-sources/child_guard.c": {
     "baseline_sha256": "4917d88442c209ad21ebd711b0fac2e6b8b14d02cc3c24b6469ace30e1ac750a",
     "normalize_LF": false,
@@ -54,6 +59,11 @@
     "normalize_LF": false,
     "path": "client-certificates/dovecot-cn-fix-v1/candidate/cn-lifetime.patch",
     "provider": "repository"
+  },
+  "blueprint/native-sources/sieve_session_lock.c": {
+    "baseline_sha256": "fd0217f47e48ff44f03309026ae65f5875859ad2374bf99dcf3f5bbfec2ff9e0",
+    "path": "native/sieve_session_lock.c",
+    "provider": "package"
   },
   "blueprint/roundcube-webauthn.sql": {
     "baseline_sha256": "9a55b6ad5b9294ced8f1245cc95e51a5e888231a009f3017ac6efd295780193f",
@@ -256,6 +266,16 @@
     "path": "payload/blueprint/systemd/mail-management-operations.timer",
     "provider": "package"
   },
+  "blueprint/systemd/mail-platform-acme.service": {
+    "baseline_sha256": "00ea9a5b73e4c9ee4f4af6d6b5706b4dedd8a3e82c74a0613c0f278963da61ea",
+    "path": "templates/mail-platform-acme.service",
+    "provider": "package"
+  },
+  "blueprint/systemd/mail-platform-acme.timer": {
+    "baseline_sha256": "ef719f5f41ac2703d29b66d2c3726f3234b7dd74085e6041a473119765d0756b",
+    "path": "templates/mail-platform-acme.timer",
+    "provider": "package"
+  },
   "blueprint/systemd/mail-platform-update-ui.service": {
     "baseline_sha256": "a89ef1e25e64f8c1895c765f043561eb3324f0a76846d855f3afac00b2ebfbcc",
     "path": "payload/blueprint/systemd/mail-platform-update-ui.service",
@@ -372,6 +392,16 @@
     "member": "etc/mail-legacy-smtp-v1/wait_ready.py",
     "provider": "generated",
     "recipe": "installation_recipes"
+  },
+  "integration/roundcube-patches/LICENSE": {
+    "baseline_sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "path": "third-party/roundcube/LICENSE",
+    "provider": "package"
+  },
+  "integration/roundcube-patches/NOTICE.md": {
+    "baseline_sha256": "478f01bb39e10bd33628099d66d80189a12abd6bfc4f5926c724b172e6ae2b46",
+    "path": "third-party/roundcube/NOTICE.md",
+    "provider": "package"
   },
   "integration/roundcube-patches/rcube_sieve_engine.php.patch": {
     "baseline_sha256": "59382de49b4299405458822c60735ddff052e3800c588fcbd24b8f1858dc42d6",
@@ -19521,6 +19551,10 @@
     "normalize_LF": false,
     "path": "mail-management/admin-audit-v1/AdminAuditStore.php",
     "provider": "repository"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminBootstrapAccess.php": {
+    "path": "management/AdminBootstrapAccess.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminDirectory.php": {
     "baseline_sha256": "1dfb3ae8fff566b6f6ebd9971bc56aaf2def96601799ff799f49caef536fb779",
@@ -39734,11 +39768,21 @@
     "path": "client-certificates/owner-lifecycle-v1/integrated-candidate-deployed-v2/actor/client-certificates/runtime-completion-v1/assembly.py",
     "provider": "repository"
   },
+  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/backend_fronts.py": {
+    "baseline_sha256": "206dfcbac7ab75a91f1c42bdc91d06569a622907d52562d03a7e9cf78b732811",
+    "path": "framework/backend_fronts.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/boot.py": {
     "baseline_sha256": "6134c7c4a6ab42881431cc30bac307c20e8f8aa53ae86d11de9ca62ae2e53c05",
     "normalize_LF": true,
     "path": "client-certificates/owner-lifecycle-v1/integrated-candidate-v1/actor/client-certificates/runtime-completion-v1/boot.py",
     "provider": "repository"
+  },
+  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/ca_generations.py": {
+    "baseline_sha256": "bfc74badee1450213d5f9ea1032c709b32f6b6f0d33ecbdd2e8247c6d3a6ec7b",
+    "path": "certificate_runtime/ca_generations.py",
+    "provider": "package"
   },
   "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/configuration.py": {
     "baseline_sha256": "1fd30a416a900d8e23c7875ffe5812f174c9a52f4e8fb8695baf663caf5f79c0",
@@ -40885,16 +40929,75 @@
     "baseline_sha256": "353ea8a1c444da78fb25580621feaf027ba3d57289a1dae23d1419d11098f219",
     "member": "monitor/read_runtime.py",
     "provider": "generated",
-    "recipe": "protection_resume_bundle"
+    "recipe": "protection_resume_bundle",
+    "transform": "monitor_environment"
+  },
+  "usr/local/lib/mail-platform-update/acme_lifecycle.py": {
+    "baseline_sha256": "c43f487108c780748d186cdfde9aaa00fa07bef84e80c30fbd32a86ee2637a9c",
+    "path": "framework/acme_lifecycle.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_binding.py": {
+    "baseline_sha256": "a935a69717cc10b8ac1765271e1ed2016fd83022628c61a10039451c5167df9e",
+    "path": "framework/adoption_binding.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_components.py": {
+    "baseline_sha256": "2441dc90f4658040cf76b98764a87dd2a93fb2bdbb62f25bc8ec9ac310b43b80",
+    "path": "framework/adoption_components.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_enrollment.py": {
+    "baseline_sha256": "322537de1c3061ed5b2376fe55ea6b2b90ad46400221ed98b85142cee7b21862",
+    "path": "framework/adoption_enrollment.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_host.py": {
+    "baseline_sha256": "d8acb3b76bde748c0219ff5b4b6bea5467223fd9854f9cc94d10fed5b1876f47",
+    "path": "framework/adoption_host.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_plan.py": {
+    "baseline_sha256": "ecfa067fe47b9a59b7a19479149f74837e86a0af486a2cc1df7381ef21954729",
+    "path": "framework/adoption_plan.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_review.py": {
+    "baseline_sha256": "e78e255fe929ceb3bd7050e1f23e36dedb823cd3237c4e08fa07255f53bac2b8",
+    "path": "framework/adoption_review.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_services.py": {
+    "baseline_sha256": "539e660027eb6cc349e71b458c2d19e099b76f75f198f7cedc93b0504e986da3",
+    "path": "framework/adoption_services.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/adoption_sieve.py": {
+    "baseline_sha256": "ceb9ccf771ffeaa26127c649023c3f198c1b085c735b9666a0012251a233a7ec",
+    "path": "framework/adoption_sieve.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/availability_plan.py": {
+    "baseline_sha256": "9d8b64ba2ff7c4101059d00f645caeca3d4e6a5580f8dbec49edac6a8d40e3d1",
+    "path": "framework/availability_plan.py",
+    "provider": "package"
   },
   "usr/local/lib/mail-platform-update/base_configuration.py": {
     "baseline_sha256": "c631880c51a68524ec1e5d52c78a4e09b2ff7355456313cf9803eee16a1b06ee",
     "path": "framework/base_configuration.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/bootstrap_access_admin.php": {
+    "path": "templates/bootstrap_access_admin.php",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/bootstrap_admin.php": {
     "baseline_sha256": "49fe4e7c86f1071878d7f0271a6abd427590047809e6f3524c6b490bc7c0b145",
     "path": "templates/bootstrap_admin.php",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/bootstrap_admin_secure.php": {
+    "path": "templates/bootstrap_admin_secure.php",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/broker.py": {
@@ -40907,8 +41010,43 @@
     "path": "framework/broker_entry.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/ca_rotation.py": {
+    "baseline_sha256": "d62ed195387725145e0c5c20400ed1d4e8811e7b58489e0d157fb2ca1be54383",
+    "path": "framework/ca_rotation.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/certificate_adoption.py": {
+    "baseline_sha256": "e6eebe78053b60aaa00fe3bc210e418b3cde7feb0fca9d559f040f8010cc9e30",
+    "path": "framework/certificate_adoption.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/certificate_cli.py": {
+    "baseline_sha256": "cbdb2224c5e2228c5a11f0e6812499c661deb00ca0eeaa7c8cd070484edaa654",
+    "path": "framework/certificate_cli.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/certificate_enrollment.py": {
+    "baseline_sha256": "3ca0ae63d27d02c3754e69e96a0ad4d98d54457193fb4100372fed80eb269316",
+    "path": "framework/certificate_enrollment.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/certificate_state.py": {
+    "baseline_sha256": "edcac56686ce3bef7ad61f9972d5b66b2e320b0cabf88f04023cd4b936d091da",
+    "path": "framework/certificate_state.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/certificate_update.py": {
+    "baseline_sha256": "645fa67382ad8dade3768bce3caf7fcf8e9c511fd1840c7459c52afc40dbd210",
+    "path": "framework/certificate_update.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/code_aliases.py": {
+    "baseline_sha256": "8fec9c3f2116310ddbd38064a729c39693cec266ba6d53910e7c9d12f2e2ec47",
+    "path": "framework/code_aliases.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/code_update.py": {
-    "baseline_sha256": "ce5f71be3e452e0b3df9c7270b8167bf22b2e5c29cceeca2d0b25b0d2ddbad26",
+    "baseline_sha256": "b017b57525e51c96f731f91114ee04b493f847eff2401ee1a4f9646bd2d024e9",
     "path": "framework/code_update.py",
     "provider": "package"
   },
@@ -40927,9 +41065,43 @@
     "path": "framework/database_install.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/enrollment_entry.py": {
+    "baseline_sha256": "8ba2cd42bbddc9d7b15767f482e9f4a3e8c56fb5fc6547e598fb70303c87e7c9",
+    "path": "framework/enrollment_entry.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/entry.py": {
     "baseline_sha256": "78827ba17b9fff562eba7528e8c85946ac2a0427c324ee913874771e171d78a7",
     "path": "framework/entry.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/environment_check.py": {
+    "path": "framework/environment_check.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/generation_entry.py": {
+    "baseline_sha256": "7fddf5a71e888508e172fde46423a8026645afc651f847c54b41ba3e98bd28a1",
+    "path": "framework/generation_entry.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/generation_front.py": {
+    "baseline_sha256": "4c96382f6dfc92b110ea244dd403907358895477b6a3ebb82f0eaf24fa12e8b3",
+    "path": "framework/generation_front.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/generation_probe.py": {
+    "baseline_sha256": "c0420b1385553821e2c7b463c68f2184d68ce8e409a5b66f0762a75619eea56d",
+    "path": "framework/generation_probe.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/generation_units.py": {
+    "baseline_sha256": "6b8a9afa61a76dd9a795e2b37e49e54fc32ca475fae5a4681ba31aad2a5acfc6",
+    "path": "framework/generation_units.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/generation_update.py": {
+    "baseline_sha256": "cd3b4c6729b306e70cf84ad8626be0e14e3e864bef9613dea3b48d694f1e3b1b",
+    "path": "framework/generation_update.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/github.py": {
@@ -40943,13 +41115,18 @@
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/host_transaction.py": {
-    "baseline_sha256": "777eab8b4287420779329b70866e6195e2b6d874b482224b7327aac41d9b8a7e",
+    "baseline_sha256": "d6b9cd46098d2807caba3eb380fff64659387e72178c6a308a20fc0a1eb15126",
     "path": "framework/host_transaction.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/identity_bindings.py": {
     "baseline_sha256": "4f65aa74a10c1b10c651dc3e489f9a18f6c495c92bac22f7ca0325fd0557302f",
     "path": "framework/identity_bindings.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/initial_adoption.py": {
+    "baseline_sha256": "2338c89bc276f40f33770a77f434f069860156c4efa275f7c4b011ab72edb7e6",
+    "path": "framework/initial_adoption.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/install_preparation.py": {
@@ -40962,8 +41139,21 @@
     "path": "framework/mailctl.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/native_requirements.py": {
+    "path": "framework/native_requirements.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/policy_binding.py": {
+    "baseline_sha256": "870ac8774d2de9a5772ccc47d4a2b96f1ff5010bd83728ca5d2b41e941aee5b5",
+    "path": "framework/policy_binding.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/policy_generation.py": {
+    "path": "framework/policy_generation.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/profile_bindings.py": {
-    "baseline_sha256": "fd76f1ebae358846b8ff57ca62def7f8c423b5cb7d033d90fec395823638030e",
+    "baseline_sha256": "5feaae47cb092d7f5daace5dd8552c6070afd644c12b0dd4a1669f9a00d5fb83",
     "path": "framework/profile_bindings.py",
     "provider": "package"
   },
@@ -40982,9 +41172,61 @@
     "path": "framework/release.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/roundcube_adoption.py": {
+    "baseline_sha256": "7ecd55b5ba6b7d2e9b1b1f3089d7db07f35d3f835cbdde7f96fbfcfc6e921ede",
+    "path": "framework/roundcube_adoption.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/roundcube_core.py": {
     "baseline_sha256": "b51df973249a07e65a418abddea4d7bce635e4ee0183e3500966617e6ab640da",
     "path": "framework/roundcube_core.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/roundcube_migration.py": {
+    "baseline_sha256": "7498650ce89cad2e577764cb0869e7c139477c8d498f91cf8075021ef55e4090",
+    "path": "framework/roundcube_migration.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/roundcube_plugins.py": {
+    "baseline_sha256": "4c77afff9e38dab78f06177979bf3e9d6947d1bbdd828b63c0a6c513ea3fc98a",
+    "path": "framework/roundcube_plugins.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/roundcube_rollout.py": {
+    "baseline_sha256": "58ef4a8c892645471d89f955b8e2dee30e957c186be9982b1f0e12d0496ffe68",
+    "path": "framework/roundcube_rollout.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/roundcube_settings.py": {
+    "baseline_sha256": "85f83e23a283b037a43a98a18cfebb26049b1a47ad8e7209c8741750138fc420",
+    "path": "framework/roundcube_settings.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/secondary_mx.py": {
+    "baseline_sha256": "04fc6bf5c9e40687d42bab05dfbc59026f77c191ca57408461dd85413616f295",
+    "path": "framework/secondary_mx.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/secondary_policy.py": {
+    "baseline_sha256": "f967de2760e0a6df367ab728076032dc90a74e5b5978fbbbca37edd12136dd86",
+    "path": "framework/secondary_policy.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/setup_access.py": {
+    "path": "framework/setup_access.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/setup_publication.py": {
+    "path": "framework/setup_publication.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/sieve_lock.py": {
+    "baseline_sha256": "c765db9380a420c4181113fc8360180a93f2e53c41c5c83ffee14e0d3a6b7fa9",
+    "path": "framework/sieve_lock.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/sieve_migration.py": {
+    "path": "framework/sieve_migration.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/site_bindings.py": {
@@ -40992,9 +41234,23 @@
     "path": "framework/site_bindings.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/site_configuration.py": {
+    "baseline_sha256": "929fb40787549e3fb068ae5b76f8a14730855e0810f87caf9edce1a03d9bbb78",
+    "path": "framework/site_configuration.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/site_enrollment.py": {
+    "path": "framework/site_enrollment.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/source_patches.py": {
     "baseline_sha256": "d45868fcedfda6da1be4d8ca3ddb41f7f5f19c9b272108ce8d6487ed47372e64",
     "path": "framework/source_patches.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/tls_deployment.py": {
+    "baseline_sha256": "3bf464a6b3955bf7d59eb0ba863c81a038dd643a238d914f892d664ee8e7ebda",
+    "path": "framework/tls_deployment.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/updater.py": {
@@ -41308,7 +41564,7 @@
   },
   "usr/local/lib/mail-residual-pop-v1/manifest.json": {
     "baseline_sha256": "10c2a44a76e4549ca4274c18a709966f2616d3732c19ebc9de7ffbd892c42545",
-    "path": "payload/usr/local/lib/mail-residual-pop-v1/manifest.json",
+    "path": "integrations/retained-production/usr/local/lib/mail-residual-pop-v1/manifest.json",
     "provider": "package"
   },
   "usr/local/lib/mail-residual-pop-v1/read_support.py": {
@@ -41319,7 +41575,11 @@
   },
   "usr/local/lib/mail-residual-pop-v1/runner.py": {
     "baseline_sha256": "d4ce38e7bf8397945f0f429f175e2dcd0331a95d86280e548fd05ca4c905a5e2",
-    "path": "payload/usr/local/lib/mail-residual-pop-v1/runner.py",
+    "path": "integrations/retained-production/usr/local/lib/mail-residual-pop-v1/runner.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-residual-pop-v1/thresholds.py": {
+    "path": "integrations/retained-production/usr/local/lib/mail-residual-pop-v1/thresholds.py",
     "provider": "package"
   },
   "usr/local/lib/mail-residual-pop-v1/workflow.py": {
@@ -41338,6 +41598,10 @@
     "normalize_LF": true,
     "path": "mail-management/feature-port-v1/coexist-native-v1/batch_writer.py",
     "provider": "repository"
+  },
+  "usr/local/lib/mail-send-limits-v1/generation_launch.py": {
+    "path": "framework/generation_limits.py",
+    "provider": "package"
   },
   "usr/local/lib/mail-send-limits-v1/launch.py": {
     "baseline_sha256": "8191b94c267d9f3d83c42923bbb7f2ea625c12f61b11b2f022e75edcc0cc29fa",
@@ -41764,6 +42028,16 @@
     "path": "client-certificates/owner-lifecycle-v1/integrated-candidate-v1/plugins/local_auth/local_auth_general_v1.js",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/local_auth/localization/en_US.inc": {
+    "baseline_sha256": "aba59c57e213518fcdb6ff985ec65e168b4a4749eb77b495ba530cf36cf234b7",
+    "path": "plugins/local_auth/localization/en_US.inc",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/local_auth/localization/ja_JP.inc": {
+    "baseline_sha256": "3032e5acf3a36ef3658e1db105d1e8f240d0edf63eb2ef1b85f16c04f749eab7",
+    "path": "plugins/local_auth/localization/ja_JP.inc",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/local_auth/owner_management_v1.css": {
     "baseline_sha256": "92d54cc82bfb98c9bc79c2212f9a8e260101033358377d6712e6ee184cc0eb13",
     "normalize_LF": false,
@@ -41792,6 +42066,18 @@
     "baseline_sha256": "7ee3c01ff4db02050c90b6c0f7fc8cc16065f609d7606fc0e872dcea8b2ff754",
     "normalize_LF": false,
     "path": "roundcube-passkey/general/candidate/local_auth_gate/local_auth_gate.php",
+    "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/local_auth_gate/localization/en_US.inc": {
+    "baseline_sha256": "b44e8c5eb15804e2aee62800c3e6d272f9ef22d6f967f109754f8dbce0ca4c5b",
+    "normalize_LF": true,
+    "path": "roundcube-passkey/general/candidate/local_auth_gate/localization/en_US.inc",
+    "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/local_auth_gate/localization/ja_JP.inc": {
+    "baseline_sha256": "bd2c9e4c90b8ee07f4e1a446362373dc75ffdcaf5cbc46324aa868e7929d5a2f",
+    "normalize_LF": true,
+    "path": "roundcube-passkey/general/candidate/local_auth_gate/localization/ja_JP.inc",
     "provider": "repository"
   },
   "usr/share/roundcube/plugins/local_auth_gate/skins/elastic/templates/emergency.html": {
@@ -42218,6 +42504,86 @@
     "path": "roundcube-ui-guidance-v1/settings-repair-v1/pop.html",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/mail_settings/LICENSE": {
+    "baseline_sha256": "120e6931f9b8058eaa876eefd5abcf924707a927397413c30309d6a6c8dc211f",
+    "path": "plugins/mail_settings/LICENSE",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/MIGRATION.md": {
+    "baseline_sha256": "d576469110b6156806eec053c642447d4a5a8138c0cd5e91cfa1fc3db903f501",
+    "path": "plugins/mail_settings/MIGRATION.md",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/README.md": {
+    "baseline_sha256": "5d91b24b92dc4c1e5919a9a022079349bdc12df7d6cdbf5d65da953540b12f93",
+    "path": "plugins/mail_settings/README.md",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/config.inc.php.dist": {
+    "baseline_sha256": "364ae451615c69aea3d73a78de45cf497308c782bc435c15f407c873139567b3",
+    "path": "plugins/mail_settings/config.inc.php.dist",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/document_editor.js": {
+    "baseline_sha256": "8a7324a323e4c955c8b01fd4253624bea43de85348cba93eb4238fdcf3bff9ad",
+    "path": "plugins/mail_settings/document_editor.js",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/localization/en_US.inc": {
+    "baseline_sha256": "11f4ac0401a19f8fa33bd25afe93ad5afa1ad49f2579fad90b614dd2ee43cc22",
+    "path": "plugins/mail_settings/localization/en_US.inc",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/localization/ja_JP.inc": {
+    "baseline_sha256": "6a728a562a313273fdfc6fd4cab638fae5af2dc072388792a3ef51b7245462f0",
+    "path": "plugins/mail_settings/localization/ja_JP.inc",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/mail_settings.css": {
+    "baseline_sha256": "4f81d8c01ae19b905c6e461f33b21a24ef99c603b18ba81fff8b1072a4dcf8d4",
+    "path": "plugins/mail_settings/mail_settings.css",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/mail_settings.js": {
+    "baseline_sha256": "ec30096986a47ae3168bf9cec7fbbedb5ed70cd2cc730f0783eccf8207665b28",
+    "path": "plugins/mail_settings/mail_settings.js",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/mail_settings.php": {
+    "baseline_sha256": "4042ce338e52c7b16a7e8813e32f3a4e64b88074ce51157e2d7e8804c47b0656",
+    "path": "plugins/mail_settings/mail_settings.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/skins/elastic/templates/settings.html": {
+    "baseline_sha256": "173bb3e45386cb605dbbd3cd50c591d0a0a2635b07fcf405b8ce99a66de92899",
+    "path": "plugins/mail_settings/skins/elastic/templates/settings.html",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/src/AccountLock.php": {
+    "baseline_sha256": "ea5501d1448eb606666747c060b4752f32e0b68e9e0767e442083ae0c7a00120",
+    "path": "plugins/mail_settings/src/AccountLock.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/src/Document.php": {
+    "baseline_sha256": "9ba8f843761ddfcf45bc72cb0679eaf510af38de3164e82389bba505da3eb911",
+    "path": "plugins/mail_settings/src/Document.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/src/NetSieveConnection.php": {
+    "baseline_sha256": "f8420b3655425b90d51220cf766ea9cf2563ada1646aa74c16030938ed0de515",
+    "path": "plugins/mail_settings/src/NetSieveConnection.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/src/Script.php": {
+    "baseline_sha256": "04f928cca201a77260ace74de3ab66663f740d0f825efc90a7f86b39a5dfa3c4",
+    "path": "plugins/mail_settings/src/Script.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_settings/src/Service.php": {
+    "baseline_sha256": "3aa647e3f665f9973a464db90d85da3fcd1f8d4ca9449b310630bb1964ed3d1b",
+    "path": "plugins/mail_settings/src/Service.php",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/session_epoch_guard/session_epoch_guard.php": {
     "baseline_sha256": "e32ee92d571c6f8fbff9f5f5306fe924837f03883e4174879dfce261218588ce",
     "path": "payload/usr/share/roundcube/plugins/session_epoch_guard/session_epoch_guard.php",
@@ -42252,311 +42618,32 @@
     "path": "roundcube-ui-guidance-v1/settings-repair-v1/ui_feedback.php",
     "provider": "repository"
   },
-  "usr/local/lib/mail-platform-update/generation_front.py": {
+  "usr/local/lib/mail-platform-update/monitor_environment.py": {
     "provider": "package",
-    "path": "framework/generation_front.py",
-    "baseline_sha256": "4c96382f6dfc92b110ea244dd403907358895477b6a3ebb82f0eaf24fa12e8b3"
+    "path": "framework/monitor_environment.py"
   },
-  "usr/local/lib/mail-platform-update/generation_update.py": {
+  "usr/local/lib/mail-platform-update/monitor_binding.py": {
     "provider": "package",
-    "path": "framework/generation_update.py",
-    "baseline_sha256": "3b08230943b22ef691c93f7c9bcc89cb0319c80c3260a06598db61741d1c1294"
+    "path": "framework/monitor_binding.py"
   },
-  "usr/local/lib/mail-platform-update/generation_units.py": {
+  "usr/local/lib/mail-platform-update/monitor_render.py": {
     "provider": "package",
-    "path": "framework/generation_units.py",
-    "baseline_sha256": "6b8a9afa61a76dd9a795e2b37e49e54fc32ca475fae5a4681ba31aad2a5acfc6"
+    "path": "framework/monitor_render.py"
   },
-  "usr/local/lib/mail-platform-update/availability_plan.py": {
+  "usr/local/lib/mail-platform-update/monitor_update.py": {
     "provider": "package",
-    "path": "framework/availability_plan.py",
-    "baseline_sha256": "9d8b64ba2ff7c4101059d00f645caeca3d4e6a5580f8dbec49edac6a8d40e3d1"
+    "path": "framework/monitor_update.py"
   },
-  "usr/local/lib/mail-platform-update/secondary_mx.py": {
+  "usr/local/lib/mail-platform-update/update_sources.py": {
     "provider": "package",
-    "path": "framework/secondary_mx.py",
-    "baseline_sha256": "04fc6bf5c9e40687d42bab05dfbc59026f77c191ca57408461dd85413616f295"
+    "path": "framework/update_sources.py"
   },
-  "usr/local/lib/mail-platform-update/secondary_policy.py": {
+  "usr/local/lib/mail-platform-update/adaptive_update.py": {
     "provider": "package",
-    "path": "framework/secondary_policy.py",
-    "baseline_sha256": "f967de2760e0a6df367ab728076032dc90a74e5b5978fbbbca37edd12136dd86"
+    "path": "framework/adaptive_update.py"
   },
-  "usr/local/lib/mail-platform-update/generation_entry.py": {
+  "usr/local/lib/mail-platform-update/native_package_update.py": {
     "provider": "package",
-    "path": "framework/generation_entry.py",
-    "baseline_sha256": "7fddf5a71e888508e172fde46423a8026645afc651f847c54b41ba3e98bd28a1"
-  },
-  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/backend_fronts.py": {
-    "baseline_sha256": "206dfcbac7ab75a91f1c42bdc91d06569a622907d52562d03a7e9cf78b732811",
-    "path": "framework/backend_fronts.py",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/certificate_enrollment.py": {
-    "baseline_sha256": "3ca0ae63d27d02c3754e69e96a0ad4d98d54457193fb4100372fed80eb269316",
-    "path": "framework/certificate_enrollment.py",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/enrollment_entry.py": {
-    "baseline_sha256": "8ba2cd42bbddc9d7b15767f482e9f4a3e8c56fb5fc6547e598fb70303c87e7c9",
-    "path": "framework/enrollment_entry.py",
-    "provider": "package"
-  },
-  "integration/roundcube-patches/NOTICE.md": {
-    "path": "third-party/roundcube/NOTICE.md",
-    "provider": "package",
-    "baseline_sha256": "478f01bb39e10bd33628099d66d80189a12abd6bfc4f5926c724b172e6ae2b46"
-  },
-  "integration/roundcube-patches/LICENSE": {
-    "path": "third-party/roundcube/LICENSE",
-    "provider": "package",
-    "baseline_sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
-  },
-  "usr/share/roundcube/plugins/mail_settings/LICENSE": {
-    "baseline_sha256": "120e6931f9b8058eaa876eefd5abcf924707a927397413c30309d6a6c8dc211f",
-    "path": "plugins/mail_settings/LICENSE",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/README.md": {
-    "baseline_sha256": "5d91b24b92dc4c1e5919a9a022079349bdc12df7d6cdbf5d65da953540b12f93",
-    "path": "plugins/mail_settings/README.md",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/config.inc.php.dist": {
-    "baseline_sha256": "364ae451615c69aea3d73a78de45cf497308c782bc435c15f407c873139567b3",
-    "path": "plugins/mail_settings/config.inc.php.dist",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/mail_settings.css": {
-    "baseline_sha256": "4f81d8c01ae19b905c6e461f33b21a24ef99c603b18ba81fff8b1072a4dcf8d4",
-    "path": "plugins/mail_settings/mail_settings.css",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/mail_settings.js": {
-    "baseline_sha256": "ec30096986a47ae3168bf9cec7fbbedb5ed70cd2cc730f0783eccf8207665b28",
-    "path": "plugins/mail_settings/mail_settings.js",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/mail_settings.php": {
-    "baseline_sha256": "4042ce338e52c7b16a7e8813e32f3a4e64b88074ce51157e2d7e8804c47b0656",
-    "path": "plugins/mail_settings/mail_settings.php",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/skins/elastic/templates/settings.html": {
-    "baseline_sha256": "173bb3e45386cb605dbbd3cd50c591d0a0a2635b07fcf405b8ce99a66de92899",
-    "path": "plugins/mail_settings/skins/elastic/templates/settings.html",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/src/AccountLock.php": {
-    "baseline_sha256": "ea5501d1448eb606666747c060b4752f32e0b68e9e0767e442083ae0c7a00120",
-    "path": "plugins/mail_settings/src/AccountLock.php",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/src/NetSieveConnection.php": {
-    "baseline_sha256": "f8420b3655425b90d51220cf766ea9cf2563ada1646aa74c16030938ed0de515",
-    "path": "plugins/mail_settings/src/NetSieveConnection.php",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/src/Script.php": {
-    "baseline_sha256": "04f928cca201a77260ace74de3ab66663f740d0f825efc90a7f86b39a5dfa3c4",
-    "path": "plugins/mail_settings/src/Script.php",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/src/Service.php": {
-    "baseline_sha256": "3aa647e3f665f9973a464db90d85da3fcd1f8d4ca9449b310630bb1964ed3d1b",
-    "path": "plugins/mail_settings/src/Service.php",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/roundcube_settings.py": {
-    "baseline_sha256": "85f83e23a283b037a43a98a18cfebb26049b1a47ad8e7209c8741750138fc420",
-    "path": "framework/roundcube_settings.py",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/roundcube_plugins.py": {
-    "baseline_sha256": "4c77afff9e38dab78f06177979bf3e9d6947d1bbdd828b63c0a6c513ea3fc98a",
-    "path": "framework/roundcube_plugins.py",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/roundcube_migration.py": {
-    "baseline_sha256": "2e0b932d21de297df5d78fe50877cdb5bd77dc16fcb97212a8f7431cefdb4c8d",
-    "path": "framework/roundcube_migration.py",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/MIGRATION.md": {
-    "baseline_sha256": "d576469110b6156806eec053c642447d4a5a8138c0cd5e91cfa1fc3db903f501",
-    "path": "plugins/mail_settings/MIGRATION.md",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/roundcube_adoption.py": {
-    "provider": "package",
-    "path": "framework/roundcube_adoption.py",
-    "baseline_sha256": "7ecd55b5ba6b7d2e9b1b1f3089d7db07f35d3f835cbdde7f96fbfcfc6e921ede"
-  },
-  "usr/local/lib/mail-platform-update/roundcube_rollout.py": {
-    "provider": "package",
-    "path": "framework/roundcube_rollout.py",
-    "baseline_sha256": "58ef4a8c892645471d89f955b8e2dee30e957c186be9982b1f0e12d0496ffe68"
-  },
-  "usr/share/roundcube/plugins/mail_settings/document_editor.js": {
-    "baseline_sha256": "8a7324a323e4c955c8b01fd4253624bea43de85348cba93eb4238fdcf3bff9ad",
-    "path": "plugins/mail_settings/document_editor.js",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/mail_settings/src/Document.php": {
-    "baseline_sha256": "9ba8f843761ddfcf45bc72cb0679eaf510af38de3164e82389bba505da3eb911",
-    "path": "plugins/mail_settings/src/Document.php",
-    "provider": "package"
-  },
-  "usr/share/roundcube/plugins/local_auth/localization/ja_JP.inc": {
-    "provider": "package",
-    "path": "plugins/local_auth/localization/ja_JP.inc",
-    "baseline_sha256": "3032e5acf3a36ef3658e1db105d1e8f240d0edf63eb2ef1b85f16c04f749eab7"
-  },
-  "usr/share/roundcube/plugins/local_auth/localization/en_US.inc": {
-    "provider": "package",
-    "path": "plugins/local_auth/localization/en_US.inc",
-    "baseline_sha256": "aba59c57e213518fcdb6ff985ec65e168b4a4749eb77b495ba530cf36cf234b7"
-  },
-  "usr/share/roundcube/plugins/local_auth_gate/localization/ja_JP.inc": {
-    "provider": "repository",
-    "path": "roundcube-passkey/general/candidate/local_auth_gate/localization/ja_JP.inc",
-    "normalize_LF": true,
-    "baseline_sha256": "bd2c9e4c90b8ee07f4e1a446362373dc75ffdcaf5cbc46324aa868e7929d5a2f"
-  },
-  "usr/share/roundcube/plugins/local_auth_gate/localization/en_US.inc": {
-    "provider": "repository",
-    "path": "roundcube-passkey/general/candidate/local_auth_gate/localization/en_US.inc",
-    "normalize_LF": true,
-    "baseline_sha256": "b44e8c5eb15804e2aee62800c3e6d272f9ef22d6f967f109754f8dbce0ca4c5b"
-  },
-  "usr/share/roundcube/plugins/mail_settings/localization/ja_JP.inc": {
-    "provider": "package",
-    "path": "plugins/mail_settings/localization/ja_JP.inc",
-    "baseline_sha256": "6a728a562a313273fdfc6fd4cab638fae5af2dc072388792a3ef51b7245462f0"
-  },
-  "usr/share/roundcube/plugins/mail_settings/localization/en_US.inc": {
-    "provider": "package",
-    "path": "plugins/mail_settings/localization/en_US.inc",
-    "baseline_sha256": "11f4ac0401a19f8fa33bd25afe93ad5afa1ad49f2579fad90b614dd2ee43cc22"
-  },
-  "blueprint/native-sources/sieve_session_lock.c": {
-    "provider": "package",
-    "path": "native/sieve_session_lock.c",
-    "baseline_sha256": "fd0217f47e48ff44f03309026ae65f5875859ad2374bf99dcf3f5bbfec2ff9e0"
-  },
-  "usr/local/lib/mail-platform-update/sieve_lock.py": {
-    "provider": "package",
-    "path": "framework/sieve_lock.py",
-    "baseline_sha256": "c765db9380a420c4181113fc8360180a93f2e53c41c5c83ffee14e0d3a6b7fa9"
-  },
-  "usr/local/lib/mail-platform-update/generation_probe.py": {
-    "provider": "package",
-    "path": "framework/generation_probe.py",
-    "baseline_sha256": "c0420b1385553821e2c7b463c68f2184d68ce8e409a5b66f0762a75619eea56d"
-  },
-  "usr/local/lib/mail-send-limits-v1/generation_launch.py": {
-    "provider": "package",
-    "path": "framework/generation_limits.py"
-  },
-  "usr/local/lib/mail-platform-update/policy_generation.py": {
-    "path": "framework/policy_generation.py",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/sieve_migration.py": {
-    "path": "framework/sieve_migration.py",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/site_enrollment.py": {
-    "path": "framework/site_enrollment.py",
-    "provider": "package"
-  },
-  "usr/local/lib/mail-platform-update/policy_binding.py": {
-    "provider": "package",
-    "path": "framework/policy_binding.py",
-    "baseline_sha256": "870ac8774d2de9a5772ccc47d4a2b96f1ff5010bd83728ca5d2b41e941aee5b5"
-  },
-  "usr/local/lib/mail-platform-update/site_configuration.py": {
-    "provider": "package",
-    "path": "framework/site_configuration.py",
-    "baseline_sha256": "929fb40787549e3fb068ae5b76f8a14730855e0810f87caf9edce1a03d9bbb78"
-  },
-  "usr/local/lib/mail-platform-update/setup_access.py": {
-    "provider": "package",
-    "path": "framework/setup_access.py"
-  },
-  "usr/local/lib/mail-platform-update/setup_publication.py": {
-    "provider": "package",
-    "path": "framework/setup_publication.py"
-  },
-  "usr/local/lib/mail-platform-update/bootstrap_access_admin.php": {
-    "provider": "package",
-    "path": "templates/bootstrap_access_admin.php"
-  },
-  "opt/mail-management/candidates/protection-relay-v1/src/AdminBootstrapAccess.php": {
-    "provider": "package",
-    "path": "management/AdminBootstrapAccess.php"
-  },
-  "usr/local/lib/mail-platform-update/bootstrap_admin_secure.php": {
-    "provider": "package",
-    "path": "templates/bootstrap_admin_secure.php"
-  },
-  "usr/local/lib/mail-platform-update/environment_check.py": {
-    "provider": "package",
-    "path": "framework/environment_check.py"
-  },
-  "usr/local/lib/mail-platform-update/certificate_state.py": {
-    "provider": "package",
-    "path": "framework/certificate_state.py",
-    "baseline_sha256": "edcac56686ce3bef7ad61f9972d5b66b2e320b0cabf88f04023cd4b936d091da"
-  },
-  "usr/local/lib/mail-platform-update/tls_deployment.py": {
-    "provider": "package",
-    "path": "framework/tls_deployment.py",
-    "baseline_sha256": "3bf464a6b3955bf7d59eb0ba863c81a038dd643a238d914f892d664ee8e7ebda"
-  },
-  "usr/local/lib/mail-platform-update/acme_lifecycle.py": {
-    "provider": "package",
-    "path": "framework/acme_lifecycle.py",
-    "baseline_sha256": "c43f487108c780748d186cdfde9aaa00fa07bef84e80c30fbd32a86ee2637a9c"
-  },
-  "usr/local/lib/mail-platform-update/certificate_cli.py": {
-    "provider": "package",
-    "path": "framework/certificate_cli.py",
-    "baseline_sha256": "cbdb2224c5e2228c5a11f0e6812499c661deb00ca0eeaa7c8cd070484edaa654"
-  },
-  "usr/local/lib/mail-platform-update/ca_rotation.py": {
-    "provider": "package",
-    "path": "framework/ca_rotation.py",
-    "baseline_sha256": "d62ed195387725145e0c5c20400ed1d4e8811e7b58489e0d157fb2ca1be54383"
-  },
-  "usr/local/lib/mail-client-certificates-v1/client-certificates/runtime-completion-v1/ca_generations.py": {
-    "provider": "package",
-    "path": "certificate_runtime/ca_generations.py",
-    "baseline_sha256": "bfc74badee1450213d5f9ea1032c709b32f6b6f0d33ecbdd2e8247c6d3a6ec7b"
-  },
-  "blueprint/systemd/mail-platform-acme.service": {
-    "provider": "package",
-    "path": "templates/mail-platform-acme.service",
-    "baseline_sha256": "00ea9a5b73e4c9ee4f4af6d6b5706b4dedd8a3e82c74a0613c0f278963da61ea"
-  },
-  "blueprint/systemd/mail-platform-acme.timer": {
-    "provider": "package",
-    "path": "templates/mail-platform-acme.timer",
-    "baseline_sha256": "ef719f5f41ac2703d29b66d2c3726f3234b7dd74085e6041a473119765d0756b"
-  },
-  "usr/local/lib/mail-platform-update/certificate_adoption.py": {
-    "provider": "package",
-    "path": "framework/certificate_adoption.py",
-    "baseline_sha256": "e6eebe78053b60aaa00fe3bc210e418b3cde7feb0fca9d559f040f8010cc9e30"
-  },
-  "usr/local/lib/mail-platform-update/certificate_update.py": {
-    "provider": "package",
-    "path": "framework/certificate_update.py",
-    "baseline_sha256": "645fa67382ad8dade3768bce3caf7fcf8e9c511fd1840c7459c52afc40dbd210"
-  },
-  "blueprint/migrations/certificates-v1/manifest.json": {
-    "provider": "package",
-    "path": "templates/certificate-migration.json",
-    "baseline_sha256": "e033a65d29b559f961300dea42bfd9ccfec05be1cd65fdcca7e15dd29910093e"
+    "path": "framework/native_package_update.py"
   }
 }

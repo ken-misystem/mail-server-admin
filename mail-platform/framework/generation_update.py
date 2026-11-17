@@ -22,6 +22,29 @@ class GenerationUpdate(CodeUpdate):
         super().__init__(payload, transaction, root, commands)
         self.record_path = self.directory/'generation-update.json'
 
+    def update_contract(self, receipt, config, changes=None):
+        return json.loads((self.payload/'blueprint/update-contract.json').read_bytes())
+
+    def new_path_allowed(self, target, config):
+        return self.allow_registered_additions and any(target.startswith(root+'/')
+            for component in config['components'].values() for root in component['roots'])
+
+    def partition_changes(self, changes, config):
+        return changes
+
+    def select_changes(self, contract, config, changes):
+        return select(contract, config, changes)
+
+    def next_generation(self, version):
+        return 'g' + version.replace('.', 'x')
+
+    def updated_generation_receipt(self):
+        receipt = dict(self.record['old_receipt'], code=dict(self.record['old_receipt']['code']))
+        for target in self.record['changes']:
+            receipt['code'][target] = self.live(target)[1]
+        receipt['version'] = self.record['contract']['to_version']
+        return receipt
+
     def plan(self):
         if self.record_path.exists():
             raise ValueError('generation_transaction_exists')
@@ -41,11 +64,12 @@ class GenerationUpdate(CodeUpdate):
         if receipt_metadata['uid'] != 0 or receipt_metadata['mode'] != 384:
             raise ValueError('availability_receipt_permissions')
         receipt = json.loads(receipt_raw)
-        contract = json.loads((self.payload / 'blueprint/update-contract.json').read_bytes())
+        self.check_aliases(receipt)
+        contract = self.update_contract(receipt, config)
         bundle = json.loads((self.payload.parent / 'bundle.json').read_bytes())
         if receipt['format'] != 2 or contract['from_version'] != receipt['version'] or contract['to_version'] != bundle['version']:
             raise ValueError('availability_installed_version')
-        bound = render(self.payload, receipt, self.live)
+        bound = self.render(receipt)
         changes = {}
         for name, raw in bound.items():
             if name.startswith('blueprint/'):
@@ -53,11 +77,8 @@ class GenerationUpdate(CodeUpdate):
             target = '/' + name
             before = receipt['code'].get(target)
             if before is None:
-                if not self.allow_registered_additions or os.path.lexists(self.files.target(target)):
+                if not self.new_path_allowed(target, config) or os.path.lexists(self.files.target(target)):
                     raise ValueError('availability_code_addition_requires_adoption')
-                if not any(target.startswith(root+'/') for component in config['components'].values()
-                           for root in component['roots']):
-                    raise ValueError('availability_new_code_outside_registration')
             elif self.live(target)[1] != before:
                 raise ValueError('availability_installed_drift:' + target)
             if before is None or sha(raw) != before['sha256']:
@@ -72,8 +93,10 @@ class GenerationUpdate(CodeUpdate):
             current, metadata = self.live('/etc/systemd/system/' + name)
             if metadata != expected or sha(bound['blueprint/systemd/' + name]) != sha(current):
                 raise ValueError('availability_unit_migration_required')
-        owners = select(contract, config, changes)
-        generation = 'g' + bundle['version'].replace('.', 'x')
+        changes = self.partition_changes(changes, config)
+        contract = self.update_contract(receipt, config, changes)
+        owners = self.select_changes(contract, config, changes)
+        generation = self.next_generation(bundle['version'])
         components = {}
         for name in contract['components']:
             component = config['components'][name]
@@ -106,32 +129,25 @@ class GenerationUpdate(CodeUpdate):
         return {'phase': 'planned', 'files': len(changes), 'impact': impact({name: item['configuration'] for name, item in components.items()})}
 
     @staticmethod
-    def snapshot(source, destination):
-        source = Path(source)
-        # Root-owned code directories only. Site-specific symlinks need explicit adoption.
-        for path in [source, *source.rglob('*')]:
-            info = path.lstat()
-            if info.st_uid != 0 or info.st_mode & 0o022 or not (stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode)):
-                raise ValueError('generation_source_attributes:' + str(path))
-        shutil.copytree(source, destination, copy_function=shutil.copy2)
-        for original in [source, *source.rglob('*')]:
-            target = destination/original.relative_to(source)
-            info = original.lstat()
-            os.chown(target, info.st_uid, info.st_gid)
+    def snapshot(source, destination, logical_root=None, aliases=None):
+        from code_aliases import snapshot_tree
+        return snapshot_tree(source,destination,logical_root or str(source),aliases or {})
 
     def stage(self):
         self.load()
         if self.record['phase'] != 'planned':
             raise ValueError('generation_stage_order')
-        bound = render(self.payload, self.record['old_receipt'], self.live)
+        bound = self.render(self.record['old_receipt'])
         for name, item in self.record['components'].items():
             directory = Path(item['directory'])
             directory.mkdir(parents=True, mode=0o755)
             os.chmod(directory, 0o755)
+            item['code_links']={}
             for root in item['configuration']['roots']:
                 destination = directory/'root'/root.lstrip('/')
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                self.snapshot(self.files.target(root), destination)
+                item['code_links'][root]=self.snapshot(self.files.target(root), destination, root,
+                    self.record['old_receipt'].get('code_aliases',{}))
             for target, change in self.record['changes'].items():
                 if name not in self.record['owners'][target]:
                     continue
@@ -171,7 +187,7 @@ class GenerationUpdate(CodeUpdate):
                     os.fsync(stream.fileno())
                 self.commands.run('generation_FPM_lint', ['/usr/sbin/php-fpm8.4', '-t', '-y', str(directory/'fpm.conf')])
             for folder in [*(directory/'root').rglob('*'), directory/'root', directory]:
-                if folder.is_dir():
+                if folder.is_dir() and not folder.is_symlink():
                     descriptor = os.open(folder, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
                     try:
                         os.fsync(descriptor)
@@ -295,6 +311,12 @@ class GenerationUpdate(CodeUpdate):
 
     def verify_inventory(self, item):
         directory = Path(item['directory'])
+        from code_aliases import tree_links
+        for root in item['configuration']['roots']:
+            actual_links=tree_links(directory/'root'/root.lstrip('/'),root,
+                self.record['old_receipt'].get('code_aliases',{}))
+            if actual_links!=item.get('code_links',{}).get(root,{}):
+                raise ValueError('generation_inventory_links_changed')
         inventory = json.loads(regular(directory/'inventory.json')[0])
         if sha(canonical(inventory)) != item['inventory_sha256']:
             raise ValueError('generation_inventory_changed')
@@ -371,10 +393,7 @@ class GenerationUpdate(CodeUpdate):
             self.files.write(target, raw, before['mode'], before['uid'], before['gid'])
         if self.live('/var/lib/mail-platform-update/installed-code.json')[1] != self.record['receipt_before']:
             raise ValueError('generation_receipt_CAS')
-        receipt = dict(self.record['old_receipt'], code=dict(self.record['old_receipt']['code']))
-        for target in self.record['changes']:
-            receipt['code'][target] = self.live(target)[1]
-        receipt['version'] = self.record['contract']['to_version']
+        receipt = self.updated_generation_receipt()
         self.files.write('/var/lib/mail-platform-update/installed-code.json', canonical(receipt), 0o600)
         self.record['phase'] = 'healthy'
         self.save()

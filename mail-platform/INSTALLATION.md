@@ -1,5 +1,13 @@
 # Debian 13新規導入候補
 
+## 監視参照の環境設定（未公開の共通修正）
+
+監視用Postfix設定ディレクトリとCertbotの証明書lineageは、コードと分離した `/etc/mail-management-operations-v1/environment.json` で管理する。新規導入では専用Postfix設定と入力したmail_hostのlineageを設定する。既存ファイルがある場合は新規導入で置換せず、初回移行手順を要求する。
+
+この設定はroot所有・第三者書込み不可とし、秘密鍵・パスフレーズを含めない。通常更新では設定をコード所有一覧へ入れず、内容・属性を保持する。更新計画後に設定が変化した場合は処理を保留する。設定欠落・未対応形式・参照先不在を、ホスト名からの推測や既定値への切替えで補わない。
+
+現在の対応形式はformat=1、queue_config_directoryは `/etc/` 配下の通常ディレクトリ、certificate_lineageはCertbotのlineage名である。証明書は同一lineageのlive→archiveリンクを検査し、通常の世代更新を受け入れる。任意の外部証明書ファイルへのリンクは対応対象外である。実行権限は既存監視serviceに従い、権限不足を理由にACLやサービス権限を自動緩和しない。
+
 基本設定とOS・DB・サービス導入adapterを実装した。対象は空のDebian 13 amd64。既存メール構成・同名専用OS利用者・既存DBを検出すると停止する。2026-11-12、専用WSL2内の空Debian 13.5/systemd-nspawnで通常入口からの実導入、実認証UI、署名付き手動/自動更新、故障時復旧と未知差分保留を確認した。検証範囲はVALIDATION.mdを参照する。
 
 ## 対応版と配布状況

@@ -7,6 +7,7 @@ import re
 import stat
 import subprocess
 import sys
+import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -20,23 +21,108 @@ PLUGIN = SOURCE.lstrip('/')+'/mail_settings/'
 MARKER = b'// MI-SYSTEM mail_settings migration v1'
 
 
-def require_web_quiet():
-    entries = list(Path('/proc').iterdir())
+def _identity(path):
+    info = path.stat()
+    return [info.st_dev, info.st_ino]
+
+
+def _mapped_ids_safe(raw):
+    try:
+        rows = [tuple(map(int, line.split())) for line in raw.splitlines()]
+    except ValueError:
+        return False
+    if not rows or len(rows) > 16 or any(len(row) != 3 for row in rows):
+        return False
+    return all(inside >= 0 and outside >= 0 and length > 0
+               and not any(outside <= uid < outside + length for uid in (0, 33))
+               for inside, outside, length in rows)
+
+
+def _separate_rootless_web(row, host):
+    """Exclude only positively identified, separately rooted rootless containers.
+
+    A different PID, UID or cgroup alone is insufficient. Host root/www-data
+    must not be mapped into the container. Unknown or shared roots still block.
+    """
+    return (all(uid not in (0, 33) for uid in row['uids'])
+            and row['root'] != host['root']
+            and row['userns'] != host['userns']
+            and row['mntns'] != host['mntns']
+            and re.fullmatch(r'0::/user\.slice/user-([0-9]+)\.slice/user@\1\.service/'
+                             r'[^\n]+/libpod-payload-[0-9a-f]{64}\n?', row['cgroup']) is not None
+            and _mapped_ids_safe(row['uid_map']) and _mapped_ids_safe(row['gid_map']))
+
+
+def _web_process(process):
+    first = (process/'stat').read_text().rsplit(')', 1)[1].split()[19]
+    command = (process/'comm').read_text().strip()
+    if not command.startswith('php'):
+        return None
+    uids = [int(value) for value in next(line.split()[1:] for line in
+            (process/'status').read_text().splitlines() if line.startswith('Uid:'))]
+    if len(uids) != 4:
+        raise ValueError('web_process_uid_format')
+    row = {'pid':int(process.name), 'starttime':first, 'comm':command, 'uids':uids,
+           'cgroup':(process/'cgroup').read_text(), 'root':_identity(process/'root'),
+           'userns':_identity(process/'ns/user'), 'mntns':_identity(process/'ns/mnt'),
+           'uid_map':(process/'uid_map').read_text(), 'gid_map':(process/'gid_map').read_text()}
+    if (first != (process/'stat').read_text().rsplit(')', 1)[1].split()[19]
+            or command != (process/'comm').read_text().strip()
+            or row['cgroup'] != (process/'cgroup').read_text()
+            or row['root'] != _identity(process/'root')
+            or row['userns'] != _identity(process/'ns/user')
+            or row['mntns'] != _identity(process/'ns/mnt')):
+        raise ValueError('web_process_identity_changed')
+    final_uids = [int(value) for value in next(line.split()[1:] for line in
+                  (process/'status').read_text().splitlines() if line.startswith('Uid:'))]
+    if (uids != final_uids or row['uid_map'] != (process/'uid_map').read_text()
+            or row['gid_map'] != (process/'gid_map').read_text()):
+        raise ValueError('web_process_identity_changed')
+    return row
+
+
+def require_web_quiet(evidence=None, *, allow_active=False):
+    """Read-only process check; optionally persist facts before deciding.
+
+    allow_active is for inventory BEFORE the service barrier only. Placement
+    and recovery callers retain the default, which rejects remaining workers.
+    """
+    proc = Path('/proc')
+    record = {'format':1, 'allow_active':allow_active, 'processes':[], 'errors':[]}
+    host = {'root':_identity(Path('/')), 'userns':_identity(proc/'self/ns/user'),
+            'mntns':_identity(proc/'self/ns/mnt')}
+    record['host'] = host
+    entries = list(proc.iterdir())
     if len(entries) > 4096:
         raise ValueError('web_process_inventory_bound')
     for process in entries:
         if not process.name.isdigit():
             continue
         try:
-            command = (process/'comm').read_text().strip()
-            if not command.startswith('php'):
+            row = _web_process(process)
+            if row is None:
                 continue
-            status = (process/'status').read_text()
-            effective_uid = int(next(line.split()[2] for line in status.splitlines() if line.startswith('Uid:')))
         except FileNotFoundError:
+            # Ignore only a process that has actually exited. A missing field
+            # of a live process must not silently bypass the barrier.
+            if process.exists():
+                record['errors'].append({'pid':int(process.name), 'reason':'live_process_field_missing'})
             continue
-        if command.startswith('php-fpm') or effective_uid == 33:
-            raise ValueError('roundcube_web_workers_active')
+        except (OSError, ValueError, StopIteration, IndexError) as error:
+            record['errors'].append({'pid':int(process.name), 'reason':type(error).__name__,
+                                     'errno':getattr(error, 'errno', None)})
+            continue
+        relevant = row['comm'].startswith('php-fpm') or row['uids'][1] == 33
+        row['classification'] = ('unrelated_php' if not relevant else
+            'separate_rootless' if _separate_rootless_web(row, host) else 'blocking')
+        record['processes'].append(row)
+    if evidence is not None:
+        durable_json(Path(evidence)/('web-processes-'+str(time.time_ns())+'.json'), record)
+    if record['errors']:
+        raise ValueError('roundcube_web_process_identity_unconfirmed')
+    if not allow_active and any(row['classification'] == 'blocking' for row in record['processes']):
+        raise ValueError('roundcube_web_workers_active')
+    return record
 
 
 def configuration(raw, peer):

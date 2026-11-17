@@ -15,8 +15,13 @@ def once(raw, old, new):
     return raw.replace(old, new)
 
 
-def bind(files):
+def bind(files, *, supplemental_dns=False):
     output = dict(files)
+    if not supplemental_dns:
+        collector = 'usr/local/lib/mail-management-operations-v1/read_runtime.py'
+        output[collector] = output[collector].replace(b"UNITS += ('mail-reputation-dns-v1.service',)\n", b'')
+        snapshot = 'opt/mail-management/candidates/protection-relay-v1/src/OperationsSnapshot.php'
+        output[snapshot] = output[snapshot].replace(b",'mail-reputation-dns-v1.service'", b'')
     name = 'usr/local/lib/mail-management-operations-v1/read_runtime.py'
     raw = output[name].decode()
     anchor = 'COMMANDS = {'
@@ -35,8 +40,12 @@ def bind(files):
     prefix = 'opt/mail-management/candidates/protection-relay-v1/src/'
     name = prefix + 'OperationsSnapshot.php'
     raw = output[name].decode()
-    raw = once(raw, "'mail-protection-publish-v1.timer'];",
-               "'mail-protection-publish-v1.timer'," + ','.join(repr(key) for key in EXTRA) + '];')
+    legacy = "'mail-protection-publish-v1.timer'];"
+    dns = "'mail-protection-publish-v1.timer','mail-reputation-dns-v1.service'];"
+    if sum(raw.count(anchor) for anchor in (legacy, dns)) != 1:
+        raise ValueError('monitor_profile_contract')
+    anchor = dns if dns in raw else legacy
+    raw = once(raw, anchor, anchor[:-2] + ',' + ','.join(repr(key) for key in EXTRA) + '];')
     raw = once(raw, "'mail-protection-publish-v1.service'],true)",
                "'mail-protection-publish-v1.service','mail-platform-update.service'],true)")
     output[name] = raw.encode()

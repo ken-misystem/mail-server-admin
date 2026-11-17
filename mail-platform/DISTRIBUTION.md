@@ -27,3 +27,8 @@ third-party/roundcube/patchesの先頭に変更者・日付・GPL条件と差分
 ## 再公開の確認
 
 生成inventory・同梱notice・対応sourceの入手先とhashを照合し、変更した工程の新規検証を行う。再公開とGitHub pushは本人の直前確認後に実施する。
+
+## 0.4.2共通更新候補
+
+通常構成と世代登録済み構成、Rspamdの修正導入を共通更新契約で扱います。
+[保持項目・署名資材・復旧条件](COMMON_UPDATE.md)を参照してください。

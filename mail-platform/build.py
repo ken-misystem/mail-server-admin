@@ -22,6 +22,9 @@ def release_cache(text):
 
 def transformed(name,raw):
  text=raw.decode('utf-8')
+ if name=='monitor_environment':
+  from monitor_render import render
+  return render(raw)
  if name=='update_navigation':
   if "'/mail-admin/updates'"in text:return raw
   a="'管理者・監査'=>[";require(text.count(a)==1,'navigation_anchor');return text.replace(a,a+"\n                ['ソフトウェア更新','/mail-admin/updates',['ソフトウェア更新']],").encode()
@@ -81,7 +84,7 @@ def prepare(repository, roundcube_settings='plugin'):
  prefix='payload/opt/mail-management/candidates/protection-relay-v1/';m={n[len(prefix):]:{'bytes':len(b),'sha256':sha(b)}for n,b in files.items()if n.startswith(prefix)and not n.endswith('/BUNDLE_MANIFEST.json')}
  files[prefix+'BUNDLE_MANIFEST.json']=json.dumps(m,sort_keys=True,indent=2).encode()+b'\n'
  for n in ['install.py','readiness.json','site.example.json','facts.example.json','kit.example.json','acme.example.json','configuration-plan.json','README.md','INSTALLATION.md','CERTIFICATES.md','RELEASE.md','ACCEPTANCE.md','native_assets.py','native-assets-lock.json','NATIVE_ASSETS.md','VALIDATION.md','AVAILABILITY.md','INITIAL_SETUP.md']:files[n]=(HERE/n).read_bytes()
- documents=['LICENSE','LICENSING.md','THIRD_PARTY.md','DISTRIBUTION.md','distribution-policy.json','licenses/roundcube/LICENSE']
+ documents=['LICENSE','LICENSING.md','THIRD_PARTY.md','DISTRIBUTION.md','COMMON_UPDATE.md','ADOPTION.md','distribution-policy.json','licenses/roundcube/LICENSE']
  documents.extend(path.relative_to(HERE).as_posix() for path in sorted((HERE/'third-party').rglob('*')) if path.is_file())
  for name in documents:
   raw = (HERE/name).read_bytes()
@@ -98,7 +101,11 @@ def main():
  p.add_argument('--roundcube-settings', choices=('legacy', 'plugin'), default='plugin')
  p.add_argument('--sieve-migration-kit',type=Path)
  p.add_argument('--sieve-migration-from',type=Path)
+ p.add_argument('--native-migration',type=Path)
  a=p.parse_args();version(a.version);files,info=prepare(a.repository_root,a.roundcube_settings)
+ if a.native_migration:
+  from native_package_update import add_assets
+  add_assets(files,a.native_migration)
  require(bool(a.sieve_migration_kit)==bool(a.sieve_migration_from),'sieve_migration_asset_arguments')
  if a.sieve_migration_kit:
   from sieve_migration import add_assets

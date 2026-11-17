@@ -9,30 +9,39 @@
     {
       "name": "Rspamd symbols.cache backport",
       "version": "3.12.1-1+0misystem1",
-      "provision": "source-patch-and-local-build-recipe",
-      "licenses": ["Apache-2.0", "dependency-specific-terms"],
+      "provision": "signed-binary-with-corresponding-source",
+      "licenses": [
+        "Apache-2.0",
+        "dependency-specific-terms"
+      ],
       "notice_source": "third-party/rspamd/NOTICE.md and COPYRIGHT.debian",
       "upstream": "https://github.com/rspamd/rspamd/commit/381fafc48f4d1c6a3550cb4b5123b78c104513a1",
-      "automatic_installation": false,
-      "optional_binary_distribution": "separate-component-with-matching-source"
+      "automatic_installation": true,
+      "optional_binary_distribution": "reviewed-baseline-and-fixed-deb-in-signed-archive"
     },
     {
       "name": "Composer dependencies",
       "provision": "bundled-source",
-      "licenses": ["MIT"],
+      "licenses": [
+        "MIT"
+      ],
       "notice_source": "vendor package LICENSE files and generated distribution-inventory.json"
     },
     {
       "name": "PyMySQL",
       "version": "1.2.3",
       "provision": "bundled-wheel",
-      "licenses": ["MIT"],
+      "licenses": [
+        "MIT"
+      ],
       "notice_source": "LICENSE inside each wheel"
     },
     {
       "name": "Roundcube Sieve modifications",
       "provision": "bundled-patches",
-      "licenses": ["GPL-3.0-or-later"],
+      "licenses": [
+        "GPL-3.0-or-later"
+      ],
       "additional_permission": "Roundcube upstream skins/plugins exception retained",
       "notice_source": "third-party/roundcube/NOTICE.md",
       "upstream": "https://roundcube.net/license/"
@@ -40,14 +49,20 @@
     {
       "name": "Debian service packages",
       "provision": "target-apt",
-      "licenses": ["per-installed-package"],
+      "licenses": [
+        "per-installed-package"
+      ],
       "notice_source": "/usr/share/doc/<package>/copyright on the installation target"
     },
     {
       "name": "Dovecot cnfix1 and Pigeonhole",
       "version": "1:2.4.1+dfsg1-6+deb13u7+cnfix1",
       "provision": "target-build-from-corresponding-source",
-      "licenses": ["MIT", "LGPL-2.1-only", "file-specific-terms"],
+      "licenses": [
+        "MIT",
+        "LGPL-2.1-only",
+        "file-specific-terms"
+      ],
       "notice_source": "source COPYING, COPYING.MIT, COPYING.LGPL and Debian copyright",
       "optional_binary_distribution": "separate-component-with-matching-source"
     },
@@ -55,7 +70,10 @@
       "name": "ClamAV",
       "version": "1.4.6",
       "provision": "official-download-and-local-preparation",
-      "licenses": ["GPL-2.0-only", "dependency-specific-terms"],
+      "licenses": [
+        "GPL-2.0-only",
+        "dependency-specific-terms"
+      ],
       "notice_source": "official source COPYING and dependency notices, including unRAR",
       "upstream": "https://github.com/Cisco-Talos/clamav/releases/tag/clamav-1.4.6",
       "optional_binary_distribution": "separate-component-with-matching-source"

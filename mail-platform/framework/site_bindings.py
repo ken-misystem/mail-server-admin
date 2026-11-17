@@ -28,11 +28,6 @@ def bind(files,site):
   try:text=raw.decode('utf-8')
   except UnicodeDecodeError:rendered[name]=raw;continue
   text=matcher.sub(lambda match:bindings[match.group()],text)
-  if name=='usr/local/lib/mail-management-operations-v1/read_runtime.py':
-   text=text.replace('/live/mail-san/','/live/'+site['mail_host']+'/')
-   text=text.replace("'mail-san'",repr(site['mail_host']))
-   text=text.replace('archive/mail-san/','archive/'+re.escape(site['mail_host'])+'/')
-   text=text.replace('existing mail-san public chain','configured public certificate chain')
   rendered[name]=text.encode()
  return rebase(rendered,files)
 

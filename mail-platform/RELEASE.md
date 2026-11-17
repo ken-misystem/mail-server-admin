@@ -1,5 +1,25 @@
 # 配布資材の生成と署名
 
+## 0.4.2の共通修正と更新範囲（公開前候補）
+
+監視のキュー設定ディレクトリ・証明書lineageを環境設定へ分離する。新規導入では入力値から生成し、初回移行では旧collectorの固定COMMANDSから取得する。通常更新は既存のenvironment.jsonを内容・属性・inodeごと保持する。環境設定は公開payloadやコード所有一覧に含めない。
+
+公開0.4.0または0.4.1から0.4.2へ直接更新する。中間版の導入は要求しない。
+通常構成と世代登録済み構成を、実際の所有記録・設定・unitで判別する。
+世代構成のある環境では既存frontを保持し、管理画面とRoundcubeの新workerへ切り替える。
+世代外コードの監視・通知等は関連timer/workerを一時停止して整合させ、元の稼働状態へ戻す。
+通常構成では関連PHP-FPM／更新UIの停止・再開中に管理画面とRoundcubeが利用できない。
+
+署名対象の旧Rspamd 3.12.1-1では、設定・依存・実行ファイルを照合して
+3.12.1-1+0misystem1へ更新する。修正版が一致する環境は再導入しない。
+必要なrestartとcache保存reloadの間はMilter判定接続が一時停止する。
+SMTP・IMAP・POP・DBの停止は要求しない。設定・DB・メール・UIDL・履歴・資格情報を保持する。
+旧0.3.0から0.4.0への既存移行は従来の検証済み工程を使用し、その後はこの直接更新へ接続する。
+
+新規導入にも同じ修正版debと対応ソースを収録する。Rspamdの2debと対応ソースは
+署名済みarchive内で一体として照合する。他native製品の公式取得・現地build方式は維持する。
+本番の設定・署名秘密鍵・資格情報は配布しない。[詳細契約](COMMON_UPDATE.md)を参照する。
+
 更新モードは管理画面でmanual/automaticを選択する。正式な署名付きReleaseを公開すると検出対象になる。同じリポジトリ内の登録元ソースから資材を生成する。
 
 配布生成コマンドはリポジトリ内のmail-platformから実行する。新規導入用archiveはbuild.pyで生成し、操作入口はinstall.pyである。固定3assetは稼働中サーバーのコード更新用である。公開時は新規導入archiveも同じReleaseへ添付する。
@@ -69,3 +89,8 @@ python3 -B mail-platform/release_assets.py verify \
 distribution-inventory.jsonは同梱Composer packageの宣言ライセンス・版・noticeファイルhash、wheel内の許諾文、component別の取得方法を列挙する。公開コードの一覧はTHIRD_PARTY.mdを参照する。distribution-plan.jsonに今回の標準配布物と第三者componentの準備方法を記録する。DISTRIBUTION.mdに標準構成と改造版binaryの別配布手順を記載する。
 
 native_assets.pyで作成したClamAV runtime資材を配布する場合は、対応するmail-platform-native-sources.tar.gzと版/hashを同じReleaseへ付ける。元のsource・署名・全notice・Dovecot source候補を保持する。NATIVE_ASSETS.mdとnative-materials-result.jsonで対応を確認する。定義DBと導入先の私有kitは現地で準備する。
+
+## 0.4.2共通更新候補
+
+通常構成と世代登録済み構成、Rspamdの修正導入を共通更新契約で扱います。
+[保持項目・署名資材・復旧条件](COMMON_UPDATE.md)を参照してください。

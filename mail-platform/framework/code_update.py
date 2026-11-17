@@ -21,8 +21,19 @@ PREFIXES = ('usr/local/lib/', 'usr/local/sbin/', 'opt/mail-management/',
 
 def contract(value, receipt, units):
     fields = {'format', 'from_version', 'to_version', 'pause', 'stop', 'start', 'reload', 'health'}
+    if 'optional_units' in value:
+        optional = value['optional_units']
+        if (type(optional) is not list or len(optional) != len(set(optional))
+                or any(name not in LEGACY_UNITS for name in optional)):
+            raise ValueError('update_optional_units')
+        value = {key: item for key, item in value.items() if key != 'optional_units'}
+        absent = set(optional) - set(receipt['unit_files'])
+        value = dict(value, **{key: [name for name in value[key] if name not in absent]
+                              for key in ('pause', 'stop', 'start', 'reload', 'health')})
     if set(value) != fields or value['format'] != 1:
         raise ValueError('update_contract_shape')
+    from update_sources import select
+    value = select(value, receipt['version'])
     if receipt.get('format') != 2 or value['from_version'] != receipt['version']:
         raise ValueError('update_receipt_or_source_version')
     if version(value['to_version']) <= version(receipt['version']):
@@ -46,11 +57,17 @@ def contract(value, receipt, units):
 
 
 def render(payload, receipt, read_live, *, certificate_adoption=False):
+    from monitor_binding import update as monitoring_update
+    monitoring_update(read_live)
     files = read_payload(payload)
     files.pop('installer.py', None)
     bound = bind_site(files, receipt['site'])
     bound, _ = bind_identities(bound, receipt['identities'], baseline_identities(payload))
-    bound = bind_profile(bound)
+    # Retain an explicitly installed supplemental DNS monitor; a public fresh
+    # installation does not create that service and must not start requiring it.
+    from monitor_binding import RUNTIME
+    supplemental_dns = b"UNITS += ('mail-reputation-dns-v1.service',)" in read_live(RUNTIME)[0]
+    bound = bind_profile(bound, supplemental_dns=supplemental_dns)
     blueprints = {name: sha(raw) for name, raw in bound.items()
                   if name.startswith('blueprint/') and not name.startswith('blueprint/systemd/')
                   and name != 'blueprint/update-contract.json' and not name.startswith('blueprint/migrations/')}
@@ -85,7 +102,8 @@ def render(payload, receipt, read_live, *, certificate_adoption=False):
         from certificate_adoption import bind_gate_unit
         output = bind_gate_unit(output, binding, read_live)
     output.update(render_roundcube_core(output,read_live))
-    return output
+    from code_aliases import bind
+    return bind(output,receipt.get('code_aliases',{}))
 
 
 class CodeUpdate:
@@ -112,13 +130,23 @@ class CodeUpdate:
         if metadata['uid'] != os.geteuid() or metadata['mode'] & 0o077:
             raise ValueError('update_transaction_permissions')
         self.record = json.loads(raw)
+        self.check_aliases(self.record['old_receipt'])
+        if 'monitor_environment' in self.record:
+            from monitor_binding import update as monitoring_update
+            if monitoring_update(self.live) != self.record['monitor_environment']:
+                raise ValueError('monitor_environment_changed_during_update')
         self.files.entries = [json.loads(path.read_bytes()) for path in sorted(self.directory.glob('file-entry-*.json'))]
+
+    def check_aliases(self, receipt):
+        from code_aliases import check, assert_physical
+        aliases=check(self.root,receipt.get('code_aliases',{}))
+        assert_physical(receipt['code'],aliases)
 
     def unit(self, name):
         raw = self.commands.run('inspect_'+name.replace('-', '_').replace('.', '_').replace('@', '_'),
             ['/usr/bin/systemctl', 'show', name, '-p', 'ActiveState,SubState,MainPID,Job'])
         result = dict(line.split('=', 1) for line in raw.decode().splitlines())
-        if name.endswith('.socket') and 'MainPID' not in result:
+        if name.endswith(('.socket','.timer')) and 'MainPID' not in result:
             result['MainPID'] = '0'
         if (name.endswith('.socket') and result.get('ActiveState') == 'active'
                 and result.get('SubState') in ('listening', 'running')):
@@ -128,6 +156,12 @@ class CodeUpdate:
         if result.get('Job') not in ('', '0'):
             raise ValueError('unit_has_pending_job')
         return result
+
+    def quiet_state(self, name, current):
+        if current['MainPID'] != '0':
+            return False
+        return current['ActiveState'] == 'inactive' or (
+            current['ActiveState'] == 'failed' and current == self.record['before_units'][name])
 
     def operation(self, action, name):
         self.record['operation_started'] = {'action': action, 'unit': name}
@@ -148,14 +182,20 @@ class CodeUpdate:
         if metadata['uid'] != 0 or metadata['mode'] != 0o600:
             raise ValueError('installed_receipt_permissions')
         receipt = json.loads(raw)
+        self.check_aliases(receipt)
         allowed_units = {'nginx.service', 'php8.4-fpm.service', 'postfix.service', 'dovecot.service',
                          'rspamd.service', 'mariadb.service', 'redis-server.service', 'postsrsd.service',
                          'fail2ban.service', 'rsyslog.service', 'ufw.service'}
         value = json.loads((self.payload/'blueprint/update-contract.json').read_bytes())
+        for name in value.get('optional_units', []):
+            if name not in receipt['unit_files'] and os.path.lexists(self.files.target('/etc/systemd/system/'+name)):
+                raise ValueError('update_unregistered_optional_unit:'+name)
         checked = contract(value, receipt, allowed_units)
         release = json.loads((self.payload.parent/'bundle.json').read_bytes())
         if checked['to_version'] != release['version']:
             raise ValueError('release_contract_version_mismatch')
+        from monitor_binding import update as monitoring_update
+        monitor_environment = monitoring_update(self.live)
         bound = self.render(receipt)
         release_units = {name.removeprefix('blueprint/systemd/') for name in bound
                          if name.startswith('blueprint/systemd/')}
@@ -209,7 +249,7 @@ class CodeUpdate:
                 raise ValueError('registered_infrastructure_requires_migration')
         planned_units = set().union(*(set(checked[name]) for name in ('pause', 'stop', 'start', 'reload', 'health')))
         original_units = {name: self.unit(name) for name in sorted(planned_units)}
-        self.record = {'phase': 'planned', 'contract': checked, 'old_receipt': receipt,
+        self.record = {'phase': 'planned', 'monitor_environment': monitor_environment, 'contract': checked, 'old_receipt': receipt,
                        'receipt_before': metadata, 'candidates': candidates, 'before_units': original_units,
                        'last_units': dict(original_units), 'operation_started': None, 'activated': False}
         self.save()
@@ -250,9 +290,18 @@ class CodeUpdate:
         self.record['activated'] = True
         self.save()
         for name in value['pause']+value['stop']:
-            if self.record['before_units'][name]['ActiveState'] == 'active':
+            # A timer may have started its worker after plan(). Observe again
+            # after pausing timers, before replacing any executable code.
+            current = self.unit(name)
+            if current['ActiveState'] == 'active':
                 self.operation('stop', name)
+            elif self.quiet_state(name, current):
+                self.record['last_units'][name] = current
+                self.save()
+            else:
+                raise ValueError('update_actor_not_quiet:'+name)
         for path, entry in self.record['candidates'].items():
+            self.check_aliases(self.record['old_receipt'])
             target = self.files.target(path)
             current = self.live(path)[1] if os.path.lexists(target) else None
             if current != entry['before']:
@@ -263,6 +312,7 @@ class CodeUpdate:
             self.files.write(path, raw, entry['after']['mode'], entry['after']['uid'], entry['after']['gid'])
         if any(path.startswith('/etc/systemd/system/') for path in self.record['candidates']):
             self.commands.run('systemd_reload', ['/usr/bin/systemctl', 'daemon-reload'])
+        self.check_aliases(self.record['old_receipt'])
         for name in value['start']:
             if self.record['before_units'][name]['ActiveState'] == 'active':
                 self.operation('start', name)
@@ -284,8 +334,13 @@ class CodeUpdate:
             if self.live(path)[1] != item['after']:
                 raise ValueError('update_health_file_drift')
         for name in self.record['contract']['health']:
-            self.commands.run('health_'+name.replace('-', '_').replace('.', '_'),
-                              ['/usr/bin/systemctl', 'is-active', '--quiet', name])
+            if self.record['before_units'][name]['ActiveState'] == 'active':
+                self.commands.run('health_'+name.replace('-', '_').replace('.', '_'),
+                                  ['/usr/bin/systemctl', 'is-active', '--quiet', name])
+            else:
+                state = self.unit(name)
+                if not self.quiet_state(name, state):
+                    raise ValueError('update_inactive_health_unit_changed')
         if self.live('/var/lib/mail-platform-update/installed-code.json')[1] != self.record['receipt_before']:
             raise ValueError('installed_receipt_CAS_conflict')
         receipt = self.updated_receipt()

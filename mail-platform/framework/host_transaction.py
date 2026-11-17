@@ -9,6 +9,8 @@ import subprocess
 import time
 import uuid
 
+UNSPECIFIED_BEFORE = object()
+
 
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -144,7 +146,7 @@ class Files:
                     raise ValueError('target_parent_owner')
         return path
 
-    def write(self, name, raw, mode=0o644, uid=0, gid=0, preserve=False):
+    def write(self, name, raw, mode=0o644, uid=0, gid=0, preserve=False, *, expected_before=UNSPECIFIED_BEFORE):
         path = self.target(name)
         directory = os.open(self.root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
         try:
@@ -168,12 +170,16 @@ class Files:
         backup = None
         if os.path.lexists(path):
             original, before = regular(path)
+            if expected_before is not UNSPECIFIED_BEFORE and before != expected_before:
+                raise ValueError('resource_expected_CAS_conflict')
             backup = 'original-' + str(len(self.entries)).zfill(5)
             fd = os.open(self.state / backup, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
             with os.fdopen(fd, 'wb') as stream:
                 stream.write(original)
                 stream.flush()
                 os.fsync(stream.fileno())
+        elif expected_before is not UNSPECIFIED_BEFORE and expected_before is not None:
+            raise ValueError('resource_expected_CAS_conflict')
         entry = {'path': name, 'before': before, 'backup': backup, 'preserve': preserve,
                  'sequence': len(self.entries),
                  'after': {'sha256': digest(raw), 'mode': mode, 'uid': uid, 'gid': gid},

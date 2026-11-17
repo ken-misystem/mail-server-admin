@@ -107,9 +107,11 @@ def run_update(root,archive,meta,signature,key,manual=False,openssl='openssl',ho
   settings=load(root/'policy.json',{'revision':0,'mode':'manual'})
   prior=load(root/'transaction.json')
   require(not prior or prior['phase']in('complete','rolled_back'),'previous_transaction_requires_review')
-  require(not _retire_previous(root,prior,hook_fn),'previous_generation_retirement_pending')
   require(not prior or prior['phase']!='rolled_back' or prior['version']!=meta['version'],'previous_release_failed_requires_review')
   m,files=inspect(archive,meta,signature,key,openssl)
+  from native_requirements import check as check_native_requirements
+  native_status=check_native_requirements(files,root)
+  require(not _retire_previous(root,prior,hook_fn),'previous_generation_retirement_pending')
   if not should_apply(settings,current['version'],m['version'],manual):
    from availability_plan import release_impact
    effect=release_impact(files)
@@ -119,10 +121,11 @@ def run_update(root,archive,meta,signature,key,manual=False,openssl='openssl',ho
   releases=root/'releases';releases.mkdir(mode=0o700,exist_ok=True)
   stage=releases/m['version'];extract_verified(files,stage)
   tx={'id':str(time.time_ns()),'phase':'prepared','old':current,'version':m['version'],'release':str(stage),'events':[],
-      'installer_sha256':sha(files['payload/installer.py'][0])}
+      'installer_sha256':sha(files['payload/installer.py'][0]),'native_requirements':native_status}
   txdir=root/('transaction-'+tx['id']);txdir.mkdir(mode=0o700);save(txdir/'journal.json',tx);save(root/'transaction.json',tx)
   try:
    for action in('plan','stage','activate','health'):
+    if action in ('activate','health'):check_native_requirements(files,root)
     tx['phase']=action+'_started';save(root/'transaction.json',tx);save(txdir/'journal.json',tx)
     event=hook_fn(stage,action,txdir);tx['events'].append(event);save(txdir/'journal.json',tx)
    save(root/'installed.json',{'version':m['version'],'release':str(stage),'previous':current['release']})

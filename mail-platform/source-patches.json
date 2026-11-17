@@ -158,8 +158,8 @@
   "usr/local/lib/mail-management-operations-v1/read_runtime.py": {
     "hunks": [
       {
-        "before": "'queue': ('/usr/sbin/postqueue', '-j'),",
-        "after": "'queue': ('/usr/sbin/postqueue', '-c', '/etc/mail-management-operations-v1/postfix', '-j'),"
+        "before": "UNITS += ('mail-protection-clamav-v1.service', 'mail-protection-definitions-v1.service', 'mail-protection-definitions-v1.timer', 'mail-protection-publish-v1.service', 'mail-protection-publish-v1.timer')\nONESHOTS += ('mail-protection-definitions-v1.service', 'mail-protection-publish-v1.service')\nCOMMANDS = {\n    'units': ('/usr/bin/systemctl', 'show', '--no-pager', '--all',\n",
+        "after": "UNITS += ('mail-protection-clamav-v1.service', 'mail-protection-definitions-v1.service', 'mail-protection-definitions-v1.timer', 'mail-protection-publish-v1.service', 'mail-protection-publish-v1.timer')\nONESHOTS += ('mail-protection-definitions-v1.service', 'mail-protection-publish-v1.service')\nUNITS += ('mail-reputation-dns-v1.service',)\nCOMMANDS = {\n    'units': ('/usr/bin/systemctl', 'show', '--no-pager', '--all',\n"
       }
     ]
   },
@@ -296,6 +296,120 @@
       {
         "before": "need(str(uuid.UUID(bytes=current[6]))==data['crl']['issuer_id'],'actuation_issuer_binding')\n            installed=self.contexts.install(data['crl'],int.from_bytes(current[5],'big'))",
         "after": "identity=str(uuid.UUID(bytes=current[6]))\n            need(identity in [item['issuer_id'] for item in [data['crl'],*data['crl'].get('previous',[])]],'actuation_issuer_binding')\n            installed=self.contexts.install(data['crl'],int.from_bytes(current[5],'big'),required_issuer=identity)"
+      }
+    ]
+  },
+  "usr/local/lib/mail-general-accounts-v1/junk/daily.py": {
+    "hunks": [
+      {
+        "before": "                if value['status']=='skipped':result['skipped']+=1\n                elif value['status']=='ok':result['accepted']+=1\n                else:result['failed']+=1\n            except Exception as error:\n                result['failed']+=1\n",
+        "after": "                if value['status']=='skipped':result['skipped']+=1\n                elif value['status']=='ok':result['accepted']+=1\n                else:\n                    result['failed']+=1\n                    if len(result['failures'])<10:\n                        result['failures'].append({'reason':'smtp_outcome_unknown',\n                            'smtp_diagnostic':getattr(pilot.send_once,'last',None)})\n            except Exception as error:\n                result['failed']+=1\n"
+      }
+    ]
+  },
+  "usr/local/lib/mail-general-accounts-v1/junk/ken_digest_pilot_v2.py": {
+    "hunks": [
+      {
+        "before": "\ndef send_once(raw):\n    connection = None\n    try:\n        connection = smtplib.SMTP('127.0.0.1', 25, timeout=12)\n        return 'unknown' if connection.sendmail(SENDER, [ACCOUNT], raw) else 'accepted'\n    except Exception:\n        return 'unknown'  # Never retry; no raw SMTP exception/response is exposed.\n    finally:\n        if connection is not None:\n",
+        "after": "\ndef send_once(raw):\n    # smtplib retains its existing sendmail sequence. Only diagnostic metadata is added.\n    class ObservedSMTP(smtplib.SMTP):\n        stage = 'connect'\n\n        def mail(self, sender, options=()):\n            self.stage = 'mail'\n            return super().mail(sender, options)\n\n        def rcpt(self, recipient, options=()):\n            self.stage = 'rcpt'\n            return super().rcpt(recipient, options)\n\n        def data(self, message):\n            self.stage = 'data'\n            return super().data(message)\n\n    connection = None\n    send_once.last = {'stage': 'connect', 'outcome': 'unknown'}\n    try:\n        connection = ObservedSMTP(timeout=12)\n        connection.connect('127.0.0.1', 25)\n        connection.stage = 'greeting'\n        refused = connection.sendmail(SENDER, [ACCOUNT], raw)\n        outcome = 'unknown' if refused else 'accepted'\n        send_once.last = {'stage': connection.stage, 'outcome': outcome}\n        return outcome\n    except Exception as error:\n        names = ('SMTPConnectError', 'SMTPHeloError', 'SMTPSenderRefused',\n                 'SMTPRecipientsRefused', 'SMTPDataError', 'SMTPServerDisconnected',\n                 'TimeoutError', 'ConnectionRefusedError', 'OSError')\n        name = type(error).__name__\n        diagnostic = {'stage': connection.stage if connection is not None else 'connect',\n                      'outcome': 'unknown', 'error_class': name if name in names else 'OtherError'}\n        code = getattr(error, 'smtp_code', None)\n        if type(code) is int and 100 <= code <= 599:\n            diagnostic['smtp_code'] = code\n        number = getattr(error, 'errno', None)\n        if type(number) is int and 0 < number < 4096:\n            diagnostic['errno'] = number\n        if isinstance(error, smtplib.SMTPRecipientsRefused):\n            diagnostic['recipient_codes'] = sorted({reply[0] for reply in error.recipients.values()\n                if isinstance(reply, tuple) and type(reply[0]) is int and 100 <= reply[0] <= 599})[:10]\n        send_once.last = diagnostic\n        return 'unknown'\n    finally:\n        if connection is not None:\n"
+      },
+      {
+        "before": "            except Exception:\n                pass\n\n\n",
+        "after": "            except Exception:\n                pass\n\n\n\n"
+      }
+    ]
+  },
+  "usr/local/lib/mail-management-alerts-v1/alerts.py": {
+    "hunks": []
+  },
+  "usr/local/lib/mail-management-alerts-v1/channel_delivery.py": {
+    "hunks": [
+      {
+        "before": "    'mail-feature-rspamd-native-v1.service': 'Rspamd設定照会',\n    'mail-feature-rspamd-native-v1.socket': 'Rspamd設定照会ソケット',\n    'mail-protection-clamav-v1.service': 'ウイルス検査',\n    'mail-protection-definitions-v1.service': 'ウイルス定義更新',\n",
+        "after": "    'mail-feature-rspamd-native-v1.service': 'Rspamd設定照会',\n    'mail-feature-rspamd-native-v1.socket': 'Rspamd設定照会ソケット',\n    'mail-reputation-dns-v1.service': '迷惑メール判定用DNS',\n    'mail-protection-clamav-v1.service': 'ウイルス検査',\n    'mail-protection-definitions-v1.service': 'ウイルス定義更新',\n"
+      },
+      {
+        "before": "\n\ndef payload(event, units):\n    event_check(event, units)\n    levels = {'ok': '正常', 'warning': '警告', 'critical': '重大'}\n    when = a.dt.datetime.fromtimestamp(event['created'], a.dt.timezone(a.dt.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S JST')\n    head = ['mx.mi-sys.jp：内部障害通知', when, '通知ID：'+event['id']]\n    lines = []\n    for c in event['changes']:\n",
+        "after": "\n\ndef payload(event, units, *, discord_mention=False):\n    event_check(event, units)\n    levels = {'ok': '正常', 'warning': '警告', 'critical': '重大'}\n    when = a.dt.datetime.fromtimestamp(event['created'], a.dt.timezone(a.dt.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S JST')\n    a.need(type(discord_mention) is bool, 'mention_mode')\n    important = discord_mention and any(c['after'] == 'critical' for c in event['changes'])\n    head = (['@here'] if important else []) + ['mx.mi-sys.jp：内部障害通知', when, '通知ID：'+event['id']]\n    lines = []\n    for c in event['changes']:\n"
+      },
+      {
+        "before": "    if remaining:\n        lines.append('ほか'+str(remaining)+'項目。詳細は管理画面で確認してください。')\n    return {'content': '\\n'.join(head+lines), 'allowed_mentions': {'parse': [], 'replied_user': False}}\n\n\n",
+        "after": "    if remaining:\n        lines.append('ほか'+str(remaining)+'項目。詳細は管理画面で確認してください。')\n    return {'content': '\\n'.join(head+lines), 'allowed_mentions': {'parse': ['everyone'] if important else [], 'replied_user': False}}\n\n\n"
+      }
+    ]
+  },
+  "usr/local/lib/mail-management-alerts-v1/discord_webhook.py": {
+    "hunks": [
+      {
+        "before": "    need(type(payload) is dict and set(payload) == {'content', 'allowed_mentions'}, 'payload_keys')\n    need(type(payload['content']) is str and 0 < len(payload['content']) <= 1900 and '\\x00' not in payload['content'], 'content_bound')\n    need(type(payload['allowed_mentions']) is dict and payload['allowed_mentions'] == {'parse': [], 'replied_user': False}\n         and payload['allowed_mentions']['replied_user'] is False, 'mentions_disabled')\n    raw = json.dumps(payload, ensure_ascii=True, separators=(',', ':')).encode('ascii')\n    need(len(raw) <= 16384, 'payload_bound')\n",
+        "after": "    need(type(payload) is dict and set(payload) == {'content', 'allowed_mentions'}, 'payload_keys')\n    need(type(payload['content']) is str and 0 < len(payload['content']) <= 1900 and '\\x00' not in payload['content'], 'content_bound')\n    mentions = payload['allowed_mentions']\n    content = payload['content']\n    important = content.startswith('@here\\n')\n    expected = {'parse': ['everyone'] if important else [], 'replied_user': False}\n    need(type(mentions) is dict and mentions == expected and mentions['replied_user'] is False, 'mention_policy')\n    tail = content[len('@here\\n'):] if important else content\n    need(not re.search(r'@here|@everyone|<@', tail, re.I), 'unexpected_mention')\n    raw = json.dumps(payload, ensure_ascii=True, separators=(',', ':')).encode('ascii')\n    need(len(raw) <= 16384, 'payload_bound')\n"
+      }
+    ]
+  },
+  "usr/local/lib/mail-management-alerts-v1/worker.py": {
+    "hunks": [
+      {
+        "before": "            adapters['email'] = email_adapter\n        if config['channels']['discord']:\n            adapters['discord'] = lambda event: discord.submit(credential_endpoint(discord), delivery.payload(event, engine.UNITS))\n        phase = 'locked_cycle'\n        with storage.Store(PRIVATE, lambda v: engine.validate(v, policy)) as journal:\n",
+        "after": "            adapters['email'] = email_adapter\n        if config['channels']['discord']:\n            adapters['discord'] = lambda event: discord.submit(credential_endpoint(discord), delivery.payload(event, engine.UNITS, discord_mention=True))\n        phase = 'locked_cycle'\n        with storage.Store(PRIVATE, lambda v: engine.validate(v, policy)) as journal:\n"
+      }
+    ]
+  },
+  "opt/mail-management/candidates/protection-relay-v1/public/passkey.js": {
+    "hunks": [
+      {
+        "before": "            await post('assert', 'finish', { credential: response(credential, 'assert') });\n            // Fixed GET only: no return URL or rejected management POST is replayed.\n            window.location.assign('/mail-admin/manage');\n        } catch (error) {\n            // No credential/signature/response/error dump and no automatic retry.\n",
+        "after": "            await post('assert', 'finish', { credential: response(credential, 'assert') });\n            // Fixed GET only: no return URL or rejected management POST is replayed.\n            window.location.assign('/mail-admin/');\n        } catch (error) {\n            // No credential/signature/response/error dump and no automatic retry.\n"
+      }
+    ]
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminNavigation.php": {
+    "hunks": [
+      {
+        "before": "            ],\n            '管理者・監査'=>[\n                ['ドメイン別の管理委任','/mail-admin/delegation',['ドメイン別の管理委任','管理委任の保存結果']],\n                ['委任された管理','/mail-admin/scoped',['委任された管理']],\n                ['管理者','/mail-admin/manage?section=admins',['管理者一覧']],\n                ['管理者のパスキー','/mail-admin/#admin-passkey',[]],\n                ['管理操作履歴','/mail-admin/audit',['管理操作履歴']],\n            ],\n",
+        "after": "            ],\n            '管理者・監査'=>[\n                ['ドメイン別の管理委任','/mail-admin/delegation',['ドメイン別の管理委任','管理委任の保存結果']],\n                ['委任された管理','/mail-admin/scoped',['委任された管理']],\n                ['管理者','/mail-admin/manage?section=admins',['管理者一覧']],\n                ['管理者のパスキー','/mail-admin/?page=passkeys',['管理者のパスキー']],\n                ['管理操作履歴','/mail-admin/audit',['管理操作履歴']],\n            ],\n"
+      },
+      {
+        "before": "    public static function render(string $title, ?array $groups = null): string\n    {\n        $out='<aside class=\"admin-navigation\"><nav aria-label=\"管理メニュー\"><a class=\"admin-nav-home\" href=\"/mail-admin/\">メール管理</a>';\n        foreach ($groups ?? self::groups() as $name=>$items) {\n            $open=$title==='メール管理'||($title==='メール管理設定'&&in_array($name,['利用者・ドメイン','管理者・監査'],true));\n",
+        "after": "    public static function render(string $title, ?array $groups = null): string\n    {\n        $out='<aside class=\"admin-navigation\"><nav aria-label=\"管理メニュー\"><a class=\"admin-nav-home\" href=\"/mail-admin/\">ダッシュボード</a>';\n        foreach ($groups ?? self::groups() as $name=>$items) {\n            $open=$title==='メール管理'||($title==='メール管理設定'&&in_array($name,['利用者・ドメイン','管理者・監査'],true));\n"
+      }
+    ]
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/ConsoleController.php": {
+    "hunks": [
+      {
+        "before": "        $logoutToken = self::escape($this->csrf->getToken('mail_admin_logout')->getValue());\n        $verified = AdminFactorGate::verified($user, $request->getSession()->get(AdminFactorGate::SESSION_KEY), time());\n        return self::page('メール管理', '<p>管理者ID: ' . self::escape($user->getUserIdentifier()) . '</p>\n            <p role=\"status\">' . ($verified ? 'パスキー本人確認済み。' : 'パスワード認証済み。管理操作にはパスキーによる本人確認が必要です。') . '</p>\n            ' . self::passkeyPanel($this->csrf, !$verified) . '\n            <p>管理メニューは関連する設定ごとに分類しています。配送先の切替えは「配送・SMTP送信」から開いてください。</p>\n            <form method=\"post\" action=\"/mail-admin/logout\"><input type=\"hidden\" name=\"_csrf_token\" value=\"'\n            . $logoutToken . '\"><button type=\"submit\">ログアウト</button></form>');\n    }\n\n",
+        "after": "        $logoutToken = self::escape($this->csrf->getToken('mail_admin_logout')->getValue());\n        $verified = AdminFactorGate::verified($user, $request->getSession()->get(AdminFactorGate::SESSION_KEY), time());\n        $identity='<p>管理者ID: '.self::escape($user->getUserIdentifier()).'</p>';\n        $logout='<form method=\"post\" action=\"/mail-admin/logout\"><input type=\"hidden\" name=\"_csrf_token\" value=\"'.$logoutToken.'\"><button type=\"submit\">ログアウト</button></form>';\n        if (!$verified) {\n            return self::page('ダッシュボード', '<p role=\"status\">管理情報の表示にはパスキーによる本人確認が必要です。</p>'.self::passkeyPanel($this->csrf,true).$identity.$logout);\n        }\n        if ($request->query->get('page') === 'passkeys') {\n            return self::page('管理者のパスキー',$identity.'<p>パスキー本人確認済み。</p>'.self::passkeyPanel($this->csrf,false).'<p><a href=\"/mail-admin/\">ダッシュボードに戻る</a></p>'.$logout);\n        }\n        if (!$user->systemAdmin) {\n            return self::page('ダッシュボード',$identity.'<p>全体の稼働情報はシステム管理者のみ参照できます。</p><p><a href=\"/mail-admin/scoped\">委任された管理を開く</a></p>'.$logout);\n        }\n        try { $snapshot=(new FileOperationsStatusStore())->read(time()); }\n        catch (\\Throwable) { $snapshot=null; }\n        return self::page('ダッシュボード',Dashboard::render($snapshot,InternalAlertsStatus::read(time())).$identity.$logout,200,Dashboard::stylesheet());\n    }\n\n"
+      }
+    ]
+  },
+  "usr/local/lib/mail-management-operations-v1/publish_runtime.py": {
+    "hunks": []
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/OperationsSnapshot.php": {
+    "hunks": [
+      {
+        "before": "        'redis-server.service','nginx.service','php8.4-fpm.service','fail2ban.service',\n        'postsrsd.service','ufw.service','mail-pop-general-dispatch.service','mail-junk-digest-general.service',\n        'mail-pop-general-dispatch.timer','mail-junk-digest-general.timer','mail-client-cert-network.service','mail-client-cert-milter.service','mail-client-cert-coordination.service','mail-client-cert-postfix-backend.service','mail-client-cert-dovecot-backend.service','mail-client-cert-issuer.service','mail-client-cert-lifecycle.service','mail-client-cert-verifier.service','mail-client-cert-gate.service','mail-client-cert-owner.service','mail-client-cert-gate.socket','mail-client-cert-health.service','mail-client-cert-health.timer','mail-legacy-smtp-auth.service','mail-quota-collect-v1.service','mail-management-log-viewer.service','mail-management-log-viewer.timer','mail-domain-routing.service','mail-domain-routing.socket','mail-domain-routing-collect.service','mail-domain-routing-collect.timer','mail-management-alerts-v1.service','mail-management-alerts-v1.timer','mail-access-admin-v1.service','mail-access-admin-v1.socket','mail-send-limits-v1.service','mail-send-limits-v1.socket','mail-feature-admin-v1.service','mail-feature-admin-v1.socket','mail-feature-access-v1.service','mail-feature-access-v1.socket','mail-feature-config-v1.service','mail-feature-observer-v1.service','mail-feature-observer-v1.timer','mail-feature-rspamd-native-v1.service','mail-feature-rspamd-native-v1.socket','mail-protection-clamav-v1.service','mail-protection-definitions-v1.service','mail-protection-definitions-v1.timer','mail-protection-publish-v1.service','mail-protection-publish-v1.timer'];\n    public const REASONS = ['permission','missing','unsupported','native_exit','stderr','timeout','output_bound','shape','io','internal'];\n    public const UNIT_VALUES = [\n",
+        "after": "        'redis-server.service','nginx.service','php8.4-fpm.service','fail2ban.service',\n        'postsrsd.service','ufw.service','mail-pop-general-dispatch.service','mail-junk-digest-general.service',\n        'mail-pop-general-dispatch.timer','mail-junk-digest-general.timer','mail-client-cert-network.service','mail-client-cert-milter.service','mail-client-cert-coordination.service','mail-client-cert-postfix-backend.service','mail-client-cert-dovecot-backend.service','mail-client-cert-issuer.service','mail-client-cert-lifecycle.service','mail-client-cert-verifier.service','mail-client-cert-gate.service','mail-client-cert-owner.service','mail-client-cert-gate.socket','mail-client-cert-health.service','mail-client-cert-health.timer','mail-legacy-smtp-auth.service','mail-quota-collect-v1.service','mail-management-log-viewer.service','mail-management-log-viewer.timer','mail-domain-routing.service','mail-domain-routing.socket','mail-domain-routing-collect.service','mail-domain-routing-collect.timer','mail-management-alerts-v1.service','mail-management-alerts-v1.timer','mail-access-admin-v1.service','mail-access-admin-v1.socket','mail-send-limits-v1.service','mail-send-limits-v1.socket','mail-feature-admin-v1.service','mail-feature-admin-v1.socket','mail-feature-access-v1.service','mail-feature-access-v1.socket','mail-feature-config-v1.service','mail-feature-observer-v1.service','mail-feature-observer-v1.timer','mail-feature-rspamd-native-v1.service','mail-feature-rspamd-native-v1.socket','mail-protection-clamav-v1.service','mail-protection-definitions-v1.service','mail-protection-definitions-v1.timer','mail-protection-publish-v1.service','mail-protection-publish-v1.timer','mail-reputation-dns-v1.service'];\n    public const REASONS = ['permission','missing','unsupported','native_exit','stderr','timeout','output_bound','shape','io','internal'];\n    public const UNIT_VALUES = [\n"
+      }
+    ]
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/OperationsStatusController.php": {
+    "hunks": [
+      {
+        "before": "                .'<p>この画面は読取り専用です。設定変更や取得処理の起動は行いません。</p>'.$alerts,503);\n        }\n        return ConsoleController::page('稼働状況',$nav.self::render($snapshot).$alerts,200,\n            '.operations-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}.operations-grid fieldset{padding:18px;min-width:0;margin:0}.operations-grid legend{font-weight:650;padding:0 6px}.operations-scroll{overflow-x:auto}.operations-meta{font-size:14px;color:#bac7cf}.operations-grid p{overflow-wrap:anywhere}');\n    }\n\n",
+        "after": "                .'<p>この画面は読取り専用です。設定変更や取得処理の起動は行いません。</p>'.$alerts,503);\n        }\n        return ConsoleController::page('稼働状況',$nav.Dashboard::attention($snapshot,'').$alerts.self::render($snapshot),200,\n            Dashboard::stylesheet().'.operations-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}.operations-grid fieldset{padding:18px;min-width:0;margin:0}.operations-grid legend{font-weight:650;padding:0 6px}.operations-scroll{overflow-x:auto}.operations-meta{font-size:14px;color:#bac7cf}.operations-grid p{overflow-wrap:anywhere}');\n    }\n\n"
+      },
+      {
+        "before": "        $body='<p role=\"'.$role.'\">取得時刻 '.self::date($s->observedAt).' ／ 経過 '.$s->age.' 秒。'.$fresh\n            .($s->complete?'':' 一部の項目を取得できませんでした。').'</p>'\n            .'<p class=\"operations-meta\">読取り専用。表示の更新では収集処理を起動しません。配送全体の正常を保証する表示ではありません。障害通知の状態は下欄に表示します。自動停止は行いません。</p>'\n            .'<div class=\"operations-grid\">';\n        foreach (['units'=>'サービス','system_storage'=>'保存領域','queue'=>'配送キュー','certificate'=>'証明書期限','client_certificates'=>'端末証明書監視'] as $name=>$title) {\n            $body.='<fieldset><legend>'.$title.'</legend>';\n            if ($name==='system_storage') {\n                $a=$s->checks['system_storage']; $b=$s->checks['mail_storage'];\n",
+        "after": "        $body='<p role=\"'.$role.'\">取得時刻 '.self::date($s->observedAt).' ／ 経過 '.$s->age.' 秒。'.$fresh\n            .($s->complete?'':' 一部の項目を取得できませんでした。').'</p>'\n            .'<p class=\"operations-meta\">読取り専用。表示の更新では収集処理を起動しません。配送全体の正常を保証する表示ではありません。障害通知と注意事項は上部に表示します。自動停止は行いません。</p>'\n            .'<div class=\"operations-grid\">';\n        foreach (['units'=>'サービス','system_storage'=>'保存領域','queue'=>'配送キュー','certificate'=>'証明書期限','client_certificates'=>'端末証明書監視'] as $name=>$title) {\n            $body.='<fieldset id=\"operations-'.ConsoleController::escape($name).'\"><legend>'.$title.'</legend>';\n            if ($name==='system_storage') {\n                $a=$s->checks['system_storage']; $b=$s->checks['mail_storage'];\n"
+      },
+      {
+        "before": "'mail-feature-rspamd-native-v1.service'=>'Rspamd設定照会',\n'mail-feature-rspamd-native-v1.socket'=>'Rspamd設定照会ソケット',\n'mail-protection-clamav-v1.service'=>'ウイルス検査',\n'mail-protection-definitions-v1.service'=>'ウイルス定義更新',\n",
+        "after": "'mail-feature-rspamd-native-v1.service'=>'Rspamd設定照会',\n'mail-feature-rspamd-native-v1.socket'=>'Rspamd設定照会ソケット',\n'mail-reputation-dns-v1.service'=>'迷惑メール判定用DNS',\n'mail-protection-clamav-v1.service'=>'ウイルス検査',\n'mail-protection-definitions-v1.service'=>'ウイルス定義更新',\n"
+      },
+      {
+        "before": "            $body.='</fieldset>';\n        }\n        if ($s->findings!==[]) { $body.='<p role=\"alert\">確認が必要な観測項目 '.count($s->findings).' 件。各枠の状態を確認してください。</p>'; }\n        return $body.'</div>';\n    }\n",
+        "after": "            $body.='</fieldset>';\n        }\n        return $body.'</div>';\n    }\n"
       }
     ]
   }

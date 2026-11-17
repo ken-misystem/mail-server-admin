@@ -52,7 +52,7 @@ def plan(product, site):
     units = sorted(path.name for path in (Path(product) / 'payload/blueprint/systemd').iterdir()
                    if path.name not in LEGACY_UNITS)
     return {'target': 'Debian 13 amd64', 'phase_order': [
-        'environment_check', 'preflight', 'packages', 'identities', 'assemble', 'database', 'files', 'native_validation',
+        'environment_check', 'preflight', 'packages', 'identities', 'assemble', 'database', 'files', 'native_package', 'native_validation',
         'administrator', 'isolated_UI_start', 'isolated_health'], 'packages': list(PACKAGES), 'custom_users': list(CUSTOM_USERS),
         'public_activation': 'separate_root_publish_after_verified_passkey_and_password_rotation',
         'initial_UI': '127.0.0.1:443 over an administrator-controlled HTTPS tunnel',
@@ -194,6 +194,11 @@ class Installer:
             from acme_lifecycle import PROVIDERS
             selected_packages+=['certbot',PROVIDERS[self.acme['provider']]]
         ordinary = [name for name in selected_packages if name not in observed]
+        from native_package_update import DESCRIPTOR, descriptor
+        if (self.payload/DESCRIPTOR).is_file():
+            offer = descriptor(self.payload)
+            ordinary.remove('rspamd')
+            custom.append(str(self.payload/Path(DESCRIPTOR).parent/offer['candidate']['archive']))
         policies = self.commands.run('APT_candidates', ['/usr/bin/apt-cache', 'policy', *ordinary]).decode()
         selected = {}
         package = None
@@ -235,6 +240,15 @@ class Installer:
             self.ids[name + '.gid'] = account.pw_gid
         self.ids['_rspamd.groups'] = sorted(os.getgrouplist('_rspamd', self.ids['_rspamd.gid']))
         durable_json(self.evidence / 'identities.json', self.ids)
+
+    def register_native_package(self):
+        from native_package_update import DESCRIPTOR, NativePackage
+        if (self.payload/DESCRIPTOR).is_file():
+            engine = NativePackage(self.payload,self.evidence/'native-package')
+            result = engine.plan()
+            if result['package_change'] or engine.record['before_unit']['ActiveState'] != 'inactive':
+                raise ValueError('fresh_native_package_not_closed_candidate')
+            engine.stage();engine.activate();engine.health()
 
     def assemble(self):
         metadata = json.loads((self.payload / 'blueprint/grants.json').read_bytes())
@@ -327,6 +341,9 @@ class Installer:
         install_database(self.compiled_database, self.commands, self.transaction, source.read_text(encoding='utf-8'))
 
     def write_files(self):
+        from monitor_environment import MONITOR_CONFIG
+        if os.path.lexists(self.files.target(MONITOR_CONFIG)):
+            raise ValueError('fresh_install_existing_monitor_environment_requires_adoption')
         for name, raw in self.bound.items():
             if name.startswith('blueprint/'):
                 continue
@@ -770,7 +787,8 @@ class Installer:
         # and every recovery boundary can be exercised with an injected host.
         for name, operation in [('packages', self.packages), ('identities', self.identities),
                                 ('assemble', self.assemble), ('database', self.database),
-                                ('files', self.write_files), ('native_validation', self.native_validation),
+                                ('files', self.write_files), ('native_package', self.register_native_package),
+                                ('native_validation', self.native_validation),
                                 ('administrator', lambda: self.administrator(**administrator)),
                                 ('start', self.start), ('health', self.health)]:
             self.transaction.step(name, operation)

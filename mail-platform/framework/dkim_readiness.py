@@ -126,7 +126,11 @@ def public_dns(name, deadline=None):
         for row in value.get('Answer', []):
             if row.get('type') == 16:
                 need(row.get('name', '').rstrip('.').lower() == name.lower(), 'DNS_owner_mismatch')
-                rows.append(''.join(shlex.split(row['data'])))
+                data = row['data']
+                need(type(data) is str, 'DNS_TXT_type')
+                # Google returns unquoted TXT data; Cloudflare returns quoted
+                # character-string chunks. Only decode quoted presentation.
+                rows.append(''.join(shlex.split(data)) if data.lstrip().startswith('"') else data)
         answers.append(rows)
     return answers
 

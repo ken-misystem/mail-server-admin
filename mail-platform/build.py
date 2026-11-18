@@ -24,20 +24,32 @@ def transformed(name,raw):
  text=raw.decode('utf-8')
  if name=='dkim_dashboard':
   before='Dashboard::render($snapshot,InternalAlertsStatus::read(time()))'
-  after='DkimReadiness::render().'+before
+  existing='DkimReadiness::render().'+before
+  after='DkimReadiness::render().Dashboard::render($snapshot,InternalAlertsStatus::read(time()).NotificationController::dashboard($request,$user,$this->csrf))'
   if after in text:return raw
+  if existing in text:return text.replace(existing,after).encode()
   require(text.count(before)==1,'dkim_dashboard_anchor');return text.replace(before,after).encode()
  if name=='monitor_environment':
   from monitor_render import render
   return render(raw)
  if name=='update_navigation':
-  if "'/mail-admin/updates'"in text:return raw
-  a="'管理者・監査'=>[";require(text.count(a)==1,'navigation_anchor');return text.replace(a,a+"\n                ['ソフトウェア更新','/mail-admin/updates',['ソフトウェア更新']],").encode()
+  if "'/mail-admin/updates'" not in text:
+   a="'管理者・監査'=>[";require(text.count(a)==1,'navigation_anchor')
+   text=text.replace(a,a+"\n                ['ソフトウェア更新','/mail-admin/updates',['ソフトウェア更新']],")
+  if "'/mail-admin/notifications'" not in text:
+   a="'容量・稼働状況'=>[";require(text.count(a)==1,'notification_navigation_anchor')
+   text=text.replace(a,a+"\n                ['通知設定','/mail-admin/notifications',['通知設定']],")
+  return text.encode()
  if name=='update_kernel':
-  if "'mail_admin_updates'"in text:return release_cache(text).encode()
-  a="$services->set(ProtectionController::class)->public()->args([service('security.token_storage'),service('security.csrf.token_manager'),service(ProtectionStore::class),service('limiter.mail_admin_scoped_write')]);"
-  require(text.count(a)==1,'kernel_service_anchor');text=text.replace(a,a+"\n        $services->set(UpdateClient::class)->public();\n        $services->set(UpdateController::class)->public()->args([service('security.token_storage'),service('security.csrf.token_manager'),service(UpdateClient::class),service('limiter.mail_admin_scoped_write')]);")
-  a="$routes->add('mail_admin_protection_read'";require(text.count(a)==1,'kernel_route_anchor');text=text.replace(a,"$routes->add('mail_admin_updates','/mail-admin/updates')->methods(['GET'])->controller(UpdateController::class.'::show');\n        $routes->add('mail_admin_updates_save','/mail-admin/updates')->methods(['POST'])->controller(UpdateController::class.'::save');\n        "+a)
+  if "'mail_admin_updates'" not in text:
+   a="$services->set(ProtectionController::class)->public()->args([service('security.token_storage'),service('security.csrf.token_manager'),service(ProtectionStore::class),service('limiter.mail_admin_scoped_write')]);"
+   require(text.count(a)==1,'kernel_service_anchor');text=text.replace(a,a+"\n        $services->set(UpdateClient::class)->public();\n        $services->set(UpdateController::class)->public()->args([service('security.token_storage'),service('security.csrf.token_manager'),service(UpdateClient::class),service('limiter.mail_admin_scoped_write')]);")
+   a="$routes->add('mail_admin_protection_read'";require(text.count(a)==1,'kernel_route_anchor');text=text.replace(a,"$routes->add('mail_admin_updates','/mail-admin/updates')->methods(['GET'])->controller(UpdateController::class.'::show');\n        $routes->add('mail_admin_updates_save','/mail-admin/updates')->methods(['POST'])->controller(UpdateController::class.'::save');\n        "+a)
+  if "'mail_admin_notifications'" not in text:
+   a="$services->set(UpdateClient::class)->public();";require(text.count(a)==1,'notification_service_anchor')
+   text=text.replace(a,a+"\n        $services->set(NotificationController::class)->public()->args([service('security.token_storage'),service('security.csrf.token_manager'),service(UpdateClient::class),service('limiter.mail_admin_scoped_write')]);")
+   a="$routes->add('mail_admin_updates','/mail-admin/updates')";require(text.count(a)==1,'notification_route_anchor')
+   text=text.replace(a,"$routes->add('mail_admin_notifications','/mail-admin/notifications')->methods(['GET'])->controller(NotificationController::class.'::show');\n        $routes->add('mail_admin_notifications_save','/mail-admin/notifications')->methods(['POST'])->controller(NotificationController::class.'::save');\n        "+a)
   return release_cache(text).encode()
  raise ValueError('unknown_transform')
 

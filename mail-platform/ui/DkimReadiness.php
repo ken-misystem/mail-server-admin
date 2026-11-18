@@ -51,7 +51,10 @@ final class DkimReadiness
             }
             $e=static fn(mixed $v):string=>htmlspecialchars(is_string($v)?$v:'',ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8');
             $html='<section aria-labelledby="dkim-checklist-title"><h2 id="dkim-checklist-title">メール署名・DNSの確認リスト</h2>';
-            $html.=$attention?'<p role="alert"><strong>手動対応または確認が必要です。</strong>導入・更新の完了とは別に、以下の項目を確認してください。</p>':'<p role="status">すべてのDKIM確認項目が完了しています。</p>';
+            if (!$attention) {
+                return $html.'<p role="status">すべてのDKIM確認項目が完了しています。</p></section>';
+            }
+            $html.='<p role="alert"><strong>手動対応または確認が必要です。</strong></p>';
             if ($stale) { $html.='<p role="alert">確認結果が古い、または時刻が不正です。現在の正常状態を保証する表示ではありません。</p>'; }
             if ($fixture['warnings']!==[]) {
                 $html.='<p role="alert">署名ドメインの選択、独自設定、重複設定、または復旧後の確認が残っています。既存設定を確認してから再実行してください。</p><ul>';
@@ -67,20 +70,32 @@ final class DkimReadiness
                 foreach (array_slice($fixture['warnings'],0,16) as $warning) { $html.='<li>'.$e($actions[is_string($warning)?$warning:'']??'サーバー管理者による確認が必要です。').' <code>'.$e($warning).'</code></li>'; }
                 $html.='</ul>';
             }
+            $dnsReview = ['dns_missing','dns_mismatch','dns_conflict','dns_propagating','dns_unavailable','dns_policy_review'];
+            $showDnsHelp = false;
+            $showApply = in_array('duplicate_boolean_values',$fixture['warnings'],true);
             foreach ($fixture['entries'] as $row) {
-                $html.='<details'.($row['state']!=='ready'?' open':'').'><summary>'.$e($row['domain']??'').' — '.$e($labels[$row['state']]).'</summary>';
-                $html.='<p>DNS名：<code style="overflow-wrap:anywhere">'.$e($row['dns_name']??'').'</code> ／ 種別：TXT</p>';
-                if (is_string($row['txt']??null)) {
-                    $html.='<label>DNS管理画面へ登録する値（公開鍵）<textarea readonly rows="4" style="width:100%;box-sizing:border-box;overflow-wrap:anywhere">'.$e($row['txt']).'</textarea></label>';
+                if ($row['state']==='ready') { continue; }
+                $state = $row['state'];
+                $html.='<details open><summary>'.$e($row['domain']??'').' — '.$e($labels[$state]).'</summary>';
+                if (in_array($state,$dnsReview,true)) {
+                    $showDnsHelp = true;
+                    $html.='<p>DNS名：<code style="overflow-wrap:anywhere">'.$e($row['dns_name']??'').'</code> ／ 種別：TXT</p>';
+                    if (is_string($row['txt']??null)) {
+                        $html.='<label>DNS管理画面で照合する値（公開鍵）<textarea readonly rows="4" style="width:100%;box-sizing:border-box;overflow-wrap:anywhere">'.$e($row['txt']).'</textarea></label>';
+                    }
                 }
+                $showApply = $showApply || $state==='activation_pending';
                 $html.='</details>';
             }
-            $html.='<p>DNSの登録は、ご契約のDNS管理画面で行ってください。既存TXTを確認せず上書きしないでください。秘密鍵をDNSへ登録する操作はありません。</p>';
-            $html.='<p>登録後は稼働中の更新確認timerによる確認を待つか、サーバー管理者が次を実行してください。初期公開前などtimerが停止中の場合は手動で確認します。DNS照合ができるまで新しい鍵は署名に使用しません。</p>';
+            if ($showDnsHelp) {
+                $html.='<p>既存のTXTをDNS管理画面で照合し、登録が必要な場合は公開鍵を登録してください。</p>';
+            }
+            $html.='<p>次の定期確認を待つか、サーバー管理者が再確認できます。</p>';
             $html.='<pre style="white-space:pre-wrap;overflow-wrap:anywhere">sudo python3 -I -S -B /usr/local/lib/mail-platform-update/entry.py dkim-check</pre>';
-            $html.='<p>「鍵の有効化待ち」の場合は、管理者が次を実行してください。DNSへの書込みやメール送信は行いません。</p><pre style="white-space:pre-wrap;overflow-wrap:anywhere">sudo python3 -I -S -B /usr/local/lib/mail-platform-update/entry.py dkim-apply</pre>';
-            $html.='<p>この確認はDKIM用です。SPF・DMARC・MX・逆引き・実際の受信先での判定まで正常とする表示ではありません。</p></section>';
-            return $html;
+            if ($showApply) {
+                $html.='<p>サーバー管理者は、確認済みの鍵の有効化や同値の重複設定の整理を実行できます。</p><pre style="white-space:pre-wrap;overflow-wrap:anywhere">sudo python3 -I -S -B /usr/local/lib/mail-platform-update/entry.py dkim-apply</pre>';
+            }
+            return $html.'</section>';
         } catch (\Throwable) {
             return '<section><h2>メール署名・DNSの確認リスト</h2><p role="alert">DKIMの確認結果を取得できません。正常扱いにはしていません。サーバー管理者へ再確認を依頼してください。</p></section>';
         }

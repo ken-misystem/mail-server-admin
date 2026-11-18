@@ -2,11 +2,13 @@
 
 Debian 13 amd64向けメールサーバーの導入・管理・署名付き更新コードです。Roundcubeと独立plugin、クライアント証明書、送信量制限、転送・Sieve、監視、ウイルス・添付制御を組み込みます。
 
-## 0.4.5
+## 0.4.6
 
-[署名付きReleaseと配布資材](https://github.com/ken-misystem/mail-server-admin/releases/tag/v0.4.5)
+[署名付きReleaseと配布資材](https://github.com/ken-misystem/mail-server-admin/releases/tag/v0.4.6)
 
-0.4.0～0.4.4から直接更新できます。中間版の先行導入は不要です。通常構成・世代登録済み構成の両方に対応し、環境固有設定・メール・UIDL・DB・Sieve・履歴を保持します。Rspamdのsymbols.cache保存修正も同じ更新資材と新規導入資材へ組み込みました。
+0.4.0～0.4.5から直接更新できます。中間版の先行導入は不要です。通常構成・世代登録済み構成の両方に対応し、環境固有設定・メール・UIDL・DB・Sieve・履歴を保持します。Rspamdのsymbols.cache保存修正も同じ更新資材と新規導入資材へ組み込みました。
+
+0.4.6では、ダッシュボードと「容量・稼働状況 → 通知設定」に内部障害通知の停止・再開を追加しました。現在の通知設定と処理状態を表示し、DKIMの正常時は完了の一文だけを表示します。停止中も稼働監視は継続します。
 
 0.4.5では、既存環境を初回登録したあとに、更新・DKIMの定期確認が一度で止まる問題を修正しました。初回確認は15分後、以降は確認完了から15分間隔（systemdの遅延設定あり）です。停止済みの環境では、管理者が初回専用のタイマー設定を確認し、標準タイマーへ戻してください。
 
@@ -44,3 +46,4 @@ Debian 13 amd64向けメールサーバーの導入・管理・署名付き更�
 [ライセンス範囲](mail-platform/LICENSING.md)・[第三者一覧](mail-platform/THIRD_PARTY.md)・[配布方式](mail-platform/DISTRIBUTION.md)
 
 Rspamdの固定debと対応ソースを署名資材へ収録します。他OS packageは導入先APT、ClamAVは公式資材、Dovecotは対応sourceから現地準備します。公式ウイルス定義、私有kit、顧客データ、秘密鍵・資格情報は公開資材に含めません。
+

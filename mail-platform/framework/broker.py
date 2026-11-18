@@ -3,6 +3,7 @@ import json,os,re,socket,struct,time
 from pathlib import Path
 from updater import load,save,policy
 from release import require,version
+import alert_settings
 ROOT=Path('/var/lib/mail-platform-update')
 
 def status(root=ROOT):
@@ -20,15 +21,26 @@ def status(root=ROOT):
 def operation(req,root=ROOT):
  require(isinstance(req,dict),'request')
  if req.get('operation')=='status':require(set(req)=={'operation'},'fields');return status(root)
- require(set(req)=={'operation','mode','revision','actor','request_id'},'fields')
- require(req['operation']in('settings','apply')and req['mode']in('manual','automatic'),'operation')
- require(type(req['revision'])is int and req['revision']>=0,'revision');require(isinstance(req['actor'],str)and re.fullmatch(r'[1-9][0-9]{0,19}',req['actor']),'actor')
+ if req.get('operation')=='notification_status':
+  require(set(req)=={'operation'},'fields')
+  return {'status':'ok',**alert_settings.status()}
+ notifications=req.get('operation')=='notification_delivery'
+ fields={'operation','revision','actor','request_id'}
+ require(set(req)==fields|({'enabled'} if notifications else {'mode'}),'fields')
+ if notifications:
+  require(type(req['enabled']) is bool and isinstance(req['revision'],str) and re.fullmatch('[a-f0-9]{64}',req['revision']),'notification_request')
+ else:
+  require(req['operation']in('settings','apply')and req['mode']in('manual','automatic'),'operation')
+  require(type(req['revision'])is int and req['revision']>=0,'revision')
+ require(isinstance(req['actor'],str)and re.fullmatch(r'[1-9][0-9]{0,19}',req['actor']),'actor')
  require(isinstance(req['request_id'],str)and re.fullmatch(r'[a-f0-9]{32}',req['request_id']),'request_id')
- current=load(root/'policy.json',{'revision':0,'mode':'manual'});require(current['revision']==req['revision'],'revision_conflict')
+ if not notifications:
+  current=load(root/'policy.json',{'revision':0,'mode':'manual'});require(current['revision']==req['revision'],'revision_conflict')
  requests=root/'requests';requests.mkdir(mode=0o700,exist_ok=True);receipt=requests/(req['request_id']+'.json')
  require(not receipt.exists(),'request_replay')
  record={'at':time.time(),'request':req,'phase':'received'};save(receipt,record)
- if req['operation']=='settings':save(root/'policy.json',policy(current,req['mode'],req['revision']))
+ if notifications:alert_settings.change(req['enabled'],req['revision'])
+ elif req['operation']=='settings':save(root/'policy.json',policy(current,req['mode'],req['revision']))
  else:
   require(not(root/'manual-request.json').exists(),'request_pending');save(root/'manual-request.json',{'request_id':req['request_id'],'actor':req['actor']})
  record['phase']='accepted';save(receipt,record);return {'status':'ok','request_id':req['request_id']}

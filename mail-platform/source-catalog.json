@@ -19890,9 +19890,8 @@
   },
   "opt/mail-management/candidates/protection-relay-v1/src/InternalAlertsStatus.php": {
     "baseline_sha256": "03694583ff054a9b8bb8ac5cf20e49bc2b30385d8c32ec3d580bac017d55bda8",
-    "normalize_LF": false,
-    "path": "mail-management/monitoring-alerts-v1/runtime-v1/InternalAlertsStatus.php",
-    "provider": "repository"
+    "path": "ui/InternalAlertsStatus.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/LegacySmtpController.php": {
     "baseline_sha256": "e7444bdd02aea5fd655128e49a3e1ab9d5c41957817ff090a943eeff98571808",
@@ -19965,6 +19964,10 @@
     "normalize_LF": false,
     "path": "mail-management/feature-port-v1/ManagedSettingsStore.php",
     "provider": "repository"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/NotificationController.php": {
+    "path": "ui/NotificationController.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/OperationsSnapshot.php": {
     "baseline_sha256": "76031b2b0fd98dafb2864ab9e4a0cfe5b14629e6409cd124346172e0622d746d",
@@ -40985,6 +40988,10 @@
   "usr/local/lib/mail-platform-update/adoption_sieve.py": {
     "baseline_sha256": "ceb9ccf771ffeaa26127c649023c3f198c1b085c735b9666a0012251a233a7ec",
     "path": "framework/adoption_sieve.py",
+    "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/alert_settings.py": {
+    "path": "framework/alert_settings.py",
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/availability_plan.py": {

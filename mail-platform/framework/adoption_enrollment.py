@@ -10,7 +10,9 @@ ENABLED=('mail-platform-update-ui.socket','mail-platform-update.timer')
 LINKS={'mail-platform-update-ui.socket':'/etc/systemd/system/sockets.target.wants/mail-platform-update-ui.socket',
        'mail-platform-update.timer':'/etc/systemd/system/timers.target.wants/mail-platform-update.timer'}
 DROPIN='/etc/systemd/system/mail-platform-update.timer.d/60-initial-adoption.conf'
-DELAY=b'[Timer]\nOnBootSec=\nOnActiveSec=15min\n'
+# Resetting OnBootSec clears the whole timer list, including the base unit's
+# recurrence. Keep the enrollment delay and explicitly restore the repeat rule.
+DELAY=b'[Timer]\nOnBootSec=\nOnActiveSec=15min\nOnUnitInactiveSec=15min\n'
 KEY_PIN='6adf5e38d694aa4b16c74c28e50bb197e4d617035b39e03aaad8e7d39e973e5e'
 
 def require(ok,reason):

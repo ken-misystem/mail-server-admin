@@ -12,6 +12,14 @@
 - ClamAV定義DBは導入先FreshClamで取得・検証し、私有kitへ採用する。製品コード候補と公開native資材の定義DB収録数は0である。
 - DebianのOS packageは導入先のrepositoryから取得する。packageを再配布する場合は、版ごとのcopyrightと対応sourceを確認する。
 
+## Roundcubeの同梱プラグイン
+
+「このプログラムについて」の版は、同梱した製品リリースの版を示す。ソース欄から署名対象の同版導入アーカイブを取得できる。プラグインのファイルはアーカイブ内の `payload/usr/share/roundcube/plugins/<プラグイン名>/` にある。
+
+開発元を照合し、MIT全文を同梱したプラグインは `app_passwords`、`junk_digest`、`local_auth`、`local_auth_gate`、`local_imap_loopback`、`mail_aliases`、`mail_client_certificates`、`mail_pop`、`mail_settings`、`ui_feedback`。別途利用する第三者ライブラリーやサービスにはそれぞれの条件を適用する。
+
+`account_recovery`、`local_ja_tweaks`、`local_password_recovery`、`session_epoch_guard`、`turnstile` の配布対象は、既存の入出力と設定に対応するMI-SYSTEMの新実装である。新実装と共通コードの正本は `plugins/roundcube-compat/`。共通ディレクトリ `mi_system_compat` にMITの全文を収録する。従来の出所未確定ファイルはこの配布に含めない。TurnstileのウィジェットはCloudflareから実行時に読み込み、サービスの利用にはCloudflareの条件が適用される。
+
 LICENSE、本文書、THIRD_PARTY.md、DISTRIBUTION.md、distribution-policy.json、Roundcubeの変更表示とLICENSEを導入候補へ収録する。同じ資料と生成inventoryを更新用payloadのusr/local/lib/mail-platform-update/licenses以下へ収録する。
 
 標準構成ではOS packageを導入先repositoryから取得し、ClamAVの公式資材とDovecotの対応sourceから現地kitを準備する。改造版binaryを提供するときは、同版の対応source・patch・build recipe・license/noticeを別資材として対応付ける。実機合否はreadiness.json、検証範囲はINSTALLATION.mdを参照する。

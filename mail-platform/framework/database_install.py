@@ -3,6 +3,7 @@ from collections import defaultdict
 import json
 from pathlib import Path
 import re
+from webmail_passkey import PRINCIPAL as WEBMAIL_PASSKEY_PRINCIPAL, SQL_SETUP as WEBMAIL_PASSKEY_SQL
 
 
 def identifier(value):
@@ -73,7 +74,7 @@ def principals(metadata):
             if not match:
                 raise ValueError('SQL_principal')
             names.add(match[1])
-    return sorted(names | {'mailcert_session_v1', 'mailcert_verify_v1', 'roundcube'})
+    return sorted(names | {'mailcert_session_v1', 'mailcert_verify_v1', 'roundcube', WEBMAIL_PASSKEY_PRINCIPAL})
 
 
 def grants(metadata):
@@ -142,6 +143,8 @@ def plan(payload, passwords):
         else:
             steps.append({'label': 'schema_' + str(len(steps)), 'sql': sql})
     all_grants = grants(metadata)
+    steps.extend({'label': 'webmail_passkey_' + str(index), 'sql': sql}
+                 for index, sql in enumerate(WEBMAIL_PASSKEY_SQL))
     view_names = {name for name, _ in views}
     for schema, name, sql in all_grants:
         if schema != 'roundcube' and name not in view_names:

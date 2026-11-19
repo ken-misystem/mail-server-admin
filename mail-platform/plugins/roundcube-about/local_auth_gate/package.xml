@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Roundcube About metadata for the bundled release. -->
+<package xmlns="http://pear.php.net/dtd/package-2.0" version="2.0">
+  <name>local_auth_gate</name>
+  <version><release>0.4.7</release></version>
+  <license uri="https://github.com/ken-misystem/mail-server-admin/blob/v0.4.7/mail-platform/LICENSE">MIT</license>
+  <srcuri>https://github.com/ken-misystem/mail-server-admin/releases/download/v0.4.7/mail-platform-install-0.4.7.tar.gz</srcuri>
+</package>

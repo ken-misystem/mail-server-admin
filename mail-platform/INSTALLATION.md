@@ -144,7 +144,13 @@ ClamAVの公開runtime資材はnative_assets.pyで組み立てる。NATIVE_ASSET
 
 更新モードはmanual。管理画面でautomaticを選択する実装を収録した。内部通知は現地の宛先/Webhookを設定・確認してから有効化する。AV検査は無効、危険拡張子は空、上流SMTPは直接配送で始める。送信量は既存承認候補値を使用し、画面で変更する。
 
-一般POP取得機能を収録する。旧ken専用・残着回収用の4unitを新規導入から除外する。Roundcubeパスキー用38クラスと認証vendorも組み立てる。Turnstileと旧standalone recoveryリンクのpluginは初期一覧から除外した。前者には現地keys、後者には別recoveryアプリが必要である。account_recoveryは初期一覧に含む。
+一般POP取得機能を収録する。旧ken専用・残着回収用の4unitを新規導入から除外する。Roundcubeパスキー用38クラスと認証vendorも組み立てる。
+
+### Roundcubeの互換プラグイン
+
+5つの互換プラグインと共有コードを同梱する。既存オプション、登録名、導入時の既定順、回復URLとデータベースは引き継ぐ。認証世代の照会と回復先の登録・確認で同じ接続実装を使い、ログイン画面のリンクとTurnstileは同じ表示ヘルパーを使う。旧プラグインの現地コピーを用意する工程はない。
+
+引き続き `account_recovery`、`local_ja_tweaks`、`session_epoch_guard` は標準登録に含む。Turnstileと旧回復リンクを有効にする場合は、それぞれサイト用の鍵と旧回復アプリを用意し、Roundcube設定で明示的に有効化する。
 
 ドメイン/利用者登録、初回パスキー登録、MX/SPF/DKIM/DMARC/PTR、公開FW規則、TLS更新元、バックアップ保管/復元確認、通知先は導入先の設定項目である。UFW package/serviceを含むが、許可規則とENABLEDは現地で設定する。backup証拠がない新サイトを旧ホストのbackup成功で代用しない。
 

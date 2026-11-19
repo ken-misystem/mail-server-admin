@@ -2,6 +2,12 @@
 
 Debian 13 amd64向けメールサーバーの導入・管理・署名付き更新コードです。Roundcubeと独立plugin、クライアント証明書、送信量制限、転送・Sieve、監視、ウイルス・添付制御を組み込みます。
 
+## 0.4.7
+
+[署名付きReleaseと配布資材](https://github.com/ken-misystem/mail-server-admin/releases/tag/v0.4.7)
+
+Roundcubeとメール管理画面に、IDを入力せず端末の登録済みパスキーを選ぶログインを追加しました。発見できないキーはID指定のパスキー認証で利用できます。従来のパスワード経路も使えます。既存サイトのRoundcubeでは、メール接続用の追加設定を有効にしてからパスキーログインを利用します。
+
 ## 0.4.6
 
 [署名付きReleaseと配布資材](https://github.com/ken-misystem/mail-server-admin/releases/tag/v0.4.6)

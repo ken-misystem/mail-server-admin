@@ -27,13 +27,22 @@ final class ConsoleController
         $error = $request->getSession()->remove(SecurityRequestAttributes::AUTHENTICATION_ERROR);
         $message = $error ? '<p role="alert">ログインできませんでした。</p>' : '';
         $token = self::escape($this->csrf->getToken('mail_admin_login')->getValue());
+        $passkeyToken = self::escape($this->csrf->getToken(AdminPasskeyLogin::CSRF)->getValue());
         return self::page('メール管理者ログイン', $message . '
-            <p>メールボックスとは独立した管理者IDでログインしてください。</p>
-            <form method="post" action="/mail-admin/login">
+            <button type="button" id="admin-passkey-login" data-csrf="' . $passkeyToken . '">パスキーでログイン</button>
+            <p id="admin-passkey-login-result" role="status" aria-live="polite"></p>
+            <form method="post" id="admin-login-form" action="/mail-admin/login">
             <input type="hidden" name="_csrf_token" value="' . $token . '">
             <label>管理者ID（メールアドレス）<input type="email" name="_username" maxlength="254" autocomplete="username" required></label>
             <label>管理者パスワード<input type="password" name="_password" autocomplete="current-password" required></label>
-            <button type="submit">ログイン</button></form>');
+            <button type="button" id="admin-passkey-account-login">管理者IDを指定してパスキーでログイン</button>
+            <button type="submit">パスワードでログイン</button></form>
+            <script src="/mail-admin/passkey-login.js" defer></script>');
+    }
+
+    public function passkeyLoginFallback(): JsonResponse
+    {
+        return AdminPasskeyLogin::json(['error' => 'passkey_failed'], 400);
     }
 
     public function home(Request $request): Response

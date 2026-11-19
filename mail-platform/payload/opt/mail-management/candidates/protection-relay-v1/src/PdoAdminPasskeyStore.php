@@ -35,6 +35,16 @@ final class PdoAdminPasskeyStore implements AdminPasskeyStore
         catch (\Throwable) { throw new \DomainException('passkey_storage_unavailable'); }
     }
 
+    public function ownerOfCredential(string $credentialId, string $userHandle): ?string
+    {
+        $query = $this->db->prepare('SELECT c.admin_id FROM mail_admin_credentials c
+            JOIN mail_admin_users u ON u.id=c.admin_id
+            WHERE c.credential_id=? AND c.enabled=1 AND u.user_handle=? AND u.active=1 LIMIT 1');
+        $query->execute([$credentialId, $userHandle]);
+        $id = $query->fetchColumn();
+        return $id === false ? null : (string) $id;
+    }
+
     public function register(AdminUser $user, CredentialRecord $record, string $label, bool $first): void
     {
         $this->transaction(function () use ($user, $record, $label, $first): void {

@@ -56,7 +56,16 @@ final class AdminWebauthn
     public function assertionOptions(array $records): string
     {
         if (!$records) { throw new \DomainException('no_enabled_passkey'); }
-        $options = json_decode($this->assertion->createOptions(random_bytes(32), $this->descriptors($records)),
+        return $this->loginOptions($records);
+    }
+
+    public function loginOptions(array $records, bool $discoverable = false): string
+    {
+        $descriptors = $this->descriptors($records);
+        if (!$descriptors && !$discoverable) {
+            $descriptors = [['id' => random_bytes(32), 'transports' => []]];
+        }
+        $options = json_decode($this->assertion->createOptions(random_bytes(32), $descriptors),
             true, 32, JSON_THROW_ON_ERROR);
         $options['timeout'] = self::TTL * 1000;
         return json_encode($options, JSON_THROW_ON_ERROR);
@@ -78,12 +87,28 @@ final class AdminWebauthn
 
     public function credentialId(string $response): string
     {
+        return $this->assertionCredential($response)->rawId;
+    }
+
+    public function discoverableIdentity(string $response): array
+    {
+        $credential = $this->assertionCredential($response);
+        $handle = $credential->response->userHandle;
+        if (!is_string($handle) || strlen($handle) < 16 || strlen($handle) > 64
+            || $credential->rawId === '' || strlen($credential->rawId) > 1024) {
+            throw new \DomainException('passkey_validation_failed');
+        }
+        return [$credential->rawId, $handle];
+    }
+
+    private function assertionCredential(string $response): PublicKeyCredential
+    {
         try {
             $credential = $this->serializer->deserialize($response, PublicKeyCredential::class, 'json');
             if (!$credential instanceof PublicKeyCredential || !$credential->response instanceof AuthenticatorAssertionResponse) {
                 throw new \DomainException();
             }
-            return $credential->rawId;
+            return $credential;
         } catch (\Throwable) { throw new \DomainException('passkey_validation_failed'); }
     }
 

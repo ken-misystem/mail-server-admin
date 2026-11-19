@@ -7,6 +7,7 @@ from site_bindings import rebase
 from source_patches import apply as apply_source_patch
 from distribution_inventory import include_materials
 from roundcube_settings import select as select_roundcube_settings
+from local_roundcube_plugins import NAMES, PREFIX, excluded
 
 def release_cache(text):
  before="public function getCacheDir(): string { return $this->stateDirectory . '/cache-' . $this->environment . '-' . self::CACHE_LAYOUT; }"
@@ -58,6 +59,12 @@ def prepare(repository, roundcube_settings='plugin'):
  patches_path=HERE/'source-patches.json'
  patches=json.loads(patches_path.read_bytes())if patches_path.exists()else{}
  require(all(name in catalog and catalog[name]['provider']in('repository','generated')for name in patches),'source_patch_registration')
+ require(all(PREFIX+name+'/'+name+'.php' in catalog for name in NAMES),'roundcube_compatibility_entry_missing')
+ for name, reference in catalog.items():
+  if excluded(name):
+   source='plugins/roundcube-compat/'+name.removeprefix(PREFIX)
+   require(reference.get('provider')=='package' and reference.get('path')==source,
+           'unverified_roundcube_compatibility_source:'+name)
  for n,ref in sorted(catalog.items()):
   member('payload/'+n)
   if ref['provider']=='repository':
@@ -80,6 +87,11 @@ def prepare(repository, roundcube_settings='plugin'):
   else:raise ValueError('provider')
   raw=apply_source_patch(n,raw,patches)
   if ref.get('transform'):raw=transformed(ref['transform'],raw)
+  if n in (
+      'opt/mail-management/candidates/protection-relay-v1/src/ConsoleController.php',
+      'opt/mail-management/candidates/protection-relay-v1/src/OperationsStatusController.php'):
+   require(b'Dashboard::' in raw, 'operations_dashboard_anchor')
+   raw=raw.replace(b'Dashboard::',b'OperationsDashboard::')
   files['payload/'+n]=raw
   if ref.get('baseline_sha256')and sha(raw)!=ref['baseline_sha256']:changed.append(n)
  # Add the enrolled gate adapter to the same verified runtime manifest.

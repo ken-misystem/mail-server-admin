@@ -10,6 +10,7 @@ use MailServer\RoundcubeAuth\RoundcubeCredentialRepository;
 use MailServer\RoundcubeAuth\WebauthnLibAssertionValidator;
 use MailServer\RoundcubeAuth\WebauthnLibRegistrationValidator;
 use MailServer\RoundcubeAuthGate\GateSession;
+use MailServer\RoundcubeAuthGate\WebmailSessionCredential;
 use MailServer\RoundcubeAuthManagement\ManagementException;
 use MailServer\RoundcubeAuthManagement\MailAuthRecoveryAddressRepository;
 use MailServer\RoundcubeAuthManagement\MailAuthSessionEpochInvalidator;
@@ -56,6 +57,11 @@ class local_auth_gate extends rcube_plugin
     private const EMERGENCY_SOURCE = __DIR__ . '/src/emergency';
     private const LOCAL_AUTH_AUTOLOAD = '/opt/roundcube-auth/vendor/autoload.php';
     private const NET_SMTP_SOURCE = '/usr/share/php/Net/SMTP.php';
+    private const GUEST_OPTIONS = 'plugin.local_auth_gate-login-options';
+    private const GUEST_FINISH = 'plugin.local_auth_gate-login-finish';
+    private const GUEST_STATE = 'local_auth_gate_guest_v1';
+    private const WEBMAIL_SESSION = 'local_auth_gate_webmail_v1';
+    private ?int $verifiedLoginOwner = null;
 
     protected rcmail $rc;
 
@@ -73,6 +79,12 @@ class local_auth_gate extends rcube_plugin
         $this->add_texts('localization/', true);
         $this->add_hook('login_after', [$this, 'loginAfter']);
         $this->add_hook('startup', [$this, 'startup']);
+        require_once __DIR__ . '/src/WebmailSessionCredential.php';
+        if (WebmailSessionCredential::configured()) {
+            $this->add_hook('loginform_content', [$this, 'loginPasskeyButton']);
+            $this->add_hook('session_destroy', [$this, 'revokeWebmailCredential']);
+            $this->add_hook('ready', [$this, 'checkWebmailSession']);
+        }
         $this->register_action(self::ACTION_GATE, [$this, 'showGate']);
         $this->register_action(self::ACTION_OPTIONS, [$this, 'beginAssertion']);
         $this->register_action(self::ACTION_FINISH, [$this, 'finishAssertion']);
@@ -90,6 +102,7 @@ class local_auth_gate extends rcube_plugin
     {
         $owner = $this->currentUserId();
         if ($owner <= 0) return $args;
+        if ($this->verifiedLoginOwner === $owner) { return $args; }
         try {
             $this->requireOwnerAccount();
             if (!$this->mfaRequirement($owner)->required) return $args;
@@ -107,6 +120,9 @@ class local_auth_gate extends rcube_plugin
     {
         $task = is_string($args['task'] ?? null) ? $args['task'] : '';
         $action = is_string($args['action'] ?? null) ? $args['action'] : '';
+        if ($task === 'login' && in_array($action, [self::GUEST_OPTIONS, self::GUEST_FINISH], true)) {
+            $this->guestPasskey($action);
+        }
         if ($this->emergencySession()->hasState()) {
             if ($this->isAllowedEmergencyRoute($task, $action)) {
                 return $args;
@@ -128,6 +144,239 @@ class local_auth_gate extends rcube_plugin
         $args['task'] = self::GATE_TASK;
         $args['action'] = self::ACTION_GATE;
         return $args;
+    }
+
+    public function loginPasskeyButton(array $form): array
+    {
+        $this->include_script('guest_passkey.js');
+        $button = ['outterclass' => 'guest-passkey',
+            'content' => '<button type="button" id="webmail-passkey-login" class="button">パスキーでログイン</button>'
+                . '<button type="button" id="webmail-passkey-account-login" class="button">メールアドレスを指定してパスキーでログイン</button>'
+                . '<p id="webmail-passkey-login-result" role="status" aria-live="polite"></p>'];
+        $form['buttons'] = ['guest_passkey' => $button] + ($form['buttons'] ?? []);
+        return $form;
+    }
+
+    private function guestPasskey(string $action): never
+    {
+        try {
+            if (!WebmailSessionCredential::configured() || !empty($_SESSION['user_id']) || empty($_SESSION['temp'])
+                || ($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST'
+                || ($_SERVER['HTTP_ORIGIN'] ?? '') !== 'https://' . \MailServer\RoundcubePasskeyGeneral\AccountIdentity::MAIL_HOST
+                || ($_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] ?? '') !== $this->rc->get_request_token()
+                || strtolower(trim(explode(';', $_SERVER['CONTENT_TYPE'] ?? '', 2)[0])) !== 'application/json') {
+                $this->respondGuest(['ok' => false], 403);
+            }
+            $this->limitGuestRequests();
+            $raw = file_get_contents('php://input', false, null, 0, 131073);
+            if (!is_string($raw) || strlen($raw) > 131072) { throw new \DomainException('guest_request'); }
+            $body = json_decode($raw, true, 16, JSON_THROW_ON_ERROR);
+            if (!is_array($body)) { throw new \DomainException('guest_request'); }
+            $this->loadAssertionDependencies();
+            if ($action === self::GUEST_OPTIONS) {
+                $this->respondGuest(['ok' => true] + $this->startGuestAssertion($body), 200);
+            }
+            $this->finishGuestAssertion($body);
+        } catch (Throwable) {
+            $this->respondGuest(['ok' => false], 400);
+        }
+    }
+
+    private function startGuestAssertion(array $body): array
+    {
+        unset($_SESSION[self::GUEST_STATE]);
+        if (!array_key_exists('email', $body)) {
+            $ceremony = bin2hex(random_bytes(32));
+            $options = WebauthnLibAssertionValidator::create()->createOptions(random_bytes(32), []);
+            WebmailSessionCredential::registerChallenge($ceremony);
+            $_SESSION[self::GUEST_STATE] = ['ceremony' => $ceremony, 'discoverable_options' => $options];
+            return ['ceremony_id' => $ceremony, 'publicKey' => json_decode($options, true, 32, JSON_THROW_ON_ERROR)];
+        }
+        $email = \MailServer\RoundcubePasskeyGeneral\AccountIdentity::canonical(
+            is_string($body['email'] ?? null) ? trim($body['email']) : '');
+        $repository = new RoundcubeCredentialRepository($this->rc->get_dbh());
+        $db = $this->rc->get_dbh();
+        $users = $db->table_name('users', true);
+        $result = $db->query("SELECT user_id FROM {$users} WHERE BINARY username=BINARY ? AND mail_host=? LIMIT 2",
+            $email, \MailServer\RoundcubePasskeyGeneral\AccountIdentity::MAIL_HOST);
+        $row = $db->fetch_assoc($result);
+        $owner = is_array($row) && !$db->fetch_assoc($result) ? (int) $row['user_id'] : 0;
+        $pending = $owner > 0 ? $repository->enabledCredentialDescriptors($owner) : [];
+        $epoch = $pending ? $this->webmailEpoch($email) : null;
+        if ($epoch === null) {
+            $synthetic = WebauthnLibAssertionValidator::create()->createOptions(
+                random_bytes(32), [['id' => random_bytes(32), 'transports' => []]]);
+            return ['ceremony_id' => bin2hex(random_bytes(16)),
+                'publicKey' => json_decode($synthetic, true, 32, JSON_THROW_ON_ERROR)];
+        }
+        $options = $this->assertionService()->begin($owner);
+        WebmailSessionCredential::registerChallenge($options['ceremony_id']);
+        $_SESSION[self::GUEST_STATE] = ['id' => $owner, 'email' => $email, 'epoch' => $epoch,
+            'ceremony' => $options['ceremony_id']];
+        return $options;
+    }
+
+    private function finishGuestAssertion(array $body): never
+    {
+        $pending = $_SESSION[self::GUEST_STATE] ?? null;
+        unset($_SESSION[self::GUEST_STATE]);
+        if (!is_array($pending) || !WebmailSessionCredential::consumeChallenge($pending['ceremony'])
+            || ($body['ceremony_id'] ?? null) !== $pending['ceremony']
+            || !is_array($body['credential'] ?? null)) { throw new \DomainException('guest_state'); }
+        $credential = $body['credential'];
+        $response = json_encode($credential, JSON_THROW_ON_ERROR);
+        $discovery = $pending['discoverable_options'] ?? null;
+        if (is_string($discovery)) {
+            [$owner, $mailbox, $handle] = $this->discoverGuestOwner($credential);
+        } else {
+            $owner = $pending['id'];
+            $mailbox = $pending['email'];
+        }
+        $email = \MailServer\RoundcubePasskeyGeneral\AccountIdentity::requireOwner(
+            $this->rc->get_dbh(), $owner, $mailbox);
+        $epoch = $this->webmailEpoch($email);
+        if ($epoch === null || ($discovery === null && $epoch !== $pending['epoch'])) {
+            throw new \DomainException('mailbox_epoch_changed');
+        }
+        if (is_string($discovery)) {
+            // The database challenge is already consumed. Reuse the same verifier
+            // and locked credential update with request-local state.
+            $state = [];
+            $challenge = new AssertionChallengeStore($state);
+            $ceremony = $challenge->issue($owner, $handle, $discovery);
+            $this->assertionService($challenge)->finish($owner, $ceremony, $response);
+        } else {
+            $this->assertionService()->finish($owner, $body['ceremony_id'], $response);
+        }
+        [$selector, $secret] = WebmailSessionCredential::issue($email, $epoch);
+        try {
+            $this->rc->kill_session();
+            if (!$this->rc->login($email, $secret, null, true) || $this->currentUserId() !== $owner
+                || $this->webmailEpoch($email) !== $epoch) {
+                throw new \DomainException('webmail_login_failed');
+            }
+            $this->rc->session->remove('temp');
+            $this->rc->session->regenerate_id(false);
+            $this->rc->session->set_auth_cookie();
+            $_SESSION[self::WEBMAIL_SESSION] = ['email' => $email, 'epoch' => $epoch, 'selector' => $selector,
+                'expires' => time() + WebmailSessionCredential::TTL];
+            $this->loadManagementDependencies();
+            $this->recentFactor()->mark($owner, 'passkey', time());
+            $this->verifiedLoginOwner = $owner;
+            $this->rc->plugins->exec_hook('login_after', ['_task' => 'mail']);
+            $this->rc->log_login();
+        } catch (Throwable $error) {
+            $this->rc->kill_session();
+            WebmailSessionCredential::revoke($selector);
+            throw $error;
+        }
+        $this->respondGuest(['ok' => true, 'redirect' => $this->rc->url(['_task' => 'mail'])], 200);
+    }
+
+    private function discoverGuestOwner(array $credential): array
+    {
+        $response = $credential['response'] ?? null;
+        $handle = self::decodeGuestIdentity(is_array($response) ? ($response['userHandle'] ?? null) : null, 32);
+        $id = self::decodeGuestIdentity($credential['rawId'] ?? null, RegistrationConfig::MAX_CREDENTIAL_ID_BYTES);
+        if (strlen($handle) !== 32) { throw new \DomainException('invalid_passkey_handle'); }
+
+        $db = $this->rc->get_dbh();
+        $users = $db->table_name('users', true);
+        $handles = $db->table_name('auth_webauthn_users', true);
+        $keys = $db->table_name('auth_webauthn_credentials', true);
+        $db->set_debug(false);
+        $db->set_option('ignore_errors', true);
+        $db->set_option('ignore_key_errors', true);
+        $result = $db->query("SELECT u.user_id, u.username FROM {$users} u
+            JOIN {$handles} h ON h.user_id=u.user_id
+            JOIN {$keys} c ON c.user_id=h.user_id AND c.user_handle=h.user_handle
+            WHERE h.user_handle=UNHEX(?) AND c.credential_id=UNHEX(?) AND c.enabled=1 AND u.mail_host=?
+            LIMIT 1", bin2hex($handle), bin2hex($id), \MailServer\RoundcubePasskeyGeneral\AccountIdentity::MAIL_HOST);
+        $row = $result === false || $db->is_error($result) ? null : $db->fetch_assoc($result);
+        if (!is_array($row) || (int) $row['user_id'] <= 0 || !is_string($row['username'])) {
+            throw new \DomainException('unrecognized_passkey');
+        }
+        return [(int) $row['user_id'], $row['username'], $handle];
+    }
+
+    private static function decodeGuestIdentity(mixed $encoded, int $max): string
+    {
+        if (!is_string($encoded) || strlen($encoded) > (int) ceil($max * 4 / 3)
+            || preg_match('/\A[A-Za-z0-9_-]+\z/D', $encoded) !== 1) {
+            throw new \DomainException('invalid_passkey_identity');
+        }
+        $decoded = base64_decode(strtr($encoded, '-_', '+/'), true);
+        if ($decoded === false || $decoded === '' || strlen($decoded) > $max
+            || rtrim(strtr(base64_encode($decoded), '+/', '-_'), '=') !== $encoded) {
+            throw new \DomainException('invalid_passkey_identity');
+        }
+        return $decoded;
+    }
+
+    private function webmailEpoch(string $email): ?string
+    {
+        require_once dirname(__DIR__) . '/mi_system_compat/AccountDirectory.php';
+        $settings = \MISystem\RoundcubeCompat\AccountDirectory::settings();
+        return $settings === null ? null : (new \MISystem\RoundcubeCompat\AccountDirectory($settings))->epoch($email);
+    }
+
+    public function revokeWebmailCredential(array $args): array
+    {
+        $selector = $_SESSION[self::WEBMAIL_SESSION]['selector'] ?? null;
+        if (is_string($selector)) {
+            try { WebmailSessionCredential::revoke($selector); }
+            catch (Throwable) { rcube::write_log('local_auth_gate', 'Webmail credential revocation unavailable'); }
+        }
+        return $args;
+    }
+
+    public function checkWebmailSession(array $args): array
+    {
+        $state = $_SESSION[self::WEBMAIL_SESSION] ?? null;
+        if (!is_array($state) || $this->rc->task === 'logout') { return $args; }
+        try {
+            $unchanged = time() < $state['expires'] && $this->webmailEpoch($state['email']) === $state['epoch'];
+        } catch (Throwable) { $unchanged = false; }
+        if ($unchanged) { return $args; }
+        $this->rc->kill_session();
+        header('Location: ./?_session_revoked=1', true, 303);
+        exit;
+    }
+
+    private function limitGuestRequests(): void
+    {
+        $address = filter_var($_SERVER['REMOTE_ADDR'] ?? '', FILTER_VALIDATE_IP);
+        if ($address === false) { throw new \DomainException('guest_address'); }
+        $key = hash_hmac('sha256', $address, $this->rc->config->get('des_key'));
+        $file = $this->rc->config->get('temp_dir') . '/passkey-login-' . substr($key, 0, 2);
+        $handle = fopen($file, 'c+');
+        if ($handle === false) { throw new \RuntimeException('guest_limiter'); }
+        try {
+            if (!flock($handle, LOCK_EX)) { throw new \RuntimeException('guest_limiter'); }
+            $raw = stream_get_contents($handle, 16385);
+            if ($raw === false || strlen($raw) > 16384) { throw new \RuntimeException('guest_limiter'); }
+            $claims = $raw === '' ? [] : json_decode($raw, true, 8, JSON_THROW_ON_ERROR);
+            $window = intdiv(time(), 60);
+            $claims = array_filter($claims, static fn (array $claim): bool => $claim[0] === $window);
+            $attempts = $claims[$key][1] ?? 0;
+            if ($attempts >= 10 || (count($claims) >= 128 && $attempts === 0)) {
+                $this->respondGuest(['ok' => false], 429);
+            }
+            $claims[$key] = [$window, $attempts + 1];
+            $encoded = json_encode($claims, JSON_THROW_ON_ERROR);
+            if (!rewind($handle) || !ftruncate($handle, 0) || fwrite($handle, $encoded) !== strlen($encoded)) {
+                throw new \RuntimeException('guest_limiter');
+            }
+        } finally { fclose($handle); }
+    }
+
+    private function respondGuest(array $body, int $status): never
+    {
+        http_response_code($status);
+        header('Cache-Control: no-store');
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode($body, JSON_THROW_ON_ERROR);
+        exit;
     }
 
     public function showGate(): void
@@ -400,13 +649,13 @@ class local_auth_gate extends rcube_plugin
         return (new \MailServer\RoundcubePasskeyGeneral\OwnerMfaPolicyRepository($this->rc->get_dbh()))->requirement($userId);
     }
 
-    private function assertionService(): AssertionService
+    private function assertionService(?AssertionChallengeStore $challenge = null): AssertionService
     {
         $this->loadAssertionDependencies();
         return new AssertionService(
             new RoundcubeCredentialRepository($this->rc->get_dbh()),
             WebauthnLibAssertionValidator::create(),
-            new AssertionChallengeStore($_SESSION),
+            $challenge ?? new AssertionChallengeStore($_SESSION),
         );
     }
 

@@ -19629,11 +19629,19 @@
     "path": "mail-management/src/AdminOperationsStore.php",
     "provider": "repository"
   },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyAuthenticator.php": {
+    "provider": "package",
+    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyAuthenticator.php"
+  },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyCeremony.php": {
     "baseline_sha256": "1c914e7b1178a9de0fda5e0112caa41cc1ddda9dc150eb4b670dcb0fdd2f1663",
     "normalize_LF": false,
     "path": "mail-management/src/AdminPasskeyCeremony.php",
     "provider": "repository"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyLogin.php": {
+    "provider": "package",
+    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyLogin.php"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyStore.php": {
     "baseline_sha256": "90e633668e7a76aa1a49eed43827dbef5429ae37c4903a667824b610314a04a4",
@@ -19969,6 +19977,10 @@
     "path": "ui/NotificationController.php",
     "provider": "package"
   },
+  "opt/mail-management/candidates/protection-relay-v1/src/OperationsDashboard.php": {
+    "provider": "package",
+    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/OperationsDashboard.php"
+  },
   "opt/mail-management/candidates/protection-relay-v1/src/OperationsSnapshot.php": {
     "baseline_sha256": "76031b2b0fd98dafb2864ab9e4a0cfe5b14629e6409cd124346172e0622d746d",
     "member": "ui/OperationsSnapshot.php",
@@ -20136,6 +20148,10 @@
     "normalize_LF": false,
     "path": "mail-management/cutover-features-v1/src/QuotaUsageProvider.php",
     "provider": "repository"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/ScannerTabs.php": {
+    "path": "ui/ScannerTabs.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/ScopedAdminController.php": {
     "baseline_sha256": "51cd6960ef72b9dcc700d35ed624ea8ee924e2974c4bc81ec0d5e793772f2a9a",
@@ -40444,6 +40460,10 @@
     "path": "mail-management/feature-port-v1/load_credential.py",
     "provider": "repository"
   },
+  "usr/local/lib/mail-feature-admin-v1/managed_scanner.py": {
+    "path": "framework/managed_scanner.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-feature-admin-v1/native_query.py": {
     "baseline_sha256": "254cd9f8e794fd6b2be7593a6eb75c94da1e79b0a12a2d200020e54ee5946987",
     "normalize_LF": true,
@@ -40695,6 +40715,10 @@
     "normalize_LF": true,
     "path": "mail-management/feature-port-v1/load_credential.py",
     "provider": "repository"
+  },
+  "usr/local/lib/mail-feature-runtime-v1/managed_scanner.py": {
+    "path": "framework/managed_scanner.py",
+    "provider": "package"
   },
   "usr/local/lib/mail-feature-runtime-v1/native_query.py": {
     "baseline_sha256": "f45d63122587341b6a58ddf09143ff182842bf834e5e1ee9b1d21359e3ab9d78",
@@ -41308,6 +41332,10 @@
     "baseline_sha256": "4a9be164341e420ff60513a7c36f08773a2df5f7648afaf4fa968dddd2e3a01e",
     "path": "framework/updater.py",
     "provider": "package"
+  },
+  "usr/local/lib/mail-platform-update/webmail_passkey.py": {
+    "provider": "package",
+    "path": "framework/webmail_passkey.py"
   },
   "usr/local/lib/mail-pop-compat-v1/compat.py": {
     "baseline_sha256": "2121a0f745d1f512a22b61681e4c0d4573d669355a43e3acd96f7aa6b1b7f291",
@@ -41961,8 +41989,23 @@
     "provider": "repository"
   },
   "usr/share/roundcube/plugins/account_recovery/account_recovery.php": {
-    "baseline_sha256": "588f6006b134e7d83e018d6ca87a8e9b041c354d73a24953210fe15d033539bb",
-    "path": "payload/usr/share/roundcube/plugins/account_recovery/account_recovery.php",
+    "path": "plugins/roundcube-compat/account_recovery/account_recovery.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/account_recovery/localization/en_US.inc": {
+    "path": "plugins/roundcube-compat/account_recovery/localization/en_US.inc",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/account_recovery/localization/ja_JP.inc": {
+    "path": "plugins/roundcube-compat/account_recovery/localization/ja_JP.inc",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/account_recovery/package.xml": {
+    "path": "plugins/roundcube-compat/account_recovery/package.xml",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/app_passwords/LICENSE": {
+    "path": "LICENSE",
     "provider": "package"
   },
   "usr/share/roundcube/plugins/app_passwords/OwnerAppPasswords.php": {
@@ -41989,11 +42032,19 @@
     "path": "client-certificates/owner-lifecycle-v1/integrated-candidate-v1/plugins/app_passwords/app_passwords.php",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/app_passwords/package.xml": {
+    "path": "plugins/roundcube-about/app_passwords/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/app_passwords/skins/elastic/templates/settings.html": {
     "baseline_sha256": "da550d44acd8426cc0f315207a913e7cda0830c52aa4a0d7bb5ad19c01c9cdf8",
     "normalize_LF": false,
     "path": "client-certificates/owner-lifecycle-v1/integrated-candidate-v1/plugins/app_passwords/skins/elastic/templates/settings.html",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/junk_digest/LICENSE": {
+    "path": "LICENSE",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/junk_digest/junk_digest.php": {
     "baseline_sha256": "117f01fd93acaa8fcf69d6ea77a464624caaeacb001dc55711699501128e01fa",
@@ -42001,11 +42052,19 @@
     "path": "roundcube-junk-digest/plugin/junk_digest/junk_digest.php",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/junk_digest/package.xml": {
+    "path": "plugins/roundcube-about/junk_digest/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/local_auth/AccountIdentity.php": {
     "baseline_sha256": "da57c959496a2b84c0ac107310d6c2966f649abe2beea18e10a49f306715c1b5",
     "normalize_LF": false,
     "path": "roundcube-passkey/general/AccountIdentity.php",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/local_auth/LICENSE": {
+    "path": "LICENSE",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/local_auth/OwnerActionSession.php": {
     "baseline_sha256": "dc0a905934cf9f91c7eae66d9edb22785755fb4e57a3ee58352e32a23bc77ae6",
@@ -42095,11 +42154,23 @@
     "path": "roundcube-passkey/owner-management/proof.css",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/local_auth/package.xml": {
+    "path": "plugins/roundcube-about/local_auth/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/local_auth/skins/elastic/templates/passkeys.html": {
     "baseline_sha256": "586d1863a597a92167f1be38ebf58194475486931a3b7fe3c55af894c0ec1edd",
     "normalize_LF": false,
     "path": "client-certificates/owner-lifecycle-v1/integrated-candidate-v1/plugins/local_auth/skins/elastic/templates/passkeys.html",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/local_auth_gate/LICENSE": {
+    "path": "LICENSE",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/local_auth_gate/guest_passkey.js": {
+    "provider": "package",
+    "path": "payload/usr/share/roundcube/plugins/local_auth_gate/guest_passkey.js"
   },
   "usr/share/roundcube/plugins/local_auth_gate/local_auth_gate.css": {
     "baseline_sha256": "c1e493473eedac6e1326325dab77a183a1c8bc02f028c48977bef3dc3a7a826d",
@@ -42131,6 +42202,10 @@
     "path": "roundcube-passkey/general/candidate/local_auth_gate/localization/ja_JP.inc",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/local_auth_gate/package.xml": {
+    "path": "plugins/roundcube-about/local_auth_gate/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/local_auth_gate/skins/elastic/templates/emergency.html": {
     "baseline_sha256": "d37736104951c6aa37f1c4062c44869d0d0403b130da9ed7790649b9fcc902b1",
     "normalize_LF": false,
@@ -42148,6 +42223,10 @@
     "normalize_LF": false,
     "path": "roundcube-passkey/plugin/local_auth_gate/src/GateSession.php",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/local_auth_gate/src/WebmailSessionCredential.php": {
+    "provider": "package",
+    "path": "payload/usr/share/roundcube/plugins/local_auth_gate/src/WebmailSessionCredential.php"
   },
   "usr/share/roundcube/plugins/local_auth_gate/src/emergency/EmergencyRecoveryAuthenticatedSessionDestroyer.php": {
     "baseline_sha256": "222bc76160dcbe5eafe5b38eb0ea539ec9d2110835b9872b7867987ba4e04135",
@@ -42353,25 +42432,42 @@
     "path": "roundcube-passkey/general/candidate/local_auth_gate/src/emergency/UpstreamEmergencyRecoveryRegistrationCeremony.php",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/local_imap_loopback/LICENSE": {
+    "path": "LICENSE",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/local_imap_loopback/local_imap_loopback.php": {
     "baseline_sha256": "f06de1ef53a1fe83cfa65276fffd5342b3c694d78e162ab1c6a6061f2402155e",
     "normalize_LF": false,
     "path": "app-password/roundcube/local_imap_loopback/local_imap_loopback.php",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/local_imap_loopback/package.xml": {
+    "path": "plugins/roundcube-about/local_imap_loopback/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/local_ja_tweaks/local_ja_tweaks.js": {
-    "baseline_sha256": "a9e346b78e08d775c3251ebdf16ff5ecd66e3997f8a30b618bcd0f2ce9b5d139",
-    "path": "payload/usr/share/roundcube/plugins/local_ja_tweaks/local_ja_tweaks.js",
+    "path": "plugins/roundcube-compat/local_ja_tweaks/local_ja_tweaks.js",
     "provider": "package"
   },
   "usr/share/roundcube/plugins/local_ja_tweaks/local_ja_tweaks.php": {
-    "baseline_sha256": "aa3120f6fbf29ea38497ba1f9810b8fc72715645ae20e618ee633a05bc7622a1",
-    "path": "payload/usr/share/roundcube/plugins/local_ja_tweaks/local_ja_tweaks.php",
+    "path": "plugins/roundcube-compat/local_ja_tweaks/local_ja_tweaks.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/local_ja_tweaks/package.xml": {
+    "path": "plugins/roundcube-compat/local_ja_tweaks/package.xml",
     "provider": "package"
   },
   "usr/share/roundcube/plugins/local_password_recovery/local_password_recovery.php": {
-    "baseline_sha256": "b19b69563411e7b36a965059e571422d820cce2f2e78c063a26cd7b0b8ef872e",
-    "path": "payload/usr/share/roundcube/plugins/local_password_recovery/local_password_recovery.php",
+    "path": "plugins/roundcube-compat/local_password_recovery/local_password_recovery.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/local_password_recovery/package.xml": {
+    "path": "plugins/roundcube-compat/local_password_recovery/package.xml",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_aliases/LICENSE": {
+    "path": "LICENSE",
     "provider": "package"
   },
   "usr/share/roundcube/plugins/mail_aliases/core/AliasPolicy.php": {
@@ -42404,6 +42500,10 @@
     "path": "roundcube-mail-aliases/plugin/mail_aliases/mail_aliases.php",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/mail_aliases/package.xml": {
+    "path": "plugins/roundcube-about/mail_aliases/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/mail_aliases/skins/elastic/templates/aliases.html": {
     "baseline_sha256": "cee539dd7e3852dac1b57c0fb2190a67a1127101f97462843a2c854ade50c059",
     "normalize_LF": false,
@@ -42415,6 +42515,10 @@
     "normalize_LF": false,
     "path": "roundcube-mail-aliases/plugin/mail_aliases/src/RequestPolicy.php",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/mail_client_certificates/LICENSE": {
+    "path": "LICENSE",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/mail_client_certificates/app-help-v1.css": {
     "baseline_sha256": "ba1f7f009f611ff608f83df8ce24c83b5d565e352c7dad6ca0b98689f2b3eb0e",
@@ -42456,6 +42560,14 @@
     "path": "ui/roundcube-mail-client-certificates/app-help-v1/preside.svg",
     "provider": "package"
   },
+  "usr/share/roundcube/plugins/mail_client_certificates/branding/mail-admin.png": {
+    "path": "ui/branding/mail-admin.png",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mail_client_certificates/branding/webmail.png": {
+    "path": "ui/branding/webmail.png",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/mail_client_certificates/localization/en_US.inc": {
     "baseline_sha256": "639fff8d8f501ef73e3f2ec9a154939b8e74a6ab874571e9a7cee450d3231157",
     "path": "ui/roundcube-mail-client-certificates/localization/en_US.inc",
@@ -42490,6 +42602,10 @@
     "path": "roundcube-ui-guidance-v1/owner_prerequisites.js",
     "provider": "repository"
   },
+  "usr/share/roundcube/plugins/mail_client_certificates/package.xml": {
+    "path": "plugins/roundcube-about/mail_client_certificates/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/mail_client_certificates/roundcube-transport.js": {
     "baseline_sha256": "b5251fef98b5b7c626c1c2c29924831fbd01b25fc6512b70f1836be590b47c36",
     "normalize_LF": false,
@@ -42506,6 +42622,10 @@
     "normalize_LF": false,
     "path": "client-certificates/p12-download-dialog-v1/candidate/certificates.html",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/mail_pop/LICENSE": {
+    "path": "LICENSE",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/mail_pop/core/PopAccountRepository.php": {
     "baseline_sha256": "d46237d90c0d8d85955c61ccb6d8a430fef35d8f1cd0c389cb67baddf6cdf7e5",
@@ -42548,6 +42668,10 @@
     "normalize_LF": false,
     "path": "roundcube-mail-pop/plugin/mail_pop/mail_pop.php",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/mail_pop/package.xml": {
+    "path": "plugins/roundcube-about/mail_pop/package.xml",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/mail_pop/skins/elastic/templates/pop.html": {
     "baseline_sha256": "f6a4ccd20bbbf2e05db0f5a9d59057929f451f4d943881452b9429a9452b0841",
@@ -42605,6 +42729,10 @@
     "path": "plugins/mail_settings/mail_settings.php",
     "provider": "package"
   },
+  "usr/share/roundcube/plugins/mail_settings/package.xml": {
+    "path": "plugins/roundcube-about/mail_settings/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/mail_settings/skins/elastic/templates/settings.html": {
     "baseline_sha256": "173bb3e45386cb605dbbd3cd50c591d0a0a2635b07fcf405b8ce99a66de92899",
     "path": "plugins/mail_settings/skins/elastic/templates/settings.html",
@@ -42635,14 +42763,40 @@
     "path": "plugins/mail_settings/src/Service.php",
     "provider": "package"
   },
+  "usr/share/roundcube/plugins/mi_system_compat/AccountDirectory.php": {
+    "path": "plugins/roundcube-compat/mi_system_compat/AccountDirectory.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mi_system_compat/LICENSE": {
+    "path": "plugins/roundcube-compat/mi_system_compat/LICENSE",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mi_system_compat/LoginView.php": {
+    "path": "plugins/roundcube-compat/mi_system_compat/LoginView.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/mi_system_compat/Siteverify.php": {
+    "path": "plugins/roundcube-compat/mi_system_compat/Siteverify.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/session_epoch_guard/package.xml": {
+    "path": "plugins/roundcube-compat/session_epoch_guard/package.xml",
+    "provider": "package"
+  },
   "usr/share/roundcube/plugins/session_epoch_guard/session_epoch_guard.php": {
-    "baseline_sha256": "e32ee92d571c6f8fbff9f5f5306fe924837f03883e4174879dfce261218588ce",
-    "path": "payload/usr/share/roundcube/plugins/session_epoch_guard/session_epoch_guard.php",
+    "path": "plugins/roundcube-compat/session_epoch_guard/session_epoch_guard.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/turnstile/package.xml": {
+    "path": "plugins/roundcube-compat/turnstile/package.xml",
     "provider": "package"
   },
   "usr/share/roundcube/plugins/turnstile/turnstile.php": {
-    "baseline_sha256": "e21f86f8e5b9c1da92b7971892a11b1d1aea30fde7a58210362261ce8e786425",
-    "path": "payload/usr/share/roundcube/plugins/turnstile/turnstile.php",
+    "path": "plugins/roundcube-compat/turnstile/turnstile.php",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/ui_feedback/LICENSE": {
+    "path": "LICENSE",
     "provider": "package"
   },
   "usr/share/roundcube/plugins/ui_feedback/feedback.css": {
@@ -42650,6 +42804,10 @@
     "normalize_LF": false,
     "path": "roundcube-ui-feedback/plugin/ui_feedback/feedback.css",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/ui_feedback/package.xml": {
+    "path": "plugins/roundcube-about/ui_feedback/package.xml",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/ui_feedback/settings-menu.css": {
     "baseline_sha256": "97750279b3ab78da1a7f7650b165c32acbe85938ae9372e24dc48c9ab97a21e4",

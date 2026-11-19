@@ -12,7 +12,8 @@
 (function () {
     'use strict';
     const scope = document.getElementById('admin-passkey');
-    if (!scope) return;
+    const login = document.getElementById('admin-passkey-login');
+    if (!scope && !login) return;
     const result = document.getElementById('admin-passkey-result');
     const register = document.getElementById('admin-passkey-register');
     const retry = document.getElementById('admin-passkey-retry');
@@ -47,6 +48,43 @@
         return { id: c.id, rawId: encode(c.rawId), type: c.type, response: r,
             authenticatorAttachment: c.authenticatorAttachment || null,
             clientExtensionResults: c.getClientExtensionResults() };
+    }
+    const passkeySupported = window.isSecureContext && window.PublicKeyCredential && navigator.credentials;
+    if (login) {
+        const fallback = document.getElementById('admin-passkey-account-login');
+        const identity = document.getElementById('admin-login-form').elements.namedItem('_username');
+        const status = document.getElementById('admin-passkey-login-result');
+        login.disabled = fallback.disabled = !passkeySupported;
+        if (!passkeySupported) status.textContent = 'この環境ではパスキーを使用できません。';
+        async function request(step, body) {
+            const reply = await fetch('/mail-admin/login/passkey/' + step, {
+                method: 'POST', credentials: 'same-origin', redirect: 'error', cache: 'no-store',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': login.dataset.csrf },
+                body: JSON.stringify(body)
+            });
+            const data = await reply.json();
+            if (!reply.ok || !data.ok) throw new Error('passkey_failed');
+            return data;
+        }
+        async function signIn(byAccount) {
+            if (login.disabled || (byAccount && !identity.reportValidity())) return;
+            login.disabled = fallback.disabled = true;
+            status.textContent = 'パスキーを確認しています。';
+            try {
+                const start = await request('options', byAccount ? {email: identity.value} : {});
+                const credential = await navigator.credentials.get({publicKey: options(start.publicKey, 'assert')});
+                if (!credential) throw new Error('cancelled');
+                await request('finish', {credential: response(credential, 'assert')});
+                window.location.assign('/mail-admin/');
+            } catch (_) {
+                status.textContent = byAccount
+                    ? 'パスキーでログインできませんでした。管理者IDと登録済みパスキーを確認してください。'
+                    : 'パスキーでログインできませんでした。管理者IDを指定した認証も選べます。';
+            } finally { login.disabled = fallback.disabled = false; }
+        }
+        login.addEventListener('click', () => signIn(false));
+        fallback.addEventListener('click', () => signIn(true));
+        return;
     }
     async function post(kind, step, body) {
         const reply = await fetch('/mail-admin/passkey/' + kind + '/' + step, {
@@ -93,7 +131,7 @@
             retry.hidden = false;
         } finally { busy = false; register.disabled = retry.disabled = false; }
     }
-    if (!window.isSecureContext || !window.PublicKeyCredential || !navigator.credentials) {
+    if (!passkeySupported) {
         register.disabled = retry.disabled = true;
         result.textContent = 'この環境ではPasskeyを使用できません。';
         return;

@@ -146,6 +146,8 @@ def templates(site):
         }, 'php'),
         Template('/etc/roundcube/app-passwords.json', 'www-data', 0o640,
                  database('mail_app_password_ui', 'mailserver')),
+        Template('/etc/roundcube/webmail-passkey.json', 'www-data', 0o640,
+                 database('roundcube_webmail_passkey', 'mailserver')),
         Template('/etc/roundcube/local_ja_tweaks.php', 'www-data', 0o640,
                  {'username': 'メールアドレス'}, 'php'),
         Template('/etc/roundcube/mail-aliases.php', 'www-data', 0o640,

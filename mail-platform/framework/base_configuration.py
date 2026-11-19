@@ -4,6 +4,7 @@ import json
 import re
 
 from site_bindings import validate
+from webmail_passkey import DOVECOT_CONFIG, SMTP_SERVICE, dovecot_passdb
 
 
 @dataclass(frozen=True)
@@ -89,6 +90,7 @@ def render(site, identities, passwords, recipes):
     master += '  -o { smtpd_sasl_auth_enable = yes }\n  -o { smtpd_tls_auth_only = no }\n'
     master += '127.0.0.1:587 inet n - n - - smtpd\n'
     master += '  -o { smtpd_sasl_auth_enable = yes }\n  -o { smtpd_tls_security_level = encrypt }\n'
+    master += '  -o { smtpd_sasl_service = ' + SMTP_SERVICE + ' }\n'
     master += '  -o { smtpd_relay_restrictions = permit_sasl_authenticated, reject }\n'
     master += address + ':465 inet n - n - 10 smtpd\n'
     options = {
@@ -125,6 +127,7 @@ auth_cache_size = 0
 auth_verbose_passwords = no
 sql_driver = mysql
 !include /etc/dovecot/mail-platform-sql.conf
+!include {DOVECOT_CONFIG}
 passdb app_passwords {{
  driver = sql
  result_success = return-ok
@@ -192,6 +195,7 @@ quota "User quota" {{
 }}
 '''
     add('/etc/dovecot/dovecot.conf', dovecot)
+    add(DOVECOT_CONFIG, dovecot_passdb())
     add('/etc/dovecot/mail-platform-sql.conf',
         'mysql /run/mysqld/mysqld.sock {\n user = mailreader\n password = '
         + passwords['mailreader'] + '\n dbname = mailserver\n}\n', 'root', 0o600)

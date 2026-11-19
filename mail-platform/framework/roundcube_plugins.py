@@ -17,6 +17,9 @@ def packaged_plugins(files):
     if not isinstance(names, list) or any(not isinstance(name, str)
             or not re.fullmatch(r'[a-z][a-z0-9_]*', name) for name in names) or len(set(names)) != len(names):
         raise ValueError('roundcube_plugin_names')
+    if SOURCE.lstrip('/') + '/mi_system_compat/LoginView.php' in files:
+        # Link the optional adapters without enabling them in Roundcube's config.
+        names = names + [name for name in ('local_password_recovery', 'turnstile') if name not in names]
     return [name for name in names if (SOURCE.lstrip('/')+'/'+name+'/'+name+'.php') in files]
 
 

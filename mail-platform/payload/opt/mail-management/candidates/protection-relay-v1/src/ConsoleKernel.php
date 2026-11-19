@@ -111,6 +111,7 @@ final class ConsoleKernel extends Kernel
             'firewalls' => ['mail_admin' => [
                 'pattern' => '^/mail-admin(?:/|$)', 'provider' => 'mail_admins',
                 'user_checker' => AdminUserChecker::class,
+                'custom_authenticators' => [AdminPasskeyAuthenticator::class],
                 'login_throttling' => ['max_attempts' => 5, 'interval' => '1 minute',
                     'cache_pool' => 'cache.mail_admin_limiter', 'lock_factory' => 'mail_admin_lock_factory'],
                 'form_login' => [
@@ -122,7 +123,7 @@ final class ConsoleKernel extends Kernel
                     'enable_csrf' => true, 'csrf_token_id' => 'mail_admin_logout'],
             ]],
             'access_control' => [
-                ['path' => '^/mail-admin/login$', 'roles' => 'PUBLIC_ACCESS', 'requires_channel' => 'https'],
+                ['path' => '^/mail-admin/(?:login(?:/passkey/(?:options|finish))?|passkey-login\.js)$', 'roles' => 'PUBLIC_ACCESS', 'requires_channel' => 'https'],
                 ['path' => '^/mail-admin(?:/|$)', 'roles' => 'ROLE_MAIL_ADMIN', 'requires_channel' => 'https'],
             ],
         ]);
@@ -180,6 +181,9 @@ final class ConsoleKernel extends Kernel
         $services->set('mail_admin_lock_factory', LockFactory::class)->args([service('mail_admin_lock_store')]);
         $services->set(AdminWebauthn::class);
         $services->set(AdminPasskeyCeremony::class)->args([service(AdminPasskeyStore::class), service(AdminWebauthn::class)]);
+        $services->set(AdminPasskeyLogin::class)->public()->args([service(AdminDirectory::class), service(AdminPasskeyStore::class),
+            service(AdminWebauthn::class), service('security.csrf.token_manager'), service('limiter.mail_admin_factor')]);
+        $services->set(AdminPasskeyAuthenticator::class)->args([service(AdminPasskeyLogin::class)]);
         $services->set(AdminPasswordLoginListener::class)->tag('kernel.event_listener', [
             'event' => 'Symfony\\Component\\Security\\Http\\Event\\LoginSuccessEvent',
             'method' => 'onLogin', 'dispatcher' => 'security.event_dispatcher.mail_admin']);
@@ -193,6 +197,12 @@ final class ConsoleKernel extends Kernel
 
     private function configureRoutes(RoutingConfigurator $routes): void
     {
+        $routes->add('mail_admin_guest_passkey_options', '/mail-admin/login/passkey/options')->methods(['POST'])
+            ->controller(AdminPasskeyLogin::class . '::options');
+        $routes->add('mail_admin_guest_passkey_finish', '/mail-admin/login/passkey/finish')->methods(['POST'])
+            ->controller(ConsoleController::class . '::passkeyLoginFallback');
+        $routes->add('mail_admin_guest_passkey_script', '/mail-admin/passkey-login.js')->methods(['GET'])
+            ->controller(ConsoleController::class . '::passkeyScript');
         $routes->add('mail_admin_feature_settings_read','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['GET'])->controller(ManagedSettingsController::class.'::show');
         $routes->add('mail_admin_feature_settings_save','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['POST'])->controller(ManagedSettingsController::class.'::save');
         $routes->add('mail_admin_updates','/mail-admin/updates')->methods(['GET'])->controller(UpdateController::class.'::show');

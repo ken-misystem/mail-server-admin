@@ -52,8 +52,8 @@
     "reviewed_after_sha256": "1c2eb031706308f00752154541a8312fc547fa49a64615d682bc1d4b839fdcdd",
     "hunks": [
       {
-        "before": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"外部メーラー用の端末証明書\" aria-busy=\"false\">\n  <h2>端末証明書</h2>\n  <p>外部のメールソフトやEC-CUBEからSMTP送信するには、この端末証明書と同じアカウントのアプリ用パスワードをセットで設定してください。IMAP・POPの外部接続にも端末証明書が必要です。RoundcubeのWeb利用には不要です。</p>\n  <p>証明書は端末ごとに発行します。P12には秘密鍵が含まれます。他人に渡さないでください。</p>\n",
-        "after": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"外部メーラー用の端末証明書\" aria-busy=\"false\">\n<p class=\"mail-app-help-link\"><a href=\"./?_task=settings&amp;_action=plugin.mail_client_certificates-help\" target=\"_blank\" rel=\"noopener noreferrer\">メールアプリ登録方法：993・995・587と証明書の設定を図解で見る（別タブ）</a></p>\n  <h2>端末証明書</h2>\n  <p>外部のメールソフトやEC-CUBEからSMTP送信するには、この端末証明書と同じアカウントのアプリ用パスワードをセットで設定してください。IMAP・POPの外部接続にも端末証明書が必要です。RoundcubeのWeb利用には不要です。</p>\n  <p>証明書は端末ごとに発行します。P12には秘密鍵が含まれます。他人に渡さないでください。</p>\n"
+        "before": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"\u5916\u90e8\u30e1\u30fc\u30e9\u30fc\u7528\u306e\u7aef\u672b\u8a3c\u660e\u66f8\" aria-busy=\"false\">\n  <h2>\u7aef\u672b\u8a3c\u660e\u66f8</h2>\n  <p>\u5916\u90e8\u306e\u30e1\u30fc\u30eb\u30bd\u30d5\u30c8\u3084EC-CUBE\u304b\u3089SMTP\u9001\u4fe1\u3059\u308b\u306b\u306f\u3001\u3053\u306e\u7aef\u672b\u8a3c\u660e\u66f8\u3068\u540c\u3058\u30a2\u30ab\u30a6\u30f3\u30c8\u306e\u30a2\u30d7\u30ea\u7528\u30d1\u30b9\u30ef\u30fc\u30c9\u3092\u30bb\u30c3\u30c8\u3067\u8a2d\u5b9a\u3057\u3066\u304f\u3060\u3055\u3044\u3002IMAP\u30fbPOP\u306e\u5916\u90e8\u63a5\u7d9a\u306b\u3082\u7aef\u672b\u8a3c\u660e\u66f8\u304c\u5fc5\u8981\u3067\u3059\u3002Roundcube\u306eWeb\u5229\u7528\u306b\u306f\u4e0d\u8981\u3067\u3059\u3002</p>\n  <p>\u8a3c\u660e\u66f8\u306f\u7aef\u672b\u3054\u3068\u306b\u767a\u884c\u3057\u307e\u3059\u3002P12\u306b\u306f\u79d8\u5bc6\u9375\u304c\u542b\u307e\u308c\u307e\u3059\u3002\u4ed6\u4eba\u306b\u6e21\u3055\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002</p>\n",
+        "after": "<roundcube:include file=\"includes/settings-menu.html\" />\n<div id=\"layout-content\" class=\"selected\" role=\"main\"><div class=\"boxcontent content\">\n<section class=\"device-certificates\" aria-label=\"\u5916\u90e8\u30e1\u30fc\u30e9\u30fc\u7528\u306e\u7aef\u672b\u8a3c\u660e\u66f8\" aria-busy=\"false\">\n<p class=\"mail-app-help-link\"><a href=\"./?_task=settings&amp;_action=plugin.mail_client_certificates-help\" target=\"_blank\" rel=\"noopener noreferrer\">\u30e1\u30fc\u30eb\u30a2\u30d7\u30ea\u767b\u9332\u65b9\u6cd5\uff1a993\u30fb995\u30fb587\u3068\u8a3c\u660e\u66f8\u306e\u8a2d\u5b9a\u3092\u56f3\u89e3\u3067\u898b\u308b\uff08\u5225\u30bf\u30d6\uff09</a></p>\n  <h2>\u7aef\u672b\u8a3c\u660e\u66f8</h2>\n  <p>\u5916\u90e8\u306e\u30e1\u30fc\u30eb\u30bd\u30d5\u30c8\u3084EC-CUBE\u304b\u3089SMTP\u9001\u4fe1\u3059\u308b\u306b\u306f\u3001\u3053\u306e\u7aef\u672b\u8a3c\u660e\u66f8\u3068\u540c\u3058\u30a2\u30ab\u30a6\u30f3\u30c8\u306e\u30a2\u30d7\u30ea\u7528\u30d1\u30b9\u30ef\u30fc\u30c9\u3092\u30bb\u30c3\u30c8\u3067\u8a2d\u5b9a\u3057\u3066\u304f\u3060\u3055\u3044\u3002IMAP\u30fbPOP\u306e\u5916\u90e8\u63a5\u7d9a\u306b\u3082\u7aef\u672b\u8a3c\u660e\u66f8\u304c\u5fc5\u8981\u3067\u3059\u3002Roundcube\u306eWeb\u5229\u7528\u306b\u306f\u4e0d\u8981\u3067\u3059\u3002</p>\n  <p>\u8a3c\u660e\u66f8\u306f\u7aef\u672b\u3054\u3068\u306b\u767a\u884c\u3057\u307e\u3059\u3002P12\u306b\u306f\u79d8\u5bc6\u9375\u304c\u542b\u307e\u308c\u307e\u3059\u3002\u4ed6\u4eba\u306b\u6e21\u3055\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002</p>\n"
       }
     ]
   },
@@ -140,8 +140,33 @@
       {
         "before": "        except Exception as error:errors['backup']=type(error).__name__",
         "after": "        except FileNotFoundError:status['backup']={'state':'not_configured'}\n        except Exception as error:errors['backup']=type(error).__name__"
+      },
+      {
+        "before": "import concurrent.futures,hashlib,json,os,re,shutil,stat,time,traceback",
+        "after": "import concurrent.futures,hashlib,json,os,re,stat,time,traceback"
+      },
+      {
+        "before": "from observer_projection import unavailable_status,backup,scanner,upstream,configuration,dns_domain",
+        "after": "from observer_projection import unavailable_status,backup,upstream,configuration,dns_domain\nfrom managed_scanner import managed_scanner"
+      },
+      {
+        "before": "    antivirus=json.loads(native('antivirus',private_capture));mime=json.loads(native('mime_types',private_capture))\n    need(type(antivirus)is dict and type(mime)is dict,'observer_Rspamd_output')\n    clamd=native('clamd_state',private_capture).decode('ascii');states={}\n    for line in clamd.splitlines():\n        key,sep,value=line.partition('=');need(sep and key in ('LoadState','ActiveState')and key not in states,'observer_clamd_state');states[key]=value\n    need(set(states)=={'LoadState','ActiveState'},'observer_clamd_state_missing')\n    engine=shutil.which('clamd',path='/usr/sbin:/usr/bin:/sbin:/bin')is not None or shutil.which('clamscan',path='/usr/sbin:/usr/bin:/sbin:/bin')is not None\n    scan=scanner(antivirus,engine_present=engine,daemon_running=states['LoadState']=='loaded'and states['ActiveState']=='active',attachment_rules_configured=bool(mime.get('bad_extensions')))\n",
+        "after": "    # Scanner status is collected separately from cached native settings.\n"
+      },
+      {
+        "before": "return {'scanner':scan,'upstream':relay",
+        "after": "return {'upstream':relay"
+      },
+      {
+        "before": "        try:\n            cached=cache_value('native'",
+        "after": "        try:\n            status['scanner']=managed_scanner('/opt/mail-antivirus-v1/runtime/usr/local/sbin/clamd',\n                '/var/lib/mail-protection-public-v1',native('clamd_state',private_capture))\n        except Exception as error:errors['scanner']=type(error).__name__;private_capture({'command':'runtime_exception','component':'scanner','class':type(error).__name__},err=traceback.format_exc().encode()[:131072])\n        try:\n            cached=cache_value('native'"
+      },
+      {
+        "before": "status.update({key:cached['data'][key]for key in ('scanner','upstream')})",
+        "after": "status['upstream']=cached['data']['upstream']"
       }
-    ]
+    ],
+    "reviewed_after_sha256": "23496dd94d09e554f9eeb1d5e0211b32a0aa609688d9882d3e98b1be06f7ecf2"
   },
   "usr/local/lib/mail-feature-runtime-v1/observer_projection.py": {
     "hunks": [
@@ -180,8 +205,33 @@
       {
         "before": "        except Exception as error:errors['backup']=type(error).__name__",
         "after": "        except FileNotFoundError:status['backup']={'state':'not_configured'}\n        except Exception as error:errors['backup']=type(error).__name__"
+      },
+      {
+        "before": "import concurrent.futures,hashlib,json,os,re,shutil,stat,time,traceback",
+        "after": "import concurrent.futures,hashlib,json,os,re,stat,time,traceback"
+      },
+      {
+        "before": "from observer_projection import unavailable_status,backup,scanner,upstream,configuration,dns_domain",
+        "after": "from observer_projection import unavailable_status,backup,upstream,configuration,dns_domain\nfrom managed_scanner import managed_scanner"
+      },
+      {
+        "before": "    antivirus=json.loads(native('antivirus',private_capture));mime=json.loads(native('mime_types',private_capture))\n    need(type(antivirus)is dict and type(mime)is dict,'observer_Rspamd_output')\n    clamd=native('clamd_state',private_capture).decode('ascii');states={}\n    for line in clamd.splitlines():\n        key,sep,value=line.partition('=');need(sep and key in ('LoadState','ActiveState')and key not in states,'observer_clamd_state');states[key]=value\n    need(set(states)=={'LoadState','ActiveState'},'observer_clamd_state_missing')\n    engine=shutil.which('clamd',path='/usr/sbin:/usr/bin:/sbin:/bin')is not None or shutil.which('clamscan',path='/usr/sbin:/usr/bin:/sbin:/bin')is not None\n    scan=scanner(antivirus,engine_present=engine,daemon_running=states['LoadState']=='loaded'and states['ActiveState']=='active',attachment_rules_configured=bool(mime.get('bad_extensions')))\n",
+        "after": "    # Scanner status is collected separately from cached native settings.\n"
+      },
+      {
+        "before": "return {'scanner':scan,'upstream':relay",
+        "after": "return {'upstream':relay"
+      },
+      {
+        "before": "        try:\n            cached=cache_value('native'",
+        "after": "        try:\n            status['scanner']=managed_scanner('/opt/mail-antivirus-v1/runtime/usr/local/sbin/clamd',\n                '/var/lib/mail-protection-public-v1',native('clamd_state',private_capture))\n        except Exception as error:errors['scanner']=type(error).__name__;private_capture({'command':'runtime_exception','component':'scanner','class':type(error).__name__},err=traceback.format_exc().encode()[:131072])\n        try:\n            cached=cache_value('native'"
+      },
+      {
+        "before": "status.update({key:cached['data'][key]for key in ('scanner','upstream')})",
+        "after": "status['upstream']=cached['data']['upstream']"
       }
-    ]
+    ],
+    "reviewed_after_sha256": "23496dd94d09e554f9eeb1d5e0211b32a0aa609688d9882d3e98b1be06f7ecf2"
   },
   "usr/local/lib/mail-client-certificates-v1/client-certificates/adapters-v1/transport.py": {
     "reviewed_before_sha256": "ee503918a5453330d6c262e6bbc849ff5db1a9671ea50775eba9cd46c0c16aed",
@@ -325,16 +375,16 @@
   "usr/local/lib/mail-management-alerts-v1/channel_delivery.py": {
     "hunks": [
       {
-        "before": "    'mail-feature-rspamd-native-v1.service': 'Rspamd設定照会',\n    'mail-feature-rspamd-native-v1.socket': 'Rspamd設定照会ソケット',\n    'mail-protection-clamav-v1.service': 'ウイルス検査',\n    'mail-protection-definitions-v1.service': 'ウイルス定義更新',\n",
-        "after": "    'mail-feature-rspamd-native-v1.service': 'Rspamd設定照会',\n    'mail-feature-rspamd-native-v1.socket': 'Rspamd設定照会ソケット',\n    'mail-reputation-dns-v1.service': '迷惑メール判定用DNS',\n    'mail-protection-clamav-v1.service': 'ウイルス検査',\n    'mail-protection-definitions-v1.service': 'ウイルス定義更新',\n"
+        "before": "    'mail-feature-rspamd-native-v1.service': 'Rspamd\u8a2d\u5b9a\u7167\u4f1a',\n    'mail-feature-rspamd-native-v1.socket': 'Rspamd\u8a2d\u5b9a\u7167\u4f1a\u30bd\u30b1\u30c3\u30c8',\n    'mail-protection-clamav-v1.service': '\u30a6\u30a4\u30eb\u30b9\u691c\u67fb',\n    'mail-protection-definitions-v1.service': '\u30a6\u30a4\u30eb\u30b9\u5b9a\u7fa9\u66f4\u65b0',\n",
+        "after": "    'mail-feature-rspamd-native-v1.service': 'Rspamd\u8a2d\u5b9a\u7167\u4f1a',\n    'mail-feature-rspamd-native-v1.socket': 'Rspamd\u8a2d\u5b9a\u7167\u4f1a\u30bd\u30b1\u30c3\u30c8',\n    'mail-reputation-dns-v1.service': '\u8ff7\u60d1\u30e1\u30fc\u30eb\u5224\u5b9a\u7528DNS',\n    'mail-protection-clamav-v1.service': '\u30a6\u30a4\u30eb\u30b9\u691c\u67fb',\n    'mail-protection-definitions-v1.service': '\u30a6\u30a4\u30eb\u30b9\u5b9a\u7fa9\u66f4\u65b0',\n"
       },
       {
-        "before": "\n\ndef payload(event, units):\n    event_check(event, units)\n    levels = {'ok': '正常', 'warning': '警告', 'critical': '重大'}\n    when = a.dt.datetime.fromtimestamp(event['created'], a.dt.timezone(a.dt.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S JST')\n    head = ['mx.mi-sys.jp：内部障害通知', when, '通知ID：'+event['id']]\n    lines = []\n    for c in event['changes']:\n",
-        "after": "\n\ndef payload(event, units, *, discord_mention=False):\n    event_check(event, units)\n    levels = {'ok': '正常', 'warning': '警告', 'critical': '重大'}\n    when = a.dt.datetime.fromtimestamp(event['created'], a.dt.timezone(a.dt.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S JST')\n    a.need(type(discord_mention) is bool, 'mention_mode')\n    important = discord_mention and any(c['after'] == 'critical' for c in event['changes'])\n    head = (['@here'] if important else []) + ['mx.mi-sys.jp：内部障害通知', when, '通知ID：'+event['id']]\n    lines = []\n    for c in event['changes']:\n"
+        "before": "\n\ndef payload(event, units):\n    event_check(event, units)\n    levels = {'ok': '\u6b63\u5e38', 'warning': '\u8b66\u544a', 'critical': '\u91cd\u5927'}\n    when = a.dt.datetime.fromtimestamp(event['created'], a.dt.timezone(a.dt.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S JST')\n    head = ['mx.mi-sys.jp\uff1a\u5185\u90e8\u969c\u5bb3\u901a\u77e5', when, '\u901a\u77e5ID\uff1a'+event['id']]\n    lines = []\n    for c in event['changes']:\n",
+        "after": "\n\ndef payload(event, units, *, discord_mention=False):\n    event_check(event, units)\n    levels = {'ok': '\u6b63\u5e38', 'warning': '\u8b66\u544a', 'critical': '\u91cd\u5927'}\n    when = a.dt.datetime.fromtimestamp(event['created'], a.dt.timezone(a.dt.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M:%S JST')\n    a.need(type(discord_mention) is bool, 'mention_mode')\n    important = discord_mention and any(c['after'] == 'critical' for c in event['changes'])\n    head = (['@here'] if important else []) + ['mx.mi-sys.jp\uff1a\u5185\u90e8\u969c\u5bb3\u901a\u77e5', when, '\u901a\u77e5ID\uff1a'+event['id']]\n    lines = []\n    for c in event['changes']:\n"
       },
       {
-        "before": "    if remaining:\n        lines.append('ほか'+str(remaining)+'項目。詳細は管理画面で確認してください。')\n    return {'content': '\\n'.join(head+lines), 'allowed_mentions': {'parse': [], 'replied_user': False}}\n\n\n",
-        "after": "    if remaining:\n        lines.append('ほか'+str(remaining)+'項目。詳細は管理画面で確認してください。')\n    return {'content': '\\n'.join(head+lines), 'allowed_mentions': {'parse': ['everyone'] if important else [], 'replied_user': False}}\n\n\n"
+        "before": "    if remaining:\n        lines.append('\u307b\u304b'+str(remaining)+'\u9805\u76ee\u3002\u8a73\u7d30\u306f\u7ba1\u7406\u753b\u9762\u3067\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002')\n    return {'content': '\\n'.join(head+lines), 'allowed_mentions': {'parse': [], 'replied_user': False}}\n\n\n",
+        "after": "    if remaining:\n        lines.append('\u307b\u304b'+str(remaining)+'\u9805\u76ee\u3002\u8a73\u7d30\u306f\u7ba1\u7406\u753b\u9762\u3067\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002')\n    return {'content': '\\n'.join(head+lines), 'allowed_mentions': {'parse': ['everyone'] if important else [], 'replied_user': False}}\n\n\n"
       }
     ]
   },
@@ -359,28 +409,59 @@
       {
         "before": "            await post('assert', 'finish', { credential: response(credential, 'assert') });\n            // Fixed GET only: no return URL or rejected management POST is replayed.\n            window.location.assign('/mail-admin/manage');\n        } catch (error) {\n            // No credential/signature/response/error dump and no automatic retry.\n",
         "after": "            await post('assert', 'finish', { credential: response(credential, 'assert') });\n            // Fixed GET only: no return URL or rejected management POST is replayed.\n            window.location.assign('/mail-admin/');\n        } catch (error) {\n            // No credential/signature/response/error dump and no automatic retry.\n"
+      },
+      {
+        "before": "    'use strict';\n    const scope = document.getElementById('admin-passkey');\n    if (!scope) return;\n    const result = document.getElementById('admin-passkey-result');\n    const register = document.getElementById('admin-passkey-register');\n",
+        "after": "    'use strict';\n    const scope = document.getElementById('admin-passkey');\n    const login = document.getElementById('admin-passkey-login');\n    if (!scope && !login) return;\n    const result = document.getElementById('admin-passkey-result');\n    const register = document.getElementById('admin-passkey-register');\n"
+      },
+      {
+        "before": "            authenticatorAttachment: c.authenticatorAttachment || null,\n            clientExtensionResults: c.getClientExtensionResults() };\n    }\n    async function post(kind, step, body) {\n",
+        "after": "            authenticatorAttachment: c.authenticatorAttachment || null,\n            clientExtensionResults: c.getClientExtensionResults() };\n    }\n    const passkeySupported = window.isSecureContext && window.PublicKeyCredential && navigator.credentials;\n    if (login) {\n        const fallback = document.getElementById('admin-passkey-account-login');\n        const identity = document.getElementById('admin-login-form').elements.namedItem('_username');\n        const status = document.getElementById('admin-passkey-login-result');\n        login.disabled = fallback.disabled = !passkeySupported;\n        if (!passkeySupported) status.textContent = '\u3053\u306e\u74b0\u5883\u3067\u306f\u30d1\u30b9\u30ad\u30fc\u3092\u4f7f\u7528\u3067\u304d\u307e\u305b\u3093\u3002';\n        async function request(step, body) {\n            const reply = await fetch('/mail-admin/login/passkey/' + step, {\n                method: 'POST', credentials: 'same-origin', redirect: 'error', cache: 'no-store',\n                headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': login.dataset.csrf },\n                body: JSON.stringify(body)\n            });\n            const data = await reply.json();\n            if (!reply.ok || !data.ok) throw new Error('passkey_failed');\n            return data;\n        }\n        async function signIn(byAccount) {\n            if (login.disabled || (byAccount && !identity.reportValidity())) return;\n            login.disabled = fallback.disabled = true;\n            status.textContent = '\u30d1\u30b9\u30ad\u30fc\u3092\u78ba\u8a8d\u3057\u3066\u3044\u307e\u3059\u3002';\n            try {\n                const start = await request('options', byAccount ? {email: identity.value} : {});\n                const credential = await navigator.credentials.get({publicKey: options(start.publicKey, 'assert')});\n                if (!credential) throw new Error('cancelled');\n                await request('finish', {credential: response(credential, 'assert')});\n                window.location.assign('/mail-admin/');\n            } catch (_) {\n                status.textContent = byAccount\n                    ? '\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002\u7ba1\u7406\u8005ID\u3068\u767b\u9332\u6e08\u307f\u30d1\u30b9\u30ad\u30fc\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002'\n                    : '\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002\u7ba1\u7406\u8005ID\u3092\u6307\u5b9a\u3057\u305f\u8a8d\u8a3c\u3082\u9078\u3079\u307e\u3059\u3002';\n            } finally { login.disabled = fallback.disabled = false; }\n        }\n        login.addEventListener('click', () => signIn(false));\n        fallback.addEventListener('click', () => signIn(true));\n        return;\n    }\n    async function post(kind, step, body) {\n"
+      },
+      {
+        "before": "        } finally { busy = false; register.disabled = retry.disabled = false; }\n    }\n    if (!window.isSecureContext || !window.PublicKeyCredential || !navigator.credentials) {\n        register.disabled = retry.disabled = true;\n        result.textContent = '\u3053\u306e\u74b0\u5883\u3067\u306fPasskey\u3092\u4f7f\u7528\u3067\u304d\u307e\u305b\u3093\u3002';\n",
+        "after": "        } finally { busy = false; register.disabled = retry.disabled = false; }\n    }\n    if (!passkeySupported) {\n        register.disabled = retry.disabled = true;\n        result.textContent = '\u3053\u306e\u74b0\u5883\u3067\u306fPasskey\u3092\u4f7f\u7528\u3067\u304d\u307e\u305b\u3093\u3002';\n"
       }
-    ]
+    ],
+    "reviewed_after_sha256": "dc5f36d6ad4e791aeb3467fdd3d1c08ea6b9846ed414d5346d0545628f5341b6"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminNavigation.php": {
     "hunks": [
       {
-        "before": "            ],\n            '管理者・監査'=>[\n                ['ドメイン別の管理委任','/mail-admin/delegation',['ドメイン別の管理委任','管理委任の保存結果']],\n                ['委任された管理','/mail-admin/scoped',['委任された管理']],\n                ['管理者','/mail-admin/manage?section=admins',['管理者一覧']],\n                ['管理者のパスキー','/mail-admin/#admin-passkey',[]],\n                ['管理操作履歴','/mail-admin/audit',['管理操作履歴']],\n            ],\n",
-        "after": "            ],\n            '管理者・監査'=>[\n                ['ドメイン別の管理委任','/mail-admin/delegation',['ドメイン別の管理委任','管理委任の保存結果']],\n                ['委任された管理','/mail-admin/scoped',['委任された管理']],\n                ['管理者','/mail-admin/manage?section=admins',['管理者一覧']],\n                ['管理者のパスキー','/mail-admin/?page=passkeys',['管理者のパスキー']],\n                ['管理操作履歴','/mail-admin/audit',['管理操作履歴']],\n            ],\n"
+        "before": "            ],\n            '\u7ba1\u7406\u8005\u30fb\u76e3\u67fb'=>[\n                ['\u30c9\u30e1\u30a4\u30f3\u5225\u306e\u7ba1\u7406\u59d4\u4efb','/mail-admin/delegation',['\u30c9\u30e1\u30a4\u30f3\u5225\u306e\u7ba1\u7406\u59d4\u4efb','\u7ba1\u7406\u59d4\u4efb\u306e\u4fdd\u5b58\u7d50\u679c']],\n                ['\u59d4\u4efb\u3055\u308c\u305f\u7ba1\u7406','/mail-admin/scoped',['\u59d4\u4efb\u3055\u308c\u305f\u7ba1\u7406']],\n                ['\u7ba1\u7406\u8005','/mail-admin/manage?section=admins',['\u7ba1\u7406\u8005\u4e00\u89a7']],\n                ['\u7ba1\u7406\u8005\u306e\u30d1\u30b9\u30ad\u30fc','/mail-admin/#admin-passkey',[]],\n                ['\u7ba1\u7406\u64cd\u4f5c\u5c65\u6b74','/mail-admin/audit',['\u7ba1\u7406\u64cd\u4f5c\u5c65\u6b74']],\n            ],\n",
+        "after": "            ],\n            '\u7ba1\u7406\u8005\u30fb\u76e3\u67fb'=>[\n                ['\u30c9\u30e1\u30a4\u30f3\u5225\u306e\u7ba1\u7406\u59d4\u4efb','/mail-admin/delegation',['\u30c9\u30e1\u30a4\u30f3\u5225\u306e\u7ba1\u7406\u59d4\u4efb','\u7ba1\u7406\u59d4\u4efb\u306e\u4fdd\u5b58\u7d50\u679c']],\n                ['\u59d4\u4efb\u3055\u308c\u305f\u7ba1\u7406','/mail-admin/scoped',['\u59d4\u4efb\u3055\u308c\u305f\u7ba1\u7406']],\n                ['\u7ba1\u7406\u8005','/mail-admin/manage?section=admins',['\u7ba1\u7406\u8005\u4e00\u89a7']],\n                ['\u7ba1\u7406\u8005\u306e\u30d1\u30b9\u30ad\u30fc','/mail-admin/?page=passkeys',['\u7ba1\u7406\u8005\u306e\u30d1\u30b9\u30ad\u30fc']],\n                ['\u7ba1\u7406\u64cd\u4f5c\u5c65\u6b74','/mail-admin/audit',['\u7ba1\u7406\u64cd\u4f5c\u5c65\u6b74']],\n            ],\n"
       },
       {
-        "before": "    public static function render(string $title, ?array $groups = null): string\n    {\n        $out='<aside class=\"admin-navigation\"><nav aria-label=\"管理メニュー\"><a class=\"admin-nav-home\" href=\"/mail-admin/\">メール管理</a>';\n        foreach ($groups ?? self::groups() as $name=>$items) {\n            $open=$title==='メール管理'||($title==='メール管理設定'&&in_array($name,['利用者・ドメイン','管理者・監査'],true));\n",
-        "after": "    public static function render(string $title, ?array $groups = null): string\n    {\n        $out='<aside class=\"admin-navigation\"><nav aria-label=\"管理メニュー\"><a class=\"admin-nav-home\" href=\"/mail-admin/\">ダッシュボード</a>';\n        foreach ($groups ?? self::groups() as $name=>$items) {\n            $open=$title==='メール管理'||($title==='メール管理設定'&&in_array($name,['利用者・ドメイン','管理者・監査'],true));\n"
+        "before": "    public static function render(string $title, ?array $groups = null): string\n    {\n        $out='<aside class=\"admin-navigation\"><nav aria-label=\"\u7ba1\u7406\u30e1\u30cb\u30e5\u30fc\"><a class=\"admin-nav-home\" href=\"/mail-admin/\">\u30e1\u30fc\u30eb\u7ba1\u7406</a>';\n        foreach ($groups ?? self::groups() as $name=>$items) {\n            $open=$title==='\u30e1\u30fc\u30eb\u7ba1\u7406'||($title==='\u30e1\u30fc\u30eb\u7ba1\u7406\u8a2d\u5b9a'&&in_array($name,['\u5229\u7528\u8005\u30fb\u30c9\u30e1\u30a4\u30f3','\u7ba1\u7406\u8005\u30fb\u76e3\u67fb'],true));\n",
+        "after": "    public static function render(string $title, ?array $groups = null): string\n    {\n        $out='<aside class=\"admin-navigation\"><nav aria-label=\"\u7ba1\u7406\u30e1\u30cb\u30e5\u30fc\"><a class=\"admin-nav-home\" href=\"/mail-admin/\">\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9</a>';\n        foreach ($groups ?? self::groups() as $name=>$items) {\n            $open=$title==='\u30e1\u30fc\u30eb\u7ba1\u7406'||($title==='\u30e1\u30fc\u30eb\u7ba1\u7406\u8a2d\u5b9a'&&in_array($name,['\u5229\u7528\u8005\u30fb\u30c9\u30e1\u30a4\u30f3','\u7ba1\u7406\u8005\u30fb\u76e3\u67fb'],true));\n"
+      },
+      {
+        "before": "                ['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u691c\u67fb','/mail-admin/feature-status/scanner',['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u691c\u67fb']],\n                ['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u8a2d\u5b9a','/mail-admin/protection/scanner',['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u8a2d\u5b9a']],",
+        "after": "                [ScannerTabs::TITLE,'/mail-admin/feature-status/scanner',[ScannerTabs::TITLE]],"
       }
-    ]
+    ],
+    "reviewed_after_sha256": "b077baac55ce59a1e181688e1fc67e31f4ec2b6f984b1ab95a5ab164b63b1583"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/ConsoleController.php": {
     "hunks": [
       {
-        "before": "        $logoutToken = self::escape($this->csrf->getToken('mail_admin_logout')->getValue());\n        $verified = AdminFactorGate::verified($user, $request->getSession()->get(AdminFactorGate::SESSION_KEY), time());\n        return self::page('メール管理', '<p>管理者ID: ' . self::escape($user->getUserIdentifier()) . '</p>\n            <p role=\"status\">' . ($verified ? 'パスキー本人確認済み。' : 'パスワード認証済み。管理操作にはパスキーによる本人確認が必要です。') . '</p>\n            ' . self::passkeyPanel($this->csrf, !$verified) . '\n            <p>管理メニューは関連する設定ごとに分類しています。配送先の切替えは「配送・SMTP送信」から開いてください。</p>\n            <form method=\"post\" action=\"/mail-admin/logout\"><input type=\"hidden\" name=\"_csrf_token\" value=\"'\n            . $logoutToken . '\"><button type=\"submit\">ログアウト</button></form>');\n    }\n\n",
-        "after": "        $logoutToken = self::escape($this->csrf->getToken('mail_admin_logout')->getValue());\n        $verified = AdminFactorGate::verified($user, $request->getSession()->get(AdminFactorGate::SESSION_KEY), time());\n        $identity='<p>管理者ID: '.self::escape($user->getUserIdentifier()).'</p>';\n        $logout='<form method=\"post\" action=\"/mail-admin/logout\"><input type=\"hidden\" name=\"_csrf_token\" value=\"'.$logoutToken.'\"><button type=\"submit\">ログアウト</button></form>';\n        if (!$verified) {\n            return self::page('ダッシュボード', '<p role=\"status\">管理情報の表示にはパスキーによる本人確認が必要です。</p>'.self::passkeyPanel($this->csrf,true).$identity.$logout);\n        }\n        if ($request->query->get('page') === 'passkeys') {\n            return self::page('管理者のパスキー',$identity.'<p>パスキー本人確認済み。</p>'.self::passkeyPanel($this->csrf,false).'<p><a href=\"/mail-admin/\">ダッシュボードに戻る</a></p>'.$logout);\n        }\n        if (!$user->systemAdmin) {\n            return self::page('ダッシュボード',$identity.'<p>全体の稼働情報はシステム管理者のみ参照できます。</p><p><a href=\"/mail-admin/scoped\">委任された管理を開く</a></p>'.$logout);\n        }\n        try { $snapshot=(new FileOperationsStatusStore())->read(time()); }\n        catch (\\Throwable) { $snapshot=null; }\n        return self::page('ダッシュボード',Dashboard::render($snapshot,InternalAlertsStatus::read(time())).$identity.$logout,200,Dashboard::stylesheet());\n    }\n\n"
+        "before": "        $logoutToken = self::escape($this->csrf->getToken('mail_admin_logout')->getValue());\n        $verified = AdminFactorGate::verified($user, $request->getSession()->get(AdminFactorGate::SESSION_KEY), time());\n        return self::page('\u30e1\u30fc\u30eb\u7ba1\u7406', '<p>\u7ba1\u7406\u8005ID: ' . self::escape($user->getUserIdentifier()) . '</p>\n            <p role=\"status\">' . ($verified ? '\u30d1\u30b9\u30ad\u30fc\u672c\u4eba\u78ba\u8a8d\u6e08\u307f\u3002' : '\u30d1\u30b9\u30ef\u30fc\u30c9\u8a8d\u8a3c\u6e08\u307f\u3002\u7ba1\u7406\u64cd\u4f5c\u306b\u306f\u30d1\u30b9\u30ad\u30fc\u306b\u3088\u308b\u672c\u4eba\u78ba\u8a8d\u304c\u5fc5\u8981\u3067\u3059\u3002') . '</p>\n            ' . self::passkeyPanel($this->csrf, !$verified) . '\n            <p>\u7ba1\u7406\u30e1\u30cb\u30e5\u30fc\u306f\u95a2\u9023\u3059\u308b\u8a2d\u5b9a\u3054\u3068\u306b\u5206\u985e\u3057\u3066\u3044\u307e\u3059\u3002\u914d\u9001\u5148\u306e\u5207\u66ff\u3048\u306f\u300c\u914d\u9001\u30fbSMTP\u9001\u4fe1\u300d\u304b\u3089\u958b\u3044\u3066\u304f\u3060\u3055\u3044\u3002</p>\n            <form method=\"post\" action=\"/mail-admin/logout\"><input type=\"hidden\" name=\"_csrf_token\" value=\"'\n            . $logoutToken . '\"><button type=\"submit\">\u30ed\u30b0\u30a2\u30a6\u30c8</button></form>');\n    }\n\n",
+        "after": "        $logoutToken = self::escape($this->csrf->getToken('mail_admin_logout')->getValue());\n        $verified = AdminFactorGate::verified($user, $request->getSession()->get(AdminFactorGate::SESSION_KEY), time());\n        $identity='<p>\u7ba1\u7406\u8005ID: '.self::escape($user->getUserIdentifier()).'</p>';\n        $logout='<form method=\"post\" action=\"/mail-admin/logout\"><input type=\"hidden\" name=\"_csrf_token\" value=\"'.$logoutToken.'\"><button type=\"submit\">\u30ed\u30b0\u30a2\u30a6\u30c8</button></form>';\n        if (!$verified) {\n            return self::page('\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9', '<p role=\"status\">\u7ba1\u7406\u60c5\u5831\u306e\u8868\u793a\u306b\u306f\u30d1\u30b9\u30ad\u30fc\u306b\u3088\u308b\u672c\u4eba\u78ba\u8a8d\u304c\u5fc5\u8981\u3067\u3059\u3002</p>'.self::passkeyPanel($this->csrf,true).$identity.$logout);\n        }\n        if ($request->query->get('page') === 'passkeys') {\n            return self::page('\u7ba1\u7406\u8005\u306e\u30d1\u30b9\u30ad\u30fc',$identity.'<p>\u30d1\u30b9\u30ad\u30fc\u672c\u4eba\u78ba\u8a8d\u6e08\u307f\u3002</p>'.self::passkeyPanel($this->csrf,false).'<p><a href=\"/mail-admin/\">\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9\u306b\u623b\u308b</a></p>'.$logout);\n        }\n        if (!$user->systemAdmin) {\n            return self::page('\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9',$identity.'<p>\u5168\u4f53\u306e\u7a3c\u50cd\u60c5\u5831\u306f\u30b7\u30b9\u30c6\u30e0\u7ba1\u7406\u8005\u306e\u307f\u53c2\u7167\u3067\u304d\u307e\u3059\u3002</p><p><a href=\"/mail-admin/scoped\">\u59d4\u4efb\u3055\u308c\u305f\u7ba1\u7406\u3092\u958b\u304f</a></p>'.$logout);\n        }\n        try { $snapshot=(new FileOperationsStatusStore())->read(time()); }\n        catch (\\Throwable) { $snapshot=null; }\n        return self::page('\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9',Dashboard::render($snapshot,InternalAlertsStatus::read(time())).$identity.$logout,200,Dashboard::stylesheet());\n    }\n\n"
+      },
+      {
+        "before": "return new Response('<!doctype html><html lang=\"ja\"><meta charset=\"utf-8\">'",
+        "after": "return new Response('<!doctype html><html lang=\"ja\"><meta charset=\"utf-8\">\n            <link rel=\"icon\" type=\"image/png\" sizes=\"64x64\" href=\"/plugins/mail_client_certificates/branding/mail-admin.png\">'"
+      },
+      {
+        "before": "\"script-src 'self'; connect-src",
+        "after": "\"img-src 'self'; script-src 'self'; connect-src"
+      },
+      {
+        "before": "        $message = $error ? '<p role=\"alert\">\u30ed\u30b0\u30a4\u30f3\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002</p>' : '';\n        $token = self::escape($this->csrf->getToken('mail_admin_login')->getValue());\n        return self::page('\u30e1\u30fc\u30eb\u7ba1\u7406\u8005\u30ed\u30b0\u30a4\u30f3', $message . '\n            <p>\u30e1\u30fc\u30eb\u30dc\u30c3\u30af\u30b9\u3068\u306f\u72ec\u7acb\u3057\u305f\u7ba1\u7406\u8005ID\u3067\u30ed\u30b0\u30a4\u30f3\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p>\n            <form method=\"post\" action=\"/mail-admin/login\">\n            <input type=\"hidden\" name=\"_csrf_token\" value=\"' . $token . '\">\n            <label>\u7ba1\u7406\u8005ID\uff08\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\uff09<input type=\"email\" name=\"_username\" maxlength=\"254\" autocomplete=\"username\" required></label>\n            <label>\u7ba1\u7406\u8005\u30d1\u30b9\u30ef\u30fc\u30c9<input type=\"password\" name=\"_password\" autocomplete=\"current-password\" required></label>\n            <button type=\"submit\">\u30ed\u30b0\u30a4\u30f3</button></form>');\n    }\n\n",
+        "after": "        $message = $error ? '<p role=\"alert\">\u30ed\u30b0\u30a4\u30f3\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002</p>' : '';\n        $token = self::escape($this->csrf->getToken('mail_admin_login')->getValue());\n        $passkeyToken = self::escape($this->csrf->getToken(AdminPasskeyLogin::CSRF)->getValue());\n        return self::page('\u30e1\u30fc\u30eb\u7ba1\u7406\u8005\u30ed\u30b0\u30a4\u30f3', $message . '\n            <button type=\"button\" id=\"admin-passkey-login\" data-csrf=\"' . $passkeyToken . '\">\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3</button>\n            <p id=\"admin-passkey-login-result\" role=\"status\" aria-live=\"polite\"></p>\n            <form method=\"post\" id=\"admin-login-form\" action=\"/mail-admin/login\">\n            <input type=\"hidden\" name=\"_csrf_token\" value=\"' . $token . '\">\n            <label>\u7ba1\u7406\u8005ID\uff08\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\uff09<input type=\"email\" name=\"_username\" maxlength=\"254\" autocomplete=\"username\" required></label>\n            <label>\u7ba1\u7406\u8005\u30d1\u30b9\u30ef\u30fc\u30c9<input type=\"password\" name=\"_password\" autocomplete=\"current-password\" required></label>\n            <button type=\"button\" id=\"admin-passkey-account-login\">\u7ba1\u7406\u8005ID\u3092\u6307\u5b9a\u3057\u3066\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3</button>\n            <button type=\"submit\">\u30d1\u30b9\u30ef\u30fc\u30c9\u3067\u30ed\u30b0\u30a4\u30f3</button></form>\n            <script src=\"/mail-admin/passkey-login.js\" defer></script>');\n    }\n\n    public function passkeyLoginFallback(): JsonResponse\n    {\n        return AdminPasskeyLogin::json(['error' => 'passkey_failed'], 400);\n    }\n\n"
       }
-    ]
+    ],
+    "reviewed_after_sha256": "41c568be08915a8753a15edeb7780d3201ed52eacde1237ecb8b59ce1c45d463"
   },
   "usr/local/lib/mail-management-operations-v1/publish_runtime.py": {
     "hunks": []
@@ -396,21 +477,225 @@
   "opt/mail-management/candidates/protection-relay-v1/src/OperationsStatusController.php": {
     "hunks": [
       {
-        "before": "                .'<p>この画面は読取り専用です。設定変更や取得処理の起動は行いません。</p>'.$alerts,503);\n        }\n        return ConsoleController::page('稼働状況',$nav.self::render($snapshot).$alerts,200,\n            '.operations-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}.operations-grid fieldset{padding:18px;min-width:0;margin:0}.operations-grid legend{font-weight:650;padding:0 6px}.operations-scroll{overflow-x:auto}.operations-meta{font-size:14px;color:#bac7cf}.operations-grid p{overflow-wrap:anywhere}');\n    }\n\n",
-        "after": "                .'<p>この画面は読取り専用です。設定変更や取得処理の起動は行いません。</p>'.$alerts,503);\n        }\n        return ConsoleController::page('稼働状況',$nav.Dashboard::attention($snapshot,'').$alerts.self::render($snapshot),200,\n            Dashboard::stylesheet().'.operations-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}.operations-grid fieldset{padding:18px;min-width:0;margin:0}.operations-grid legend{font-weight:650;padding:0 6px}.operations-scroll{overflow-x:auto}.operations-meta{font-size:14px;color:#bac7cf}.operations-grid p{overflow-wrap:anywhere}');\n    }\n\n"
+        "before": "                .'<p>\u3053\u306e\u753b\u9762\u306f\u8aad\u53d6\u308a\u5c02\u7528\u3067\u3059\u3002\u8a2d\u5b9a\u5909\u66f4\u3084\u53d6\u5f97\u51e6\u7406\u306e\u8d77\u52d5\u306f\u884c\u3044\u307e\u305b\u3093\u3002</p>'.$alerts,503);\n        }\n        return ConsoleController::page('\u7a3c\u50cd\u72b6\u6cc1',$nav.self::render($snapshot).$alerts,200,\n            '.operations-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}.operations-grid fieldset{padding:18px;min-width:0;margin:0}.operations-grid legend{font-weight:650;padding:0 6px}.operations-scroll{overflow-x:auto}.operations-meta{font-size:14px;color:#bac7cf}.operations-grid p{overflow-wrap:anywhere}');\n    }\n\n",
+        "after": "                .'<p>\u3053\u306e\u753b\u9762\u306f\u8aad\u53d6\u308a\u5c02\u7528\u3067\u3059\u3002\u8a2d\u5b9a\u5909\u66f4\u3084\u53d6\u5f97\u51e6\u7406\u306e\u8d77\u52d5\u306f\u884c\u3044\u307e\u305b\u3093\u3002</p>'.$alerts,503);\n        }\n        return ConsoleController::page('\u7a3c\u50cd\u72b6\u6cc1',$nav.Dashboard::attention($snapshot,'').$alerts.self::render($snapshot),200,\n            Dashboard::stylesheet().'.operations-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}.operations-grid fieldset{padding:18px;min-width:0;margin:0}.operations-grid legend{font-weight:650;padding:0 6px}.operations-scroll{overflow-x:auto}.operations-meta{font-size:14px;color:#bac7cf}.operations-grid p{overflow-wrap:anywhere}');\n    }\n\n"
       },
       {
-        "before": "        $body='<p role=\"'.$role.'\">取得時刻 '.self::date($s->observedAt).' ／ 経過 '.$s->age.' 秒。'.$fresh\n            .($s->complete?'':' 一部の項目を取得できませんでした。').'</p>'\n            .'<p class=\"operations-meta\">読取り専用。表示の更新では収集処理を起動しません。配送全体の正常を保証する表示ではありません。障害通知の状態は下欄に表示します。自動停止は行いません。</p>'\n            .'<div class=\"operations-grid\">';\n        foreach (['units'=>'サービス','system_storage'=>'保存領域','queue'=>'配送キュー','certificate'=>'証明書期限','client_certificates'=>'端末証明書監視'] as $name=>$title) {\n            $body.='<fieldset><legend>'.$title.'</legend>';\n            if ($name==='system_storage') {\n                $a=$s->checks['system_storage']; $b=$s->checks['mail_storage'];\n",
-        "after": "        $body='<p role=\"'.$role.'\">取得時刻 '.self::date($s->observedAt).' ／ 経過 '.$s->age.' 秒。'.$fresh\n            .($s->complete?'':' 一部の項目を取得できませんでした。').'</p>'\n            .'<p class=\"operations-meta\">読取り専用。表示の更新では収集処理を起動しません。配送全体の正常を保証する表示ではありません。障害通知と注意事項は上部に表示します。自動停止は行いません。</p>'\n            .'<div class=\"operations-grid\">';\n        foreach (['units'=>'サービス','system_storage'=>'保存領域','queue'=>'配送キュー','certificate'=>'証明書期限','client_certificates'=>'端末証明書監視'] as $name=>$title) {\n            $body.='<fieldset id=\"operations-'.ConsoleController::escape($name).'\"><legend>'.$title.'</legend>';\n            if ($name==='system_storage') {\n                $a=$s->checks['system_storage']; $b=$s->checks['mail_storage'];\n"
+        "before": "        $body='<p role=\"'.$role.'\">\u53d6\u5f97\u6642\u523b '.self::date($s->observedAt).' \uff0f \u7d4c\u904e '.$s->age.' \u79d2\u3002'.$fresh\n            .($s->complete?'':' \u4e00\u90e8\u306e\u9805\u76ee\u3092\u53d6\u5f97\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002').'</p>'\n            .'<p class=\"operations-meta\">\u8aad\u53d6\u308a\u5c02\u7528\u3002\u8868\u793a\u306e\u66f4\u65b0\u3067\u306f\u53ce\u96c6\u51e6\u7406\u3092\u8d77\u52d5\u3057\u307e\u305b\u3093\u3002\u914d\u9001\u5168\u4f53\u306e\u6b63\u5e38\u3092\u4fdd\u8a3c\u3059\u308b\u8868\u793a\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002\u969c\u5bb3\u901a\u77e5\u306e\u72b6\u614b\u306f\u4e0b\u6b04\u306b\u8868\u793a\u3057\u307e\u3059\u3002\u81ea\u52d5\u505c\u6b62\u306f\u884c\u3044\u307e\u305b\u3093\u3002</p>'\n            .'<div class=\"operations-grid\">';\n        foreach (['units'=>'\u30b5\u30fc\u30d3\u30b9','system_storage'=>'\u4fdd\u5b58\u9818\u57df','queue'=>'\u914d\u9001\u30ad\u30e5\u30fc','certificate'=>'\u8a3c\u660e\u66f8\u671f\u9650','client_certificates'=>'\u7aef\u672b\u8a3c\u660e\u66f8\u76e3\u8996'] as $name=>$title) {\n            $body.='<fieldset><legend>'.$title.'</legend>';\n            if ($name==='system_storage') {\n                $a=$s->checks['system_storage']; $b=$s->checks['mail_storage'];\n",
+        "after": "        $body='<p role=\"'.$role.'\">\u53d6\u5f97\u6642\u523b '.self::date($s->observedAt).' \uff0f \u7d4c\u904e '.$s->age.' \u79d2\u3002'.$fresh\n            .($s->complete?'':' \u4e00\u90e8\u306e\u9805\u76ee\u3092\u53d6\u5f97\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002').'</p>'\n            .'<p class=\"operations-meta\">\u8aad\u53d6\u308a\u5c02\u7528\u3002\u8868\u793a\u306e\u66f4\u65b0\u3067\u306f\u53ce\u96c6\u51e6\u7406\u3092\u8d77\u52d5\u3057\u307e\u305b\u3093\u3002\u914d\u9001\u5168\u4f53\u306e\u6b63\u5e38\u3092\u4fdd\u8a3c\u3059\u308b\u8868\u793a\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002\u969c\u5bb3\u901a\u77e5\u3068\u6ce8\u610f\u4e8b\u9805\u306f\u4e0a\u90e8\u306b\u8868\u793a\u3057\u307e\u3059\u3002\u81ea\u52d5\u505c\u6b62\u306f\u884c\u3044\u307e\u305b\u3093\u3002</p>'\n            .'<div class=\"operations-grid\">';\n        foreach (['units'=>'\u30b5\u30fc\u30d3\u30b9','system_storage'=>'\u4fdd\u5b58\u9818\u57df','queue'=>'\u914d\u9001\u30ad\u30e5\u30fc','certificate'=>'\u8a3c\u660e\u66f8\u671f\u9650','client_certificates'=>'\u7aef\u672b\u8a3c\u660e\u66f8\u76e3\u8996'] as $name=>$title) {\n            $body.='<fieldset id=\"operations-'.ConsoleController::escape($name).'\"><legend>'.$title.'</legend>';\n            if ($name==='system_storage') {\n                $a=$s->checks['system_storage']; $b=$s->checks['mail_storage'];\n"
       },
       {
-        "before": "'mail-feature-rspamd-native-v1.service'=>'Rspamd設定照会',\n'mail-feature-rspamd-native-v1.socket'=>'Rspamd設定照会ソケット',\n'mail-protection-clamav-v1.service'=>'ウイルス検査',\n'mail-protection-definitions-v1.service'=>'ウイルス定義更新',\n",
-        "after": "'mail-feature-rspamd-native-v1.service'=>'Rspamd設定照会',\n'mail-feature-rspamd-native-v1.socket'=>'Rspamd設定照会ソケット',\n'mail-reputation-dns-v1.service'=>'迷惑メール判定用DNS',\n'mail-protection-clamav-v1.service'=>'ウイルス検査',\n'mail-protection-definitions-v1.service'=>'ウイルス定義更新',\n"
+        "before": "'mail-feature-rspamd-native-v1.service'=>'Rspamd\u8a2d\u5b9a\u7167\u4f1a',\n'mail-feature-rspamd-native-v1.socket'=>'Rspamd\u8a2d\u5b9a\u7167\u4f1a\u30bd\u30b1\u30c3\u30c8',\n'mail-protection-clamav-v1.service'=>'\u30a6\u30a4\u30eb\u30b9\u691c\u67fb',\n'mail-protection-definitions-v1.service'=>'\u30a6\u30a4\u30eb\u30b9\u5b9a\u7fa9\u66f4\u65b0',\n",
+        "after": "'mail-feature-rspamd-native-v1.service'=>'Rspamd\u8a2d\u5b9a\u7167\u4f1a',\n'mail-feature-rspamd-native-v1.socket'=>'Rspamd\u8a2d\u5b9a\u7167\u4f1a\u30bd\u30b1\u30c3\u30c8',\n'mail-reputation-dns-v1.service'=>'\u8ff7\u60d1\u30e1\u30fc\u30eb\u5224\u5b9a\u7528DNS',\n'mail-protection-clamav-v1.service'=>'\u30a6\u30a4\u30eb\u30b9\u691c\u67fb',\n'mail-protection-definitions-v1.service'=>'\u30a6\u30a4\u30eb\u30b9\u5b9a\u7fa9\u66f4\u65b0',\n"
       },
       {
-        "before": "            $body.='</fieldset>';\n        }\n        if ($s->findings!==[]) { $body.='<p role=\"alert\">確認が必要な観測項目 '.count($s->findings).' 件。各枠の状態を確認してください。</p>'; }\n        return $body.'</div>';\n    }\n",
+        "before": "            $body.='</fieldset>';\n        }\n        if ($s->findings!==[]) { $body.='<p role=\"alert\">\u78ba\u8a8d\u304c\u5fc5\u8981\u306a\u89b3\u6e2c\u9805\u76ee '.count($s->findings).' \u4ef6\u3002\u5404\u67a0\u306e\u72b6\u614b\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p>'; }\n        return $body.'</div>';\n    }\n",
         "after": "            $body.='</fieldset>';\n        }\n        return $body.'</div>';\n    }\n"
       }
     ]
+  },
+  "usr/local/lib/mail-feature-admin-v1/configuration_commands_base.py": {
+    "hunks": [
+      {
+        "before": "'clamav-daemon.service'",
+        "after": "'mail-protection-clamav-v1.service'"
+      }
+    ],
+    "reviewed_before_sha256": "01a041f5417583e86af7029d6b06c475c5fd4e55c6dabb1d17bdfba49c190f92",
+    "reviewed_after_sha256": "29eb0d4ebfbfac2bfd6971c71496fe17a82db074911ff2f469e23705a2261bdb"
+  },
+  "usr/local/lib/mail-feature-runtime-v1/configuration_commands_base.py": {
+    "hunks": [
+      {
+        "before": "'clamav-daemon.service'",
+        "after": "'mail-protection-clamav-v1.service'"
+      }
+    ],
+    "reviewed_before_sha256": "01a041f5417583e86af7029d6b06c475c5fd4e55c6dabb1d17bdfba49c190f92",
+    "reviewed_after_sha256": "29eb0d4ebfbfac2bfd6971c71496fe17a82db074911ff2f469e23705a2261bdb"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/FeatureRuntimeController.php": {
+    "hunks": [
+      {
+        "before": "'scanner'=>'\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u691c\u67fb'",
+        "after": "'scanner'=>ScannerTabs::TITLE"
+      },
+      {
+        "before": "        try{",
+        "after": "        $tabs=$section==='scanner'?ScannerTabs::navigation('status'):'';\n        $sheet=$section==='scanner'?ScannerTabs::stylesheet():'';\n        try{"
+      },
+      {
+        "before": "if($section!=='dns'&&",
+        "after": "if($section!=='dns'&&$section!=='scanner'&&"
+      },
+      {
+        "before": "$item=$data['scanner'];$html.='<dl>';foreach(['engine_present'=>'\u691c\u67fb\u30a8\u30f3\u30b8\u30f3','configured'=>'\u30a6\u30a4\u30eb\u30b9\u691c\u67fb\u8a2d\u5b9a','daemon_running'=>'\u691c\u67fb\u30d7\u30ed\u30bb\u30b9','detection_verified'=>'\u5b9f\u691c\u51fa\u306e\u691c\u8a3c','attachment_rules_configured'=>'\u5371\u967a\u6dfb\u4ed8\u30eb\u30fc\u30eb']as $key=>$label){$html.='<dt>'.$label.'</dt><dd>'.self::yes($item[$key]).'</dd>';}$html.='</dl><p>\u672a\u5c0e\u5165\u30fb\u672a\u8a2d\u5b9a\u306e\u691c\u67fb\u3092\u6709\u52b9\u3068\u306f\u6271\u3044\u307e\u305b\u3093\u3002\u65e7XMail\u306escanner\u30fbDenyAttachment\u30fbRemoveAttachment\u306f\u7a7a\u3067\u3057\u305f\u3002\u30a8\u30f3\u30b8\u30f3\u5c0e\u5165\u3084\u691c\u67fb\u8a2d\u5b9a\u306e\u5909\u66f4\u306f\u3001\u3053\u306e\u53c2\u7167\u753b\u9762\u3067\u306f\u5b9f\u884c\u3057\u307e\u305b\u3093\u3002</p>';",
+        "after": "$html.=ScannerTabs::status($data['scanner']);"
+      },
+      {
+        "before": "return ConsoleController::page($title,$html);",
+        "after": "return ConsoleController::page($title,$tabs.$html,200,$sheet);"
+      },
+      {
+        "before": "ConsoleController::page($title,'<p>\u89b3\u6e2c\u7d50\u679c\u304c",
+        "after": "ConsoleController::page($title,$tabs.'<p>\u89b3\u6e2c\u7d50\u679c\u304c"
+      },
+      {
+        "before": "ConsoleController::page($title,'<p>\u89b3\u6e2c\u7d50\u679c\u3092",
+        "after": "ConsoleController::page($title,$tabs.'<p>\u89b3\u6e2c\u7d50\u679c\u3092"
+      },
+      {
+        "before": "\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p>',503);}catch",
+        "after": "\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p>',503,$sheet);}catch"
+      },
+      {
+        "before": "\u53d6\u5f97\u3067\u304d\u307e\u305b\u3093\u3002</p>',503);}",
+        "after": "\u53d6\u5f97\u3067\u304d\u307e\u305b\u3093\u3002</p>',503,$sheet);}"
+      }
+    ],
+    "reviewed_before_sha256": "b8c781fc89b95322b0ca0f9143445e8ddf1c21299c18c7845c412d4eb631bb8f",
+    "reviewed_after_sha256": "af5a6ec46f348f0e13a6a1c65a117915996bf79750b048a5555fedc14a43798d"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/ProtectionController.php": {
+    "hunks": [
+      {
+        "before": "'scanner'=>'\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u8a2d\u5b9a'",
+        "after": "'scanner'=>ScannerTabs::TITLE"
+      },
+      {
+        "before": "        $response = ConsoleController::page(self::TITLES[$kind] ?? '\u8a2d\u5b9a', $html, $status);",
+        "after": "        $scanner = $kind==='scanner';\n        $response = ConsoleController::page(self::TITLES[$kind] ?? '\u8a2d\u5b9a',\n            ($scanner?ScannerTabs::navigation('settings'):'').$html,$status,$scanner?ScannerTabs::stylesheet():'');"
+      }
+    ],
+    "reviewed_before_sha256": "d98348c80aed5e36fb9c876ca4363a9411b5a89c8f83f2f384e514aa0b01b123",
+    "reviewed_after_sha256": "6179b43db71ab0706611f3722cc347bdbd23b923e5a83663acef6eefa71258f1"
+  },
+  "usr/share/roundcube/plugins/ui_feedback/ui_feedback.php": {
+    "reviewed_before_sha256": "ffb68c48d73ab8b01832f2920ca802974e32fce6690e987ac8cebc09a4896f7c",
+    "reviewed_after_sha256": "28cbe26e88ce02bb41b5a68751f07f41d3996c7fbb12e50feefa2000e3c9ff75",
+    "hunks": [
+      {
+        "before": "<?php\ndeclare(strict_types=1);\n\n/** Presentation only: all Roundcube tasks, no actor/auth/DB/hooks or actions. */\nfinal class ui_feedback extends rcube_plugin\n{\n    public $task = '.*';\n\n    public function init(): void\n    {\n        $this->include_stylesheet('feedback.css');\n        if (rcmail::get_instance()->task === 'settings') {\n            $this->include_script('settings-menu.js');\n            $this->include_stylesheet('settings-menu.css');\n        }\n    }\n}\n",
+        "after": "<?php\ndeclare(strict_types=1);\n\n/** Presentation only: all Roundcube tasks, no actor/auth/DB/hooks or actions. */\nfinal class ui_feedback extends rcube_plugin\n{\n    public $task = '.*';\n\n    public function init(): void\n    {\n        $roundcube = rcmail::get_instance();\n        $logos = $roundcube->config->get('skin_logo');\n        if ($logos === null || $logos === '' || is_array($logos)) {\n            $logos = is_array($logos) ? $logos : [];\n            $faviconConfigured = false;\n            foreach (array_keys($logos) as $key) {\n                if (is_string($key) && str_ends_with($key, '[favicon]')) {\n                    $faviconConfigured = true;\n                    break;\n                }\n            }\n            if (!$faviconConfigured) {\n                $logos['[favicon]'] = 'plugins/mail_client_certificates/branding/webmail.png';\n                $roundcube->config->set('skin_logo', $logos);\n            }\n        }\n        $this->include_stylesheet('feedback.css');\n        if ($roundcube->task === 'settings') {\n            $this->include_script('settings-menu.js');\n            $this->include_stylesheet('settings-menu.css');\n        }\n    }\n}\n"
+      }
+    ]
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/ConsoleKernel.php": {
+    "reviewed_before_sha256": "236a6c8c0181a0437dde8d8fd9a8540908627080ecbc4ce04a632e337596b1e7",
+    "hunks": [
+      {
+        "before": "                'pattern' => '^/mail-admin(?:/|$)', 'provider' => 'mail_admins',\n                'user_checker' => AdminUserChecker::class,\n                'login_throttling' => ['max_attempts' => 5, 'interval' => '1 minute',\n                    'cache_pool' => 'cache.mail_admin_limiter', 'lock_factory' => 'mail_admin_lock_factory'],\n",
+        "after": "                'pattern' => '^/mail-admin(?:/|$)', 'provider' => 'mail_admins',\n                'user_checker' => AdminUserChecker::class,\n                'custom_authenticators' => [AdminPasskeyAuthenticator::class],\n                'login_throttling' => ['max_attempts' => 5, 'interval' => '1 minute',\n                    'cache_pool' => 'cache.mail_admin_limiter', 'lock_factory' => 'mail_admin_lock_factory'],\n"
+      },
+      {
+        "before": "            ]],\n            'access_control' => [\n                ['path' => '^/mail-admin/login$', 'roles' => 'PUBLIC_ACCESS', 'requires_channel' => 'https'],\n                ['path' => '^/mail-admin(?:/|$)', 'roles' => 'ROLE_MAIL_ADMIN', 'requires_channel' => 'https'],\n            ],\n",
+        "after": "            ]],\n            'access_control' => [\n                ['path' => '^/mail-admin/(?:login(?:/passkey/(?:options|finish))?|passkey-login\\.js)$', 'roles' => 'PUBLIC_ACCESS', 'requires_channel' => 'https'],\n                ['path' => '^/mail-admin(?:/|$)', 'roles' => 'ROLE_MAIL_ADMIN', 'requires_channel' => 'https'],\n            ],\n"
+      },
+      {
+        "before": "        $services->set(AdminWebauthn::class);\n        $services->set(AdminPasskeyCeremony::class)->args([service(AdminPasskeyStore::class), service(AdminWebauthn::class)]);\n        $services->set(AdminPasswordLoginListener::class)->tag('kernel.event_listener', [\n            'event' => 'Symfony\\\\Component\\\\Security\\\\Http\\\\Event\\\\LoginSuccessEvent',\n",
+        "after": "        $services->set(AdminWebauthn::class);\n        $services->set(AdminPasskeyCeremony::class)->args([service(AdminPasskeyStore::class), service(AdminWebauthn::class)]);\n        $services->set(AdminPasskeyLogin::class)->public()->args([service(AdminDirectory::class), service(AdminPasskeyStore::class),\n            service(AdminWebauthn::class), service('security.csrf.token_manager'), service('limiter.mail_admin_factor')]);\n        $services->set(AdminPasskeyAuthenticator::class)->args([service(AdminPasskeyLogin::class)]);\n        $services->set(AdminPasswordLoginListener::class)->tag('kernel.event_listener', [\n            'event' => 'Symfony\\\\Component\\\\Security\\\\Http\\\\Event\\\\LoginSuccessEvent',\n"
+      },
+      {
+        "before": "    private function configureRoutes(RoutingConfigurator $routes): void\n    {\n        $routes->add('mail_admin_feature_settings_read','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['GET'])->controller(ManagedSettingsController::class.'::show');\n        $routes->add('mail_admin_feature_settings_save','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['POST'])->controller(ManagedSettingsController::class.'::save');\n",
+        "after": "    private function configureRoutes(RoutingConfigurator $routes): void\n    {\n        $routes->add('mail_admin_guest_passkey_options', '/mail-admin/login/passkey/options')->methods(['POST'])\n            ->controller(AdminPasskeyLogin::class . '::options');\n        $routes->add('mail_admin_guest_passkey_finish', '/mail-admin/login/passkey/finish')->methods(['POST'])\n            ->controller(ConsoleController::class . '::passkeyLoginFallback');\n        $routes->add('mail_admin_guest_passkey_script', '/mail-admin/passkey-login.js')->methods(['GET'])\n            ->controller(ConsoleController::class . '::passkeyScript');\n        $routes->add('mail_admin_feature_settings_read','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['GET'])->controller(ManagedSettingsController::class.'::show');\n        $routes->add('mail_admin_feature_settings_save','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['POST'])->controller(ManagedSettingsController::class.'::save');\n"
+      }
+    ],
+    "reviewed_after_sha256": "2f71b64b51b1a0d05033cd332bff6005a6c049d830504530b9ce5a070a54297a"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminPasswordLoginListener.php": {
+    "reviewed_before_sha256": "b60c6091225832a657f7493d68b518291928ff18013f738d45f07294c2201d76",
+    "hunks": [
+      {
+        "before": "    public function onLogin(LoginSuccessEvent $event): void\n    {\n        $user = $event->getAuthenticatedToken()->getUser();\n        if (!$user instanceof AdminUser) { return; }\n",
+        "after": "    public function onLogin(LoginSuccessEvent $event): void\n    {\n        if ($event->getAuthenticator() instanceof AdminPasskeyAuthenticator) { return; }\n        $user = $event->getAuthenticatedToken()->getUser();\n        if (!$user instanceof AdminUser) { return; }\n"
+      }
+    ],
+    "reviewed_after_sha256": "90b9c468f4adaceb48512e320e6114078377b5a07eb0cfedea6171fad87fb80e"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminWebauthn.php": {
+    "reviewed_before_sha256": "b3865fac2d3b6028a6f3dcceb2d7257b96562c0a7157a1afabcd5bf4ecb8d723",
+    "hunks": [
+      {
+        "before": "    {\n        if (!$records) { throw new \\DomainException('no_enabled_passkey'); }\n        $options = json_decode($this->assertion->createOptions(random_bytes(32), $this->descriptors($records)),\n            true, 32, JSON_THROW_ON_ERROR);\n        $options['timeout'] = self::TTL * 1000;\n",
+        "after": "    {\n        if (!$records) { throw new \\DomainException('no_enabled_passkey'); }\n        return $this->loginOptions($records);\n    }\n\n    public function loginOptions(array $records, bool $discoverable = false): string\n    {\n        $descriptors = $this->descriptors($records);\n        if (!$descriptors && !$discoverable) {\n            $descriptors = [['id' => random_bytes(32), 'transports' => []]];\n        }\n        $options = json_decode($this->assertion->createOptions(random_bytes(32), $descriptors),\n            true, 32, JSON_THROW_ON_ERROR);\n        $options['timeout'] = self::TTL * 1000;\n"
+      },
+      {
+        "before": "    public function credentialId(string $response): string\n    {\n        try {\n            $credential = $this->serializer->deserialize($response, PublicKeyCredential::class, 'json');\n",
+        "after": "    public function credentialId(string $response): string\n    {\n        return $this->assertionCredential($response)->rawId;\n    }\n\n    public function discoverableIdentity(string $response): array\n    {\n        $credential = $this->assertionCredential($response);\n        $handle = $credential->response->userHandle;\n        if (!is_string($handle) || strlen($handle) < 16 || strlen($handle) > 64\n            || $credential->rawId === '' || strlen($credential->rawId) > 1024) {\n            throw new \\DomainException('passkey_validation_failed');\n        }\n        return [$credential->rawId, $handle];\n    }\n\n    private function assertionCredential(string $response): PublicKeyCredential\n    {\n        try {\n            $credential = $this->serializer->deserialize($response, PublicKeyCredential::class, 'json');\n"
+      },
+      {
+        "before": "                throw new \\DomainException();\n            }\n            return $credential->rawId;\n        } catch (\\Throwable) { throw new \\DomainException('passkey_validation_failed'); }\n    }\n",
+        "after": "                throw new \\DomainException();\n            }\n            return $credential;\n        } catch (\\Throwable) { throw new \\DomainException('passkey_validation_failed'); }\n    }\n"
+      }
+    ],
+    "reviewed_after_sha256": "e502042afa64b86299eb6a3d1f6b4a996f35e2fdcfad42c5a6b83ecc38144090"
+  },
+  "usr/share/roundcube/plugins/local_auth_gate/local_auth_gate.php": {
+    "reviewed_before_sha256": "7ee3c01ff4db02050c90b6c0f7fc8cc16065f609d7606fc0e872dcea8b2ff754",
+    "hunks": [
+      {
+        "before": "use MailServer\\RoundcubeAuth\\WebauthnLibRegistrationValidator;\nuse MailServer\\RoundcubeAuthGate\\GateSession;\nuse MailServer\\RoundcubeAuthManagement\\ManagementException;\nuse MailServer\\RoundcubeAuthManagement\\MailAuthRecoveryAddressRepository;\n",
+        "after": "use MailServer\\RoundcubeAuth\\WebauthnLibRegistrationValidator;\nuse MailServer\\RoundcubeAuthGate\\GateSession;\nuse MailServer\\RoundcubeAuthGate\\WebmailSessionCredential;\nuse MailServer\\RoundcubeAuthManagement\\ManagementException;\nuse MailServer\\RoundcubeAuthManagement\\MailAuthRecoveryAddressRepository;\n"
+      },
+      {
+        "before": "    private const LOCAL_AUTH_AUTOLOAD = '/opt/roundcube-auth/vendor/autoload.php';\n    private const NET_SMTP_SOURCE = '/usr/share/php/Net/SMTP.php';\n\n    protected rcmail $rc;\n",
+        "after": "    private const LOCAL_AUTH_AUTOLOAD = '/opt/roundcube-auth/vendor/autoload.php';\n    private const NET_SMTP_SOURCE = '/usr/share/php/Net/SMTP.php';\n    private const GUEST_OPTIONS = 'plugin.local_auth_gate-login-options';\n    private const GUEST_FINISH = 'plugin.local_auth_gate-login-finish';\n    private const GUEST_STATE = 'local_auth_gate_guest_v1';\n    private const WEBMAIL_SESSION = 'local_auth_gate_webmail_v1';\n    private ?int $verifiedLoginOwner = null;\n\n    protected rcmail $rc;\n"
+      },
+      {
+        "before": "        $this->add_hook('login_after', [$this, 'loginAfter']);\n        $this->add_hook('startup', [$this, 'startup']);\n        $this->register_action(self::ACTION_GATE, [$this, 'showGate']);\n        $this->register_action(self::ACTION_OPTIONS, [$this, 'beginAssertion']);\n",
+        "after": "        $this->add_hook('login_after', [$this, 'loginAfter']);\n        $this->add_hook('startup', [$this, 'startup']);\n        require_once __DIR__ . '/src/WebmailSessionCredential.php';\n        if (WebmailSessionCredential::configured()) {\n            $this->add_hook('loginform_content', [$this, 'loginPasskeyButton']);\n            $this->add_hook('session_destroy', [$this, 'revokeWebmailCredential']);\n            $this->add_hook('ready', [$this, 'checkWebmailSession']);\n        }\n        $this->register_action(self::ACTION_GATE, [$this, 'showGate']);\n        $this->register_action(self::ACTION_OPTIONS, [$this, 'beginAssertion']);\n"
+      },
+      {
+        "before": "        $owner = $this->currentUserId();\n        if ($owner <= 0) return $args;\n        try {\n            $this->requireOwnerAccount();\n",
+        "after": "        $owner = $this->currentUserId();\n        if ($owner <= 0) return $args;\n        if ($this->verifiedLoginOwner === $owner) { return $args; }\n        try {\n            $this->requireOwnerAccount();\n"
+      },
+      {
+        "before": "        $task = is_string($args['task'] ?? null) ? $args['task'] : '';\n        $action = is_string($args['action'] ?? null) ? $args['action'] : '';\n        if ($this->emergencySession()->hasState()) {\n            if ($this->isAllowedEmergencyRoute($task, $action)) {\n",
+        "after": "        $task = is_string($args['task'] ?? null) ? $args['task'] : '';\n        $action = is_string($args['action'] ?? null) ? $args['action'] : '';\n        if ($task === 'login' && in_array($action, [self::GUEST_OPTIONS, self::GUEST_FINISH], true)) {\n            $this->guestPasskey($action);\n        }\n        if ($this->emergencySession()->hasState()) {\n            if ($this->isAllowedEmergencyRoute($task, $action)) {\n"
+      },
+      {
+        "before": "        $args['action'] = self::ACTION_GATE;\n        return $args;\n    }\n\n",
+        "after": "        $args['action'] = self::ACTION_GATE;\n        return $args;\n    }\n\n    public function loginPasskeyButton(array $form): array\n    {\n        $this->include_script('guest_passkey.js');\n        $button = ['outterclass' => 'guest-passkey',\n            'content' => '<button type=\"button\" id=\"webmail-passkey-login\" class=\"button\">\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3</button>'\n                . '<button type=\"button\" id=\"webmail-passkey-account-login\" class=\"button\">\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3092\u6307\u5b9a\u3057\u3066\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3</button>'\n                . '<p id=\"webmail-passkey-login-result\" role=\"status\" aria-live=\"polite\"></p>'];\n        $form['buttons'] = ['guest_passkey' => $button] + ($form['buttons'] ?? []);\n        return $form;\n    }\n\n    private function guestPasskey(string $action): never\n    {\n        try {\n            if (!WebmailSessionCredential::configured() || !empty($_SESSION['user_id']) || empty($_SESSION['temp'])\n                || ($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST'\n                || ($_SERVER['HTTP_ORIGIN'] ?? '') !== 'https://' . \\MailServer\\RoundcubePasskeyGeneral\\AccountIdentity::MAIL_HOST\n                || ($_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] ?? '') !== $this->rc->get_request_token()\n                || strtolower(trim(explode(';', $_SERVER['CONTENT_TYPE'] ?? '', 2)[0])) !== 'application/json') {\n                $this->respondGuest(['ok' => false], 403);\n            }\n            $this->limitGuestRequests();\n            $raw = file_get_contents('php://input', false, null, 0, 131073);\n            if (!is_string($raw) || strlen($raw) > 131072) { throw new \\DomainException('guest_request'); }\n            $body = json_decode($raw, true, 16, JSON_THROW_ON_ERROR);\n            if (!is_array($body)) { throw new \\DomainException('guest_request'); }\n            $this->loadAssertionDependencies();\n            if ($action === self::GUEST_OPTIONS) {\n                $this->respondGuest(['ok' => true] + $this->startGuestAssertion($body), 200);\n            }\n            $this->finishGuestAssertion($body);\n        } catch (Throwable) {\n            $this->respondGuest(['ok' => false], 400);\n        }\n    }\n\n    private function startGuestAssertion(array $body): array\n    {\n        unset($_SESSION[self::GUEST_STATE]);\n        if (!array_key_exists('email', $body)) {\n            $ceremony = bin2hex(random_bytes(32));\n            $options = WebauthnLibAssertionValidator::create()->createOptions(random_bytes(32), []);\n            WebmailSessionCredential::registerChallenge($ceremony);\n            $_SESSION[self::GUEST_STATE] = ['ceremony' => $ceremony, 'discoverable_options' => $options];\n            return ['ceremony_id' => $ceremony, 'publicKey' => json_decode($options, true, 32, JSON_THROW_ON_ERROR)];\n        }\n        $email = \\MailServer\\RoundcubePasskeyGeneral\\AccountIdentity::canonical(\n            is_string($body['email'] ?? null) ? trim($body['email']) : '');\n        $repository = new RoundcubeCredentialRepository($this->rc->get_dbh());\n        $db = $this->rc->get_dbh();\n        $users = $db->table_name('users', true);\n        $result = $db->query(\"SELECT user_id FROM {$users} WHERE BINARY username=BINARY ? AND mail_host=? LIMIT 2\",\n            $email, \\MailServer\\RoundcubePasskeyGeneral\\AccountIdentity::MAIL_HOST);\n        $row = $db->fetch_assoc($result);\n        $owner = is_array($row) && !$db->fetch_assoc($result) ? (int) $row['user_id'] : 0;\n        $pending = $owner > 0 ? $repository->enabledCredentialDescriptors($owner) : [];\n        $epoch = $pending ? $this->webmailEpoch($email) : null;\n        if ($epoch === null) {\n            $synthetic = WebauthnLibAssertionValidator::create()->createOptions(\n                random_bytes(32), [['id' => random_bytes(32), 'transports' => []]]);\n            return ['ceremony_id' => bin2hex(random_bytes(16)),\n                'publicKey' => json_decode($synthetic, true, 32, JSON_THROW_ON_ERROR)];\n        }\n        $options = $this->assertionService()->begin($owner);\n        WebmailSessionCredential::registerChallenge($options['ceremony_id']);\n        $_SESSION[self::GUEST_STATE] = ['id' => $owner, 'email' => $email, 'epoch' => $epoch,\n            'ceremony' => $options['ceremony_id']];\n        return $options;\n    }\n\n    private function finishGuestAssertion(array $body): never\n    {\n        $pending = $_SESSION[self::GUEST_STATE] ?? null;\n        unset($_SESSION[self::GUEST_STATE]);\n        if (!is_array($pending) || !WebmailSessionCredential::consumeChallenge($pending['ceremony'])\n            || ($body['ceremony_id'] ?? null) !== $pending['ceremony']\n            || !is_array($body['credential'] ?? null)) { throw new \\DomainException('guest_state'); }\n        $credential = $body['credential'];\n        $response = json_encode($credential, JSON_THROW_ON_ERROR);\n        $discovery = $pending['discoverable_options'] ?? null;\n        if (is_string($discovery)) {\n            [$owner, $mailbox, $handle] = $this->discoverGuestOwner($credential);\n        } else {\n            $owner = $pending['id'];\n            $mailbox = $pending['email'];\n        }\n        $email = \\MailServer\\RoundcubePasskeyGeneral\\AccountIdentity::requireOwner(\n            $this->rc->get_dbh(), $owner, $mailbox);\n        $epoch = $this->webmailEpoch($email);\n        if ($epoch === null || ($discovery === null && $epoch !== $pending['epoch'])) {\n            throw new \\DomainException('mailbox_epoch_changed');\n        }\n        if (is_string($discovery)) {\n            // The database challenge is already consumed. Reuse the same verifier\n            // and locked credential update with request-local state.\n            $state = [];\n            $challenge = new AssertionChallengeStore($state);\n            $ceremony = $challenge->issue($owner, $handle, $discovery);\n            $this->assertionService($challenge)->finish($owner, $ceremony, $response);\n        } else {\n            $this->assertionService()->finish($owner, $body['ceremony_id'], $response);\n        }\n        [$selector, $secret] = WebmailSessionCredential::issue($email, $epoch);\n        try {\n            $this->rc->kill_session();\n            if (!$this->rc->login($email, $secret, null, true) || $this->currentUserId() !== $owner\n                || $this->webmailEpoch($email) !== $epoch) {\n                throw new \\DomainException('webmail_login_failed');\n            }\n            $this->rc->session->remove('temp');\n            $this->rc->session->regenerate_id(false);\n            $this->rc->session->set_auth_cookie();\n            $_SESSION[self::WEBMAIL_SESSION] = ['email' => $email, 'epoch' => $epoch, 'selector' => $selector,\n                'expires' => time() + WebmailSessionCredential::TTL];\n            $this->loadManagementDependencies();\n            $this->recentFactor()->mark($owner, 'passkey', time());\n            $this->verifiedLoginOwner = $owner;\n            $this->rc->plugins->exec_hook('login_after', ['_task' => 'mail']);\n            $this->rc->log_login();\n        } catch (Throwable $error) {\n            $this->rc->kill_session();\n            WebmailSessionCredential::revoke($selector);\n            throw $error;\n        }\n        $this->respondGuest(['ok' => true, 'redirect' => $this->rc->url(['_task' => 'mail'])], 200);\n    }\n\n    private function discoverGuestOwner(array $credential): array\n    {\n        $response = $credential['response'] ?? null;\n        $handle = self::decodeGuestIdentity(is_array($response) ? ($response['userHandle'] ?? null) : null, 32);\n        $id = self::decodeGuestIdentity($credential['rawId'] ?? null, RegistrationConfig::MAX_CREDENTIAL_ID_BYTES);\n        if (strlen($handle) !== 32) { throw new \\DomainException('invalid_passkey_handle'); }\n\n        $db = $this->rc->get_dbh();\n        $users = $db->table_name('users', true);\n        $handles = $db->table_name('auth_webauthn_users', true);\n        $keys = $db->table_name('auth_webauthn_credentials', true);\n        $db->set_debug(false);\n        $db->set_option('ignore_errors', true);\n        $db->set_option('ignore_key_errors', true);\n        $result = $db->query(\"SELECT u.user_id, u.username FROM {$users} u\n            JOIN {$handles} h ON h.user_id=u.user_id\n            JOIN {$keys} c ON c.user_id=h.user_id AND c.user_handle=h.user_handle\n            WHERE h.user_handle=UNHEX(?) AND c.credential_id=UNHEX(?) AND c.enabled=1 AND u.mail_host=?\n            LIMIT 1\", bin2hex($handle), bin2hex($id), \\MailServer\\RoundcubePasskeyGeneral\\AccountIdentity::MAIL_HOST);\n        $row = $result === false || $db->is_error($result) ? null : $db->fetch_assoc($result);\n        if (!is_array($row) || (int) $row['user_id'] <= 0 || !is_string($row['username'])) {\n            throw new \\DomainException('unrecognized_passkey');\n        }\n        return [(int) $row['user_id'], $row['username'], $handle];\n    }\n\n    private static function decodeGuestIdentity(mixed $encoded, int $max): string\n    {\n        if (!is_string($encoded) || strlen($encoded) > (int) ceil($max * 4 / 3)\n            || preg_match('/\\A[A-Za-z0-9_-]+\\z/D', $encoded) !== 1) {\n            throw new \\DomainException('invalid_passkey_identity');\n        }\n        $decoded = base64_decode(strtr($encoded, '-_', '+/'), true);\n        if ($decoded === false || $decoded === '' || strlen($decoded) > $max\n            || rtrim(strtr(base64_encode($decoded), '+/', '-_'), '=') !== $encoded) {\n            throw new \\DomainException('invalid_passkey_identity');\n        }\n        return $decoded;\n    }\n\n    private function webmailEpoch(string $email): ?string\n    {\n        require_once dirname(__DIR__) . '/mi_system_compat/AccountDirectory.php';\n        $settings = \\MISystem\\RoundcubeCompat\\AccountDirectory::settings();\n        return $settings === null ? null : (new \\MISystem\\RoundcubeCompat\\AccountDirectory($settings))->epoch($email);\n    }\n\n    public function revokeWebmailCredential(array $args): array\n    {\n        $selector = $_SESSION[self::WEBMAIL_SESSION]['selector'] ?? null;\n        if (is_string($selector)) {\n            try { WebmailSessionCredential::revoke($selector); }\n            catch (Throwable) { rcube::write_log('local_auth_gate', 'Webmail credential revocation unavailable'); }\n        }\n        return $args;\n    }\n\n    public function checkWebmailSession(array $args): array\n    {\n        $state = $_SESSION[self::WEBMAIL_SESSION] ?? null;\n        if (!is_array($state) || $this->rc->task === 'logout') { return $args; }\n        try {\n            $unchanged = time() < $state['expires'] && $this->webmailEpoch($state['email']) === $state['epoch'];\n        } catch (Throwable) { $unchanged = false; }\n        if ($unchanged) { return $args; }\n        $this->rc->kill_session();\n        header('Location: ./?_session_revoked=1', true, 303);\n        exit;\n    }\n\n    private function limitGuestRequests(): void\n    {\n        $address = filter_var($_SERVER['REMOTE_ADDR'] ?? '', FILTER_VALIDATE_IP);\n        if ($address === false) { throw new \\DomainException('guest_address'); }\n        $key = hash_hmac('sha256', $address, $this->rc->config->get('des_key'));\n        $file = $this->rc->config->get('temp_dir') . '/passkey-login-' . substr($key, 0, 2);\n        $handle = fopen($file, 'c+');\n        if ($handle === false) { throw new \\RuntimeException('guest_limiter'); }\n        try {\n            if (!flock($handle, LOCK_EX)) { throw new \\RuntimeException('guest_limiter'); }\n            $raw = stream_get_contents($handle, 16385);\n            if ($raw === false || strlen($raw) > 16384) { throw new \\RuntimeException('guest_limiter'); }\n            $claims = $raw === '' ? [] : json_decode($raw, true, 8, JSON_THROW_ON_ERROR);\n            $window = intdiv(time(), 60);\n            $claims = array_filter($claims, static fn (array $claim): bool => $claim[0] === $window);\n            $attempts = $claims[$key][1] ?? 0;\n            if ($attempts >= 10 || (count($claims) >= 128 && $attempts === 0)) {\n                $this->respondGuest(['ok' => false], 429);\n            }\n            $claims[$key] = [$window, $attempts + 1];\n            $encoded = json_encode($claims, JSON_THROW_ON_ERROR);\n            if (!rewind($handle) || !ftruncate($handle, 0) || fwrite($handle, $encoded) !== strlen($encoded)) {\n                throw new \\RuntimeException('guest_limiter');\n            }\n        } finally { fclose($handle); }\n    }\n\n    private function respondGuest(array $body, int $status): never\n    {\n        http_response_code($status);\n        header('Cache-Control: no-store');\n        header('Content-Type: application/json; charset=UTF-8');\n        echo json_encode($body, JSON_THROW_ON_ERROR);\n        exit;\n    }\n\n"
+      },
+      {
+        "before": "    }\n\n    private function assertionService(): AssertionService\n    {\n        $this->loadAssertionDependencies();\n",
+        "after": "    }\n\n    private function assertionService(?AssertionChallengeStore $challenge = null): AssertionService\n    {\n        $this->loadAssertionDependencies();\n"
+      },
+      {
+        "before": "            new RoundcubeCredentialRepository($this->rc->get_dbh()),\n            WebauthnLibAssertionValidator::create(),\n            new AssertionChallengeStore($_SESSION),\n        );\n    }\n",
+        "after": "            new RoundcubeCredentialRepository($this->rc->get_dbh()),\n            WebauthnLibAssertionValidator::create(),\n            $challenge ?? new AssertionChallengeStore($_SESSION),\n        );\n    }\n"
+      }
+    ],
+    "reviewed_after_sha256": "0783bab48da7d5292956027fd0b6092255cdd7c66f5b1d42aa83b0229f9ad1bc"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/PdoAdminPasskeyStore.php": {
+    "reviewed_before_sha256": "45ed1c3177f3c0387dab90c1215c01437bc3717429a44ec38f3da8d4972b5344",
+    "hunks": [
+      {
+        "before": "        } catch (\\DomainException $e) { throw $e; }\n        catch (\\Throwable) { throw new \\DomainException('passkey_storage_unavailable'); }\n    }\n\n",
+        "after": "        } catch (\\DomainException $e) { throw $e; }\n        catch (\\Throwable) { throw new \\DomainException('passkey_storage_unavailable'); }\n    }\n\n    public function ownerOfCredential(string $credentialId, string $userHandle): ?string\n    {\n        $query = $this->db->prepare('SELECT c.admin_id FROM mail_admin_credentials c\n            JOIN mail_admin_users u ON u.id=c.admin_id\n            WHERE c.credential_id=? AND c.enabled=1 AND u.user_handle=? AND u.active=1 LIMIT 1');\n        $query->execute([$credentialId, $userHandle]);\n        $id = $query->fetchColumn();\n        return $id === false ? null : (string) $id;\n    }\n\n"
+      }
+    ],
+    "reviewed_after_sha256": "dd7e6a0ca626f48d6ef04d42c4c6c37274a3c5b555c2e914cfb5744c0e390cc6"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyStore.php": {
+    "reviewed_before_sha256": "90e633668e7a76aa1a49eed43827dbef5429ae37c4903a667824b610314a04a4",
+    "hunks": [
+      {
+        "before": "    /** handle=binary stable user handle; records=enabled CredentialRecords; has_any includes disabled. */\n    public function snapshot(AdminUser $user): array;\n    public function register(AdminUser $user, CredentialRecord $record, string $label, bool $first): void;\n    /** Validate against the locked current record, then update it before granting factor evidence. */\n",
+        "after": "    /** handle=binary stable user handle; records=enabled CredentialRecords; has_any includes disabled. */\n    public function snapshot(AdminUser $user): array;\n    /** Resolve an enabled credential using both WebAuthn identifiers. */\n    public function ownerOfCredential(string $credentialId, string $userHandle): ?string;\n    public function register(AdminUser $user, CredentialRecord $record, string $label, bool $first): void;\n    /** Validate against the locked current record, then update it before granting factor evidence. */\n"
+      }
+    ],
+    "reviewed_after_sha256": "a3e75afa90e1069469d387405387ebd75f1da48277435de20124d7b647a7be20"
+  },
+  "opt/mail-management/candidates/protection-relay-v1/src/UnavailableAdminPasskeyStore.php": {
+    "reviewed_before_sha256": "22daa399a099c5c6c860e353f78a4222cfa64de04b232db99e2373d428eadd4e",
+    "hunks": [
+      {
+        "before": "{\n    public function snapshot(AdminUser $user): array { throw new \\DomainException('passkey_storage_unavailable'); }\n    public function register(AdminUser $user, CredentialRecord $record, string $label, bool $first): void\n    { throw new \\DomainException('passkey_storage_unavailable'); }\n",
+        "after": "{\n    public function snapshot(AdminUser $user): array { throw new \\DomainException('passkey_storage_unavailable'); }\n    public function ownerOfCredential(string $credentialId, string $userHandle): ?string\n    { throw new \\DomainException('passkey_storage_unavailable'); }\n    public function register(AdminUser $user, CredentialRecord $record, string $label, bool $first): void\n    { throw new \\DomainException('passkey_storage_unavailable'); }\n"
+      }
+    ],
+    "reviewed_after_sha256": "c287e0842a5857a217c69ccdacb069c90a26dc765dd19340673a51e3fb5cf44e"
   }
 }

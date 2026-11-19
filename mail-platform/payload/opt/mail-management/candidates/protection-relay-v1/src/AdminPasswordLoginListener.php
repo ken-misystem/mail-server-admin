@@ -10,6 +10,7 @@ final class AdminPasswordLoginListener
 {
     public function onLogin(LoginSuccessEvent $event): void
     {
+        if ($event->getAuthenticator() instanceof AdminPasskeyAuthenticator) { return; }
         $user = $event->getAuthenticatedToken()->getUser();
         if (!$user instanceof AdminUser) { return; }
         $session = $event->getRequest()->getSession();

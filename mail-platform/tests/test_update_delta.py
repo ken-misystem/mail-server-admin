@@ -14,6 +14,7 @@ sys.path[:0] = [str(PRODUCT/'framework'), str(PRODUCT)]
 import code_update
 import source_patches
 import updater
+from host_transaction import UNSPECIFIED_BEFORE
 
 
 def persist(path, value):
@@ -35,9 +36,13 @@ class ModeledFiles:
     def target(self, name):
         return self.root/name.lstrip('/')
 
-    def write(self, name, raw, mode=0o644, uid=0, gid=0):
+    def write(self, name, raw, mode=0o644, uid=0, gid=0, *, expected_before=UNSPECIFIED_BEFORE):
         path = self.target(name)
         original = path.read_bytes() if path.exists() else None
+        if expected_before is not UNSPECIFIED_BEFORE and expected_before != (
+                metadata(original, 0o600 if path.name == 'installed-code.json' else 0o644)
+                if original is not None else None):
+            raise ValueError('resource_expected_CAS_conflict')
         entry = {'path': name, 'phase': 'written', 'after': metadata(raw, mode),
                  'before_bytes': original.hex() if original is not None else None}
         path.parent.mkdir(parents=True, exist_ok=True)

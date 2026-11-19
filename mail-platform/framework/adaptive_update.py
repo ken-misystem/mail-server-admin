@@ -129,7 +129,7 @@ class HybridGenerationUpdate(GenerationUpdate):
             if actual!=c['before']:raise ValueError('hybrid_static_CAS:'+p)
             raw=regular(self.directory/'static-stage'/p.lstrip('/'))[0]
             if sha(raw)!=c['sha256']:raise ValueError('hybrid_static_staging_drift')
-            m=c['attributes'];self.files.write(p,raw,m['mode'],m['uid'],m['gid'])
+            m=c['attributes'];self.files.write(p,raw,m['mode'],m['uid'],m['gid'],expected_before=c['before'])
         registered=self.record['registration']
         if registered:
             if self.live(REGISTRATION)[1]!=registered['before']:raise ValueError('hybrid_registration_CAS')

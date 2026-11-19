@@ -41273,6 +41273,10 @@
     "path": "framework/roundcube_settings.py",
     "provider": "package"
   },
+  "usr/local/lib/mail-platform-update/roundcube_update.py": {
+    "path": "framework/roundcube_update.py",
+    "provider": "package"
+  },
   "usr/local/lib/mail-platform-update/secondary_mx.py": {
     "baseline_sha256": "04fc6bf5c9e40687d42bab05dfbc59026f77c191ca57408461dd85413616f295",
     "path": "framework/secondary_mx.py",

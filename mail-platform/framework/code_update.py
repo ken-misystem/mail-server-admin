@@ -11,6 +11,7 @@ from profile_bindings import bind as bind_profile
 from site_bindings import bind as bind_site, rebase
 from release import sha, version
 from roundcube_core import TARGETS as ROUNDCUBE_TARGETS,render as render_roundcube_core
+from roundcube_update import AuthLinks, locale_before
 from sieve_lock import MODULE as SIEVE_MODULE
 from code_attributes import attributes as code_attributes
 
@@ -115,6 +116,7 @@ class CodeUpdate:
         self.commands = commands or Commands(self.directory)
         self.commands.sequence = len(list(self.directory.glob('[0-9][0-9][0-9][0-9]-*.json')))
         self.files = Files(self.root, self.directory)
+        self.auth_links = AuthLinks(self.files.root, self.directory/'roundcube-auth-links.json')
         self.record_path = self.directory/'code-update.json'
 
     def live(self, name):
@@ -198,6 +200,7 @@ class CodeUpdate:
         from monitor_binding import update as monitoring_update
         monitor_environment = monitoring_update(self.live)
         bound = self.render(receipt)
+        auth_links = self.auth_links.plan(bound, receipt)
         release_units = {name.removeprefix('blueprint/systemd/') for name in bound
                          if name.startswith('blueprint/systemd/')}
         if release_units - set(receipt['unit_files']) - LEGACY_UNITS:
@@ -210,6 +213,10 @@ class CodeUpdate:
                 raise ValueError('update_code_path_scope')
             path = '/'+name
             before = receipt['code'].get(path)
+            adopt = False
+            if before is None:
+                before = locale_before(self, path, content)
+                adopt = before is not None
             if before is None and name in ROUNDCUBE_TARGETS:
                 before=self.live(path)[1]
             if before is not None and self.live(path)[1] != before:
@@ -217,7 +224,7 @@ class CodeUpdate:
             if before is None and os.path.lexists(self.files.target(path)):
                 raise ValueError('new_code_collision:'+path)
             after = {'sha256': sha(content), **code_attributes(path, receipt['identities'], before, receipt['version'])}
-            if before != after:
+            if before != after or adopt:
                 candidates[path] = {'before': before, 'after': after, 'source': name}
         if set(receipt['code']) - {'/'+name for name in bound}:
             raise ValueError('release_code_removal_requires_migration_hook')
@@ -235,7 +242,8 @@ class CodeUpdate:
         if any(name not in operations for name in receipt['unit_files']
                if '/etc/systemd/system/'+name in candidates):
             raise ValueError('changed_unit_missing_lifecycle_operation')
-        if any(path.endswith(('.php', '.inc')) for path in candidates) and 'php8.4-fpm.service' not in checked['stop']:
+        changes_auth_link = auth_links and auth_links['change']
+        if (changes_auth_link or any(path.endswith(('.php', '.inc')) for path in candidates)) and 'php8.4-fpm.service' not in checked['stop']:
             raise ValueError('PHP_update_requires_FPM_stop_start')
         availability = self.files.target('/etc/mail-platform/availability.json')
         if availability.exists():
@@ -251,7 +259,8 @@ class CodeUpdate:
         original_units = {name: self.unit(name) for name in sorted(planned_units)}
         self.record = {'phase': 'planned', 'monitor_environment': monitor_environment, 'contract': checked, 'old_receipt': receipt,
                        'receipt_before': metadata, 'candidates': candidates, 'before_units': original_units,
-                       'last_units': dict(original_units), 'operation_started': None, 'activated': False}
+                       'last_units': dict(original_units), 'operation_started': None, 'activated': False,
+                       'roundcube_auth_links':auth_links}
         self.save()
         return {'phase': 'planned', 'files': len(candidates), 'version': checked['to_version']}
 
@@ -309,7 +318,11 @@ class CodeUpdate:
             raw = regular(self.directory/'staged-code'/path.lstrip('/'))[0]
             if sha(raw) != entry['after']['sha256']:
                 raise ValueError('staged_code_drift')
-            self.files.write(path, raw, entry['after']['mode'], entry['after']['uid'], entry['after']['gid'])
+            self.files.write(path, raw, entry['after']['mode'], entry['after']['uid'], entry['after']['gid'],
+                             expected_before=entry['before'])
+        auth_links = self.record.get('roundcube_auth_links')
+        if auth_links and auth_links['change']:
+            self.auth_links.update(auth_links)
         if any(path.startswith('/etc/systemd/system/') for path in self.record['candidates']):
             self.commands.run('systemd_reload', ['/usr/bin/systemctl', 'daemon-reload'])
         from dkim_readiness import update_apply
@@ -335,6 +348,8 @@ class CodeUpdate:
         for path, item in self.record['candidates'].items():
             if self.live(path)[1] != item['after']:
                 raise ValueError('update_health_file_drift')
+        if self.record.get('roundcube_auth_links'):
+            self.auth_links.verify_update(self.record['roundcube_auth_links'])
         for name in self.record['contract']['health']:
             if self.record['before_units'][name]['ActiveState'] == 'active':
                 self.commands.run('health_'+name.replace('-', '_').replace('.', '_'),
@@ -373,6 +388,7 @@ class CodeUpdate:
             return {'phase': 'rolled_back', 'operations': 0, 'data_preserved': True}
         if self.record['operation_started']:
             raise ValueError('unfinished_service_operation_requires_review')
+        self.auth_links.recoverable()
         for entry in self.files.entries:
             if self.files.mark_unapplied(entry) or entry['phase'] == 'restored':
                 continue
@@ -392,6 +408,7 @@ class CodeUpdate:
         result = self.files.restore()
         if result['status'] != 'restored':
             raise ValueError('rollback_held_file_restore')
+        self.auth_links.restore_update()
         if self.record['activated']:
             if any(path.startswith('/etc/systemd/system/') for path in self.record['candidates']):
                 self.commands.run('restore_systemd', ['/usr/bin/systemctl', 'daemon-reload'])
@@ -410,6 +427,7 @@ class CodeUpdate:
         """A resumed composite recovery must not restart already restored services."""
         if self.record['operation_started']:
             raise ValueError('unfinished_service_operation_requires_review')
+        self.auth_links.verify_restored()
         expected = {}
         for entry in self.files.entries:
             if entry['preserve']:

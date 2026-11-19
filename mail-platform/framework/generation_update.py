@@ -14,6 +14,7 @@ from code_update import CodeUpdate, render
 from generation_front import control, read_route
 from host_transaction import durable_json, regular
 from release import canonical, sha
+from roundcube_update import AUTH, SOURCE as ROUNDCUBE_PLUGINS, locale_before
 from code_attributes import attributes as code_attributes
 
 
@@ -27,7 +28,8 @@ class GenerationUpdate(CodeUpdate):
         return json.loads((self.payload/'blueprint/update-contract.json').read_bytes())
 
     def new_path_allowed(self, target, config):
-        return self.allow_registered_additions and any(target.startswith(root+'/')
+        auth_asset = any(target.startswith(ROUNDCUBE_PLUGINS+'/'+name+'/') for name in AUTH)
+        return (self.allow_registered_additions or auth_asset) and any(target.startswith(root+'/')
             for component in config['components'].values() for root in component['roots'])
 
     def partition_changes(self, changes, config):
@@ -71,19 +73,23 @@ class GenerationUpdate(CodeUpdate):
         if receipt['format'] != 2 or contract['from_version'] != receipt['version'] or contract['to_version'] != bundle['version']:
             raise ValueError('availability_installed_version')
         bound = self.render(receipt)
+        auth_links = self.auth_links.plan(bound, receipt)
         changes = {}
         for name, raw in bound.items():
             if name.startswith('blueprint/'):
                 continue
             target = '/' + name
             before = receipt['code'].get(target)
+            adopt = False
             if before is None:
-                if not self.new_path_allowed(target, config) or os.path.lexists(self.files.target(target)):
+                before = locale_before(self, target, raw)
+                adopt = before is not None
+                if not adopt and (not self.new_path_allowed(target, config) or os.path.lexists(self.files.target(target))):
                     raise ValueError('availability_code_addition_requires_adoption')
             elif self.live(target)[1] != before:
                 raise ValueError('availability_installed_drift:' + target)
             metadata = {'sha256': sha(raw), **code_attributes(target, receipt['identities'], before, receipt['version'])}
-            if before != metadata:
+            if before != metadata or adopt:
                 changes[target] = {'source': name, 'before': before, 'sha256': sha(raw),
                                    'attributes': metadata}
         if set(receipt['code']) - {'/' + name for name in bound}:
@@ -121,7 +127,7 @@ class GenerationUpdate(CodeUpdate):
             'phase': 'planned', 'contract': contract, 'config': config,
             'config_metadata': config_metadata, 'receipt_before': receipt_metadata,
             'old_receipt': receipt, 'changes': changes, 'owners': owners,
-            'components': components, 'generation': generation}
+            'components': components, 'generation': generation, 'roundcube_auth_links':auth_links}
         self.record['templates'] = templates
         self.groups()
         self.save()
@@ -390,7 +396,13 @@ class GenerationUpdate(CodeUpdate):
             item = self.record['components'][self.record['owners'][target][0]]
             raw = regular(Path(item['directory'])/'root'/target.lstrip('/'))[0]
             before = change.get('attributes', change['before'])
-            self.files.write(target, raw, before['mode'], before['uid'], before['gid'])
+            self.files.write(target, raw, before['mode'], before['uid'], before['gid'], expected_before=change['before'])
+        auth_links = self.record.get('roundcube_auth_links')
+        if auth_links:
+            if auth_links['change']:
+                self.auth_links.update(auth_links)
+            else:
+                self.auth_links.verify_update(auth_links)
         if self.live('/var/lib/mail-platform-update/installed-code.json')[1] != self.record['receipt_before']:
             raise ValueError('generation_receipt_CAS')
         receipt = self.updated_generation_receipt()
@@ -457,6 +469,7 @@ class GenerationUpdate(CodeUpdate):
         self.load()
         if any((item['operation_started'] for item in self.record['components'].values())):
             raise ValueError('generation_operation_unknown')
+        self.auth_links.recoverable()
         for item in self.record['components'].values():
             route = read_route(item['configuration']['route'])
             if route not in (item['old_route'], item.get('new_route')):
@@ -494,6 +507,7 @@ class GenerationUpdate(CodeUpdate):
         result = self.files.restore()
         if result['status'] != 'restored':
             raise ValueError('generation_rollback_held')
+        self.auth_links.restore_update()
         self.record['phase'] = 'rolled_back'
         self.save()
         return {'phase': 'rolled_back', 'data_preserved': True}

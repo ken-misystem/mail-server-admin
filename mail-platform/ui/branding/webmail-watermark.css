@@ -1,0 +1,24 @@
+:root {
+    color-scheme: light;
+    background: #fff;
+}
+
+:root.dark-mode {
+    color-scheme: dark;
+    background: #21292c;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+body::before {
+    content: "";
+    width: min(32vw, 32vh, 8rem);
+    aspect-ratio: 1;
+    background: url("../mail_client_certificates/branding/webmail.png") center / contain no-repeat;
+    opacity: .25;
+}

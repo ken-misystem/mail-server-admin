@@ -19630,8 +19630,8 @@
     "provider": "repository"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyAuthenticator.php": {
-    "provider": "package",
-    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyAuthenticator.php"
+    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyAuthenticator.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyCeremony.php": {
     "baseline_sha256": "1c914e7b1178a9de0fda5e0112caa41cc1ddda9dc150eb4b670dcb0fdd2f1663",
@@ -19640,8 +19640,8 @@
     "provider": "repository"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyLogin.php": {
-    "provider": "package",
-    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyLogin.php"
+    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyLogin.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminPasskeyStore.php": {
     "baseline_sha256": "90e633668e7a76aa1a49eed43827dbef5429ae37c4903a667824b610314a04a4",
@@ -19978,8 +19978,8 @@
     "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/OperationsDashboard.php": {
-    "provider": "package",
-    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/OperationsDashboard.php"
+    "path": "payload/opt/mail-management/candidates/protection-relay-v1/src/OperationsDashboard.php",
+    "provider": "package"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/OperationsSnapshot.php": {
     "baseline_sha256": "76031b2b0fd98dafb2864ab9e4a0cfe5b14629e6409cd124346172e0622d746d",
@@ -41338,8 +41338,8 @@
     "provider": "package"
   },
   "usr/local/lib/mail-platform-update/webmail_passkey.py": {
-    "provider": "package",
-    "path": "framework/webmail_passkey.py"
+    "path": "framework/webmail_passkey.py",
+    "provider": "package"
   },
   "usr/local/lib/mail-pop-compat-v1/compat.py": {
     "baseline_sha256": "2121a0f745d1f512a22b61681e4c0d4573d669355a43e3acd96f7aa6b1b7f291",
@@ -42173,8 +42173,8 @@
     "provider": "package"
   },
   "usr/share/roundcube/plugins/local_auth_gate/guest_passkey.js": {
-    "provider": "package",
-    "path": "payload/usr/share/roundcube/plugins/local_auth_gate/guest_passkey.js"
+    "path": "payload/usr/share/roundcube/plugins/local_auth_gate/guest_passkey.js",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/local_auth_gate/local_auth_gate.css": {
     "baseline_sha256": "c1e493473eedac6e1326325dab77a183a1c8bc02f028c48977bef3dc3a7a826d",
@@ -42229,8 +42229,8 @@
     "provider": "repository"
   },
   "usr/share/roundcube/plugins/local_auth_gate/src/WebmailSessionCredential.php": {
-    "provider": "package",
-    "path": "payload/usr/share/roundcube/plugins/local_auth_gate/src/WebmailSessionCredential.php"
+    "path": "payload/usr/share/roundcube/plugins/local_auth_gate/src/WebmailSessionCredential.php",
+    "provider": "package"
   },
   "usr/share/roundcube/plugins/local_auth_gate/src/emergency/EmergencyRecoveryAuthenticatedSessionDestroyer.php": {
     "baseline_sha256": "222bc76160dcbe5eafe5b38eb0ea539ec9d2110835b9872b7867987ba4e04135",
@@ -42830,5 +42830,17 @@
     "normalize_LF": false,
     "path": "roundcube-ui-guidance-v1/settings-repair-v1/ui_feedback.php",
     "provider": "repository"
+  },
+  "usr/share/roundcube/plugins/ui_feedback/webmail-watermark.css": {
+    "path": "ui/branding/webmail-watermark.css",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/ui_feedback/webmail-watermark.html": {
+    "path": "ui/branding/webmail-watermark.html",
+    "provider": "package"
+  },
+  "usr/share/roundcube/plugins/ui_feedback/webmail-watermark.js": {
+    "path": "ui/branding/webmail-watermark.js",
+    "provider": "package"
   }
 }

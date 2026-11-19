@@ -438,9 +438,25 @@
       {
         "before": "                ['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u691c\u67fb','/mail-admin/feature-status/scanner',['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u691c\u67fb']],\n                ['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u8a2d\u5b9a','/mail-admin/protection/scanner',['\u5371\u967a\u6dfb\u4ed8\u30fb\u30a6\u30a4\u30eb\u30b9\u8a2d\u5b9a']],",
         "after": "                [ScannerTabs::TITLE,'/mail-admin/feature-status/scanner',[ScannerTabs::TITLE]],"
+      },
+      {
+        "before": "namespace MailServer\\Management;\n\n",
+        "after": "namespace MailServer\\Management;\n\nuse Symfony\\Component\\HttpKernel\\Event\\ResponseEvent;\nuse Symfony\\Component\\Security\\Core\\Authentication\\Token\\Storage\\TokenStorageInterface;\nuse Symfony\\Component\\Security\\Csrf\\CsrfTokenManagerInterface;\n\n"
+      },
+      {
+        "before": "    public static function groups(): array",
+        "after": "    public const ICON_URL = '/plugins/mail_client_certificates/branding/mail-admin.png';\n\n    private const LOGOUT_SLOT = '<!-- mail-admin:sidebar-logout -->';\n\n    public function __construct(\n        private readonly TokenStorageInterface $tokens,\n        private readonly CsrfTokenManagerInterface $csrf,\n    ) {}\n\n    public static function icon(): string\n    {\n        return '<img class=\"admin-brand-icon\" src=\"'.self::ICON_URL.'\" width=\"32\" height=\"32\" alt=\"\">';\n    }\n\n    public static function logoutForm(string $token): string\n    {\n        return '<form method=\"post\" action=\"/mail-admin/logout\">'\n            .'<input type=\"hidden\" name=\"_csrf_token\" value=\"'.ConsoleController::escape($token).'\">'\n            .'<button type=\"submit\">\u30ed\u30b0\u30a2\u30a6\u30c8</button></form>';\n    }\n\n    public function addLogout(ResponseEvent $event): void\n    {\n        if (!$event->isMainRequest() || !$event->getRequest()->hasSession()) {\n            return;\n        }\n\n        $response = $event->getResponse();\n        $body = $response->getContent();\n        if (!str_starts_with($response->headers->get('Content-Type', ''), 'text/html')\n            || !is_string($body) || !str_contains($body, self::LOGOUT_SLOT)) {\n            return;\n        }\n\n        $user = $this->tokens->getToken()?->getUser();\n        $form = $user instanceof AdminUser && $user->active\n            ? self::logoutForm($this->csrf->getToken('mail_admin_logout')->getValue())\n            : '';\n        $response->setContent(str_replace(self::LOGOUT_SLOT, $form, $body));\n    }\n\n    public static function groups(): array"
+      },
+      {
+        "before": "        $out='<aside class=\"admin-navigation\"><nav aria-label=\"\u7ba1\u7406\u30e1\u30cb\u30e5\u30fc\"><a class=\"admin-nav-home\" href=\"/mail-admin/\">\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9</a>';",
+        "after": "        $out='<aside class=\"admin-navigation\"><nav aria-label=\"\u7ba1\u7406\u30e1\u30cb\u30e5\u30fc\">'\n            .'<a class=\"admin-nav-home\" href=\"/mail-admin/\">'.self::icon().'\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9</a>'\n            .self::LOGOUT_SLOT;"
+      },
+      {
+        "before": "return <<<'CSS'\n.admin-shell",
+        "after": "return <<<'CSS'\n.admin-navigation .admin-nav-home{display:flex;align-items:center;gap:10px;margin-bottom:6px}\n.admin-brand-icon{width:32px;height:32px;flex:none;object-fit:contain;vertical-align:middle}\n.admin-login-heading .admin-brand-icon{margin-inline-end:10px}\n.admin-navigation form{margin:0 0 12px}\n.admin-navigation button{background:transparent;color:#d3dfe7;border:1px solid #73858f;border-radius:6px;font:inherit;cursor:pointer;padding:6px 12px;min-height:44px}\n.admin-navigation button:hover{background:#33454e;color:#78d4fa}\n.admin-navigation button:focus-visible{outline:3px solid #78d4fa;outline-offset:2px}\n.admin-shell"
       }
     ],
-    "reviewed_after_sha256": "b077baac55ce59a1e181688e1fc67e31f4ec2b6f984b1ab95a5ab164b63b1583"
+    "reviewed_after_sha256": "95fa81721a800f95cb90917200efcdcb59b7a103ac18590dfe8f5075a284cca4"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/ConsoleController.php": {
     "hunks": [
@@ -459,9 +475,25 @@
       {
         "before": "        $message = $error ? '<p role=\"alert\">\u30ed\u30b0\u30a4\u30f3\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002</p>' : '';\n        $token = self::escape($this->csrf->getToken('mail_admin_login')->getValue());\n        return self::page('\u30e1\u30fc\u30eb\u7ba1\u7406\u8005\u30ed\u30b0\u30a4\u30f3', $message . '\n            <p>\u30e1\u30fc\u30eb\u30dc\u30c3\u30af\u30b9\u3068\u306f\u72ec\u7acb\u3057\u305f\u7ba1\u7406\u8005ID\u3067\u30ed\u30b0\u30a4\u30f3\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p>\n            <form method=\"post\" action=\"/mail-admin/login\">\n            <input type=\"hidden\" name=\"_csrf_token\" value=\"' . $token . '\">\n            <label>\u7ba1\u7406\u8005ID\uff08\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\uff09<input type=\"email\" name=\"_username\" maxlength=\"254\" autocomplete=\"username\" required></label>\n            <label>\u7ba1\u7406\u8005\u30d1\u30b9\u30ef\u30fc\u30c9<input type=\"password\" name=\"_password\" autocomplete=\"current-password\" required></label>\n            <button type=\"submit\">\u30ed\u30b0\u30a4\u30f3</button></form>');\n    }\n\n",
         "after": "        $message = $error ? '<p role=\"alert\">\u30ed\u30b0\u30a4\u30f3\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f\u3002</p>' : '';\n        $token = self::escape($this->csrf->getToken('mail_admin_login')->getValue());\n        $passkeyToken = self::escape($this->csrf->getToken(AdminPasskeyLogin::CSRF)->getValue());\n        return self::page('\u30e1\u30fc\u30eb\u7ba1\u7406\u8005\u30ed\u30b0\u30a4\u30f3', $message . '\n            <button type=\"button\" id=\"admin-passkey-login\" data-csrf=\"' . $passkeyToken . '\">\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3</button>\n            <p id=\"admin-passkey-login-result\" role=\"status\" aria-live=\"polite\"></p>\n            <form method=\"post\" id=\"admin-login-form\" action=\"/mail-admin/login\">\n            <input type=\"hidden\" name=\"_csrf_token\" value=\"' . $token . '\">\n            <label>\u7ba1\u7406\u8005ID\uff08\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\uff09<input type=\"email\" name=\"_username\" maxlength=\"254\" autocomplete=\"username\" required></label>\n            <label>\u7ba1\u7406\u8005\u30d1\u30b9\u30ef\u30fc\u30c9<input type=\"password\" name=\"_password\" autocomplete=\"current-password\" required></label>\n            <button type=\"button\" id=\"admin-passkey-account-login\">\u7ba1\u7406\u8005ID\u3092\u6307\u5b9a\u3057\u3066\u30d1\u30b9\u30ad\u30fc\u3067\u30ed\u30b0\u30a4\u30f3</button>\n            <button type=\"submit\">\u30d1\u30b9\u30ef\u30fc\u30c9\u3067\u30ed\u30b0\u30a4\u30f3</button></form>\n            <script src=\"/mail-admin/passkey-login.js\" defer></script>');\n    }\n\n    public function passkeyLoginFallback(): JsonResponse\n    {\n        return AdminPasskeyLogin::json(['error' => 'passkey_failed'], 400);\n    }\n\n"
+      },
+      {
+        "before": "        $logoutToken = self::escape($this->csrf->getToken('mail_admin_logout')->getValue());",
+        "after": "        $logoutToken = $this->csrf->getToken('mail_admin_logout')->getValue();"
+      },
+      {
+        "before": "        $logout='<form method=\"post\" action=\"/mail-admin/logout\"><input type=\"hidden\" name=\"_csrf_token\" value=\"'.$logoutToken.'\"><button type=\"submit\">\u30ed\u30b0\u30a2\u30a6\u30c8</button></form>';",
+        "after": "        $logout = AdminNavigation::logoutForm($logoutToken);"
+      },
+      {
+        "before": "        $closing = $navigation ? '</div>' : '';",
+        "after": "        $closing = $navigation ? '</div>' : '';\n        $headingClass = $navigation ? '' : ' class=\"admin-login-heading\"';\n        $headingIcon = $navigation ? '' : AdminNavigation::icon();"
+      },
+      {
+        "before": " . '<main><h1' . $headingRole . '>' . self::escape($title)",
+        "after": " . '<main><h1' . $headingRole . $headingClass . '>' . $headingIcon . self::escape($title)"
       }
     ],
-    "reviewed_after_sha256": "41c568be08915a8753a15edeb7780d3201ed52eacde1237ecb8b59ce1c45d463"
+    "reviewed_after_sha256": "c5ef4ac04de2f9d3fef65006cc33f06be863144a9576c4b75d3cecfb17a31c21"
   },
   "usr/local/lib/mail-management-operations-v1/publish_runtime.py": {
     "hunks": []
@@ -572,11 +604,15 @@
   },
   "usr/share/roundcube/plugins/ui_feedback/ui_feedback.php": {
     "reviewed_before_sha256": "ffb68c48d73ab8b01832f2920ca802974e32fce6690e987ac8cebc09a4896f7c",
-    "reviewed_after_sha256": "28cbe26e88ce02bb41b5a68751f07f41d3996c7fbb12e50feefa2000e3c9ff75",
+    "reviewed_after_sha256": "fd12d95391337d31ad99cf9edc916713d944d63919e4a5bc114d81f0e37ca255",
     "hunks": [
       {
         "before": "<?php\ndeclare(strict_types=1);\n\n/** Presentation only: all Roundcube tasks, no actor/auth/DB/hooks or actions. */\nfinal class ui_feedback extends rcube_plugin\n{\n    public $task = '.*';\n\n    public function init(): void\n    {\n        $this->include_stylesheet('feedback.css');\n        if (rcmail::get_instance()->task === 'settings') {\n            $this->include_script('settings-menu.js');\n            $this->include_stylesheet('settings-menu.css');\n        }\n    }\n}\n",
         "after": "<?php\ndeclare(strict_types=1);\n\n/** Presentation only: all Roundcube tasks, no actor/auth/DB/hooks or actions. */\nfinal class ui_feedback extends rcube_plugin\n{\n    public $task = '.*';\n\n    public function init(): void\n    {\n        $roundcube = rcmail::get_instance();\n        $logos = $roundcube->config->get('skin_logo');\n        if ($logos === null || $logos === '' || is_array($logos)) {\n            $logos = is_array($logos) ? $logos : [];\n            $faviconConfigured = false;\n            foreach (array_keys($logos) as $key) {\n                if (is_string($key) && str_ends_with($key, '[favicon]')) {\n                    $faviconConfigured = true;\n                    break;\n                }\n            }\n            if (!$faviconConfigured) {\n                $logos['[favicon]'] = 'plugins/mail_client_certificates/branding/webmail.png';\n                $roundcube->config->set('skin_logo', $logos);\n            }\n        }\n        $this->include_stylesheet('feedback.css');\n        if ($roundcube->task === 'settings') {\n            $this->include_script('settings-menu.js');\n            $this->include_stylesheet('settings-menu.css');\n        }\n    }\n}\n"
+      },
+      {
+        "before": "            if (!$faviconConfigured) {\n                $logos['[favicon]'] = 'plugins/mail_client_certificates/branding/webmail.png';\n                $roundcube->config->set('skin_logo', $logos);\n            }\n        }",
+        "after": "            $logo = 'plugins/mail_client_certificates/branding/webmail.png';\n            if (!$faviconConfigured) {\n                $logos['[favicon]'] = $logo;\n            }\n            $roundcube->config->set('skin_logo', $logos + ['*' => $logo]);\n        }\n        if ($roundcube->output instanceof rcmail_output_html\n            && $roundcube->config->get('blankpage_url', '/watermark.html') === '/watermark.html') {\n            $roundcube->output->set_env('blankpage', 'plugins/ui_feedback/webmail-watermark.html');\n        }"
       }
     ]
   },
@@ -598,9 +634,17 @@
       {
         "before": "    private function configureRoutes(RoutingConfigurator $routes): void\n    {\n        $routes->add('mail_admin_feature_settings_read','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['GET'])->controller(ManagedSettingsController::class.'::show');\n        $routes->add('mail_admin_feature_settings_save','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['POST'])->controller(ManagedSettingsController::class.'::save');\n",
         "after": "    private function configureRoutes(RoutingConfigurator $routes): void\n    {\n        $routes->add('mail_admin_guest_passkey_options', '/mail-admin/login/passkey/options')->methods(['POST'])\n            ->controller(AdminPasskeyLogin::class . '::options');\n        $routes->add('mail_admin_guest_passkey_finish', '/mail-admin/login/passkey/finish')->methods(['POST'])\n            ->controller(ConsoleController::class . '::passkeyLoginFallback');\n        $routes->add('mail_admin_guest_passkey_script', '/mail-admin/passkey-login.js')->methods(['GET'])\n            ->controller(ConsoleController::class . '::passkeyScript');\n        $routes->add('mail_admin_feature_settings_read','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['GET'])->controller(ManagedSettingsController::class.'::show');\n        $routes->add('mail_admin_feature_settings_save','/mail-admin/feature-settings/{kind}')->requirements(['kind'=>'access|spam'])->methods(['POST'])->controller(ManagedSettingsController::class.'::save');\n"
+      },
+      {
+        "before": "private const CACHE_LAYOUT = 'protection-relay-v3';",
+        "after": "private const CACHE_LAYOUT = 'protection-relay-v4';"
+      },
+      {
+        "before": "        $services->set(AdminUserChecker::class);",
+        "after": "        $services->set(AdminUserChecker::class);\n        $services->set(AdminNavigation::class)\n            ->args([service('security.token_storage'), service('security.csrf.token_manager')])\n            ->tag('kernel.event_listener', ['event' => 'kernel.response', 'method' => 'addLogout']);"
       }
     ],
-    "reviewed_after_sha256": "2f71b64b51b1a0d05033cd332bff6005a6c049d830504530b9ce5a070a54297a"
+    "reviewed_after_sha256": "2ece05d7c7665a3a1e513f3069fc9a9744f9f063dfbfe6af1fea09afded8d606"
   },
   "opt/mail-management/candidates/protection-relay-v1/src/AdminPasswordLoginListener.php": {
     "reviewed_before_sha256": "b60c6091225832a657f7493d68b518291928ff18013f738d45f07294c2201d76",

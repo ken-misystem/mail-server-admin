@@ -6,6 +6,12 @@ import re
 from webmail_passkey import PRINCIPAL as WEBMAIL_PASSKEY_PRINCIPAL, SQL_SETUP as WEBMAIL_PASSKEY_SQL
 
 
+WEBMAIL_PASSKEY_TABLES = (
+    ('mailserver', 'webmail_passkey_sessions', 'BASE TABLE'),
+    ('mailserver', 'webmail_passkey_challenges', 'BASE TABLE'),
+)
+
+
 def identifier(value):
     if not isinstance(value, str) or not re.fullmatch('[a-z][a-z0-9_]{0,63}', value):
         raise ValueError('SQL_identifier')
@@ -134,13 +140,20 @@ def plan(payload, passwords):
     ddl = statements((payload / 'blueprint/schema.sql').read_text(encoding='utf-8'))
     views = []
     schema = None
+    schema_objects = list(WEBMAIL_PASSKEY_TABLES)
     for sql in ddl:
         if sql.startswith('USE '):
             schema = sql.split('`')[1]
         if re.match('CREATE ALGORITHM=', sql):
             name = re.search(r'VIEW `mail_management`[.]`([a-z_]+)`', sql)[1]
             views.append((name, sql))
+            schema_objects.append(('mail_management', name, 'VIEW'))
         else:
+            table = re.match(r'CREATE TABLE `([a-z_][a-z_0-9]*)`\s*\(', sql)
+            if table:
+                if schema not in ('mailserver', 'mail_management'):
+                    raise ValueError('unexpected_table_schema')
+                schema_objects.append((schema, table[1], 'BASE TABLE'))
             steps.append({'label': 'schema_' + str(len(steps)), 'sql': sql})
     all_grants = grants(metadata)
     steps.extend({'label': 'webmail_passkey_' + str(index), 'sql': sql}
@@ -173,7 +186,8 @@ def plan(payload, passwords):
                   'INSERT INTO mail_management.mail_send_limit_profiles '
                   '(profile,minute_messages,minute_recipients,hour_messages,hour_recipients,revision) '
                   "VALUES ('mailbox',20,50,200,500,1),('legacy',60,100,1000,2000,1)"})
-    return {'principals': users, 'steps': steps, 'destructive_rollback': False}
+    return {'principals': users, 'steps': steps, 'schema_objects': schema_objects,
+            'destructive_rollback': False}
 
 
 def execute(compiled, commands, transaction, core_schema):
@@ -206,8 +220,11 @@ def execute(compiled, commands, transaction, core_schema):
         transaction.step(step['label'], lambda sql=sql, prefix=prefix, label=step['label']:
                          commands.run(label, client, prefix + sql.encode() + b';\n', timeout=120))
     result = commands.run('database_schema_readback', client, (
-        "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA IN ('mailserver','mail_management');\n"
+        'SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES '
+        "WHERE TABLE_SCHEMA IN ('mailserver','mail_management');\n"
         'SELECT COUNT(*) FROM mail_management.mail_management_locks;\n'
         'SELECT COUNT(*) FROM mail_management.mail_send_limit_profiles;\n').encode())
-    if result.decode().splitlines() != ['39', '2', '2']:
+    lines = result.decode().splitlines()
+    expected = sorted('\t'.join(row) for row in compiled['schema_objects'])
+    if sorted(lines[:-2]) != expected or lines[-2:] != ['2', '2']:
         raise ValueError('database_schema_readback')

@@ -66,3 +66,7 @@ Rspamdの固定debと対応ソースを署名資材へ収録します。他OS pa
 本プロジェクトの開発にあたっても参考にさせていただきました。
 
 長年のご尽力に敬意を表するとともに、謹んで哀悼の意を表します。
+
+## 開発・保守への支援
+
+MI SYSTEM Mail Platformの開発・保守を応援いただける場合は、支援受付先の[GitHub Sponsors（Yaruani）](https://github.com/sponsors/Yaruani)をご利用ください。支援は任意で、支援の有無によって利用条件は変わりません。
